@@ -1,0 +1,87 @@
+@import "~antd/lib/style/themes/default.less";
+// @import '~@/utils/utils.less';
+
+.cardtab,
+.cardtabBig {
+  width: 40%;
+  display: inline-block;
+  margin-bottom: 20px;
+
+  .cardcover {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+
+    .cardicon {
+      font-size: 20px;
+      margin: 10px;
+      color: #fff;
+    }
+  }
+
+  :global {
+    .ant-card-meta {
+      .ant-card-meta-title {
+        height: 38px;
+        line-height: 18px;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.45);
+        overflow: auto;
+        white-space: normal;
+        margin-bottom: 0;
+      }
+      .ant-card-meta-description {
+        font-size: 30px;
+        color: rgba(0, 0, 0, 0.85);
+      }
+    }
+  }
+}
+
+.cardtabBig {
+  :global {
+    .ant-card-extra {
+      height: 38px;
+      line-height: 18px;
+      font-size: 16px;
+      color: #000;
+      padding: 0 0 0 5px;
+    }
+    .ant-card-body {
+      font-size: 14px;
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .ant-card-meta {
+      .ant-card-meta-title {
+        height: 38px;
+        line-height: 18px;
+        font-size: 16px;
+        color: #000;
+      }
+      .ant-card-meta-description {
+        font-size: 14px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+  }
+}
+
+.cardbom {
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 800px) {
+  .cardtab {
+    .cardcover {
+      width: 30px;
+      height: 30px;
+
+      .cardicon {
+        font-size: 15px;
+        margin: 7.5px;
+      }
+    }
+  }
+}

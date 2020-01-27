@@ -1,0 +1,22 @@
+@import "~antd/lib/style/themes/default.less";
+
+.searchplane {
+  margin: 20px 30px 20px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: 52px;
+  overflow-y: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.expandicon {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 5px;
+  a > i {
+    margin-left: 8px;
+    transition: ease 0.5s;
+  }
+}

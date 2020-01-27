@@ -1,0 +1,41 @@
+@import "~antd/lib/style/themes/default.less";
+
+.main {
+  margin: 0 20px;
+
+  .searchitem {
+    display: inline-block;
+    margin-bottom: 20px;
+    margin-right: 30px;
+
+    .searchitem_span {
+      width: auto;
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+
+  .editform {
+    :global {
+      .ant-form-item-children > span {
+        margin: 0 15px;
+      }
+    }
+  }
+
+  td {
+    text-align: center;
+  }
+
+  th > div {
+    text-align: center;
+  }
+}
+.infoModal {
+  :global {
+    .ant-modal-confirm-content {
+      max-height: calc(60vh);
+      overflow-y: auto;
+    }
+  }
+}
