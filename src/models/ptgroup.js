@@ -1,11 +1,11 @@
-import { getptList, getptListData } from "@/services/ptgroup";
+import { getptList, getptListData, } from '@/services/ptgroup';
 
 export default {
-  namespace: "ptgroup",
+  namespace: 'ptgroup',
 
   state: {
     ptList: [],
-    ptCount: 0
+    ptCount: 0,
   },
 
   effects: {
@@ -13,27 +13,28 @@ export default {
       const response = yield call(getptList, payload);
       response.results.map((item, index) => (item.key = index + 1));
       yield put({
-        type: "save",
+        type: 'save',
         payload: {
           ptList: Array.isArray(response.results) ? response.results : [],
-          ptCount: response.count
-        }
+          ptCount: response.count,
+        },
       });
-      return response.results;
+      return response.results
     },
 
     *fetchptListData({ payload }, { call, put }) {
       const response = yield call(getptListData, payload);
       return response;
-    }
+    },
+
   },
 
   reducers: {
     save(state, action) {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
-    }
-  }
+    },
+  },
 };

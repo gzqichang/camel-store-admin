@@ -1,44 +1,32 @@
-import React, { PureComponent } from "react";
-import { List, Card, Icon, Dropdown, Menu, Avatar, Tooltip } from "antd";
-import numeral from "numeral";
-import { connect } from "dva";
-import { formatWan } from "@/utils/utils";
-import stylesApplications from "../../List/Applications.less";
+import React, { PureComponent } from 'react';
+import { List, Card, Icon, Dropdown, Menu, Avatar, Tooltip } from 'antd';
+import numeral from 'numeral';
+import { connect } from 'dva';
+import { formatWan } from '@/utils/utils';
+import stylesApplications from '../../List/Applications.less';
 
 @connect(({ list }) => ({
-  list
+  list,
 }))
 class Center extends PureComponent {
   render() {
     const {
-      list: { list }
+      list: { list },
     } = this.props;
     const itemMenu = (
       <Menu>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.alipay.com/"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
             1st menu item
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.taobao.com/"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
             2nd menu item
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.tmall.com/"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
             3d menu item
           </a>
         </Menu.Item>
@@ -79,17 +67,14 @@ class Center extends PureComponent {
                 </Tooltip>,
                 <Dropdown overlay={itemMenu}>
                   <Icon type="ellipsis" />
-                </Dropdown>
+                </Dropdown>,
               ]}
             >
-              <Card.Meta
-                avatar={<Avatar size="small" src={item.avatar} />}
-                title={item.title}
-              />
+              <Card.Meta avatar={<Avatar size="small" src={item.avatar} />} title={item.title} />
               <div className={stylesApplications.cardItemContent}>
                 <CardInfo
                   activeUser={formatWan(item.activeUser)}
-                  newUser={numeral(item.newUser).format("0,0")}
+                  newUser={numeral(item.newUser).format('0,0')}
                 />
               </div>
             </Card>

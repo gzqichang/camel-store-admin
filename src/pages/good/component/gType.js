@@ -1,35 +1,23 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "dva";
-import { permissionAuth } from "@/utils/permission";
-import { validtypeForm } from "@/utils/_utils";
-import {
-  Divider,
-  Icon,
-  Modal,
-  Form,
-  Button,
-  Input,
-  InputNumber,
-  Switch,
-  message
-} from "antd";
-import TableDrag from "@/components/CostomCom/tableDrag";
-import UploadImage from "@/components/CostomCom/uploadImage";
-import SourceImageTab from "@/components/CostomCom/sourceImage";
-import update from "immutability-helper";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'dva';
+import { permissionAuth } from '@/utils/permission';
+import { validtypeForm } from '@/utils/_utils';
+import { Divider, Icon, Modal, Form, Button, Input, InputNumber, Switch, message } from 'antd';
+import TableDrag from '@/components/CostomCom/tableDrag';
+import UploadImage from '@/components/CostomCom/uploadImage';
+import SourceImageTab from '@/components/CostomCom/sourceImage';
+import update from 'immutability-helper';
 
 const formItemLayout_S = {
   labelCol: { md: { span: 5 }, lg: { span: 5 }, xxl: { span: 4 } },
-  wrapperCol: { md: { span: 18 }, lg: { span: 18 }, xxl: { span: 20 } }
+  wrapperCol: { md: { span: 18 }, lg: { span: 18 }, xxl: { span: 20 } },
 };
-const FormItem_S = props => (
-  <Form.Item required {...formItemLayout_S} {...props} />
-);
+const FormItem_S = props => <Form.Item required {...formItemLayout_S} {...props} />;
 
 @connect(({ global }) => ({
   bonus_switch: global.bonus_switch,
   rebate_switch: global.rebate_switch,
-  permissions: global.permissions
+  permissions: global.permissions,
 }))
 class gType extends Component {
   state = {
@@ -46,7 +34,7 @@ class gType extends Component {
     isMixed: false,
     selectList: [],
     _selectList: [],
-    visible: false
+    visible: false,
   };
 
   componentDidMount = () => {
@@ -54,40 +42,25 @@ class gType extends Component {
     if (gtypes) {
       this.setState({ gtypes, gtypesmax: gtypes.length });
     }
-    if (mode === "new") {
+    if (mode === 'new') {
       this.switch();
     }
   };
 
   componentDidUpdate = (preprops, prestate) => {
-    const {
-      gtypes,
-      bonus_switch,
-      rebate_switch,
-      ladder_list,
-      isMixed,
-      onChange
-    } = this.props;
+    const { gtypes, bonus_switch, rebate_switch, ladder_list, isMixed, onChange } = this.props;
     const { _switch } = prestate;
     if (gtypes.length > 0 && gtypes.length !== this.state.gtypesmax) {
       this.setState({ gtypesmax: gtypes.length, count: 0, isMixed });
     }
-    if (
-      bonus_switch !== _switch.bonus_switch ||
-      rebate_switch !== _switch.rebate_switch
-    ) {
+    if (bonus_switch !== _switch.bonus_switch || rebate_switch !== _switch.rebate_switch) {
       if (!isMixed) {
         this.switch();
       }
     }
     //拼团的阶梯数量变更时，更新adder_list
     if (ladder_list && ladder_list.length !== this.state.len && isMixed) {
-      this.setState({
-        ladder_list,
-        len: ladder_list.length,
-        count: 0,
-        isMixed
-      });
+      this.setState({ ladder_list, len: ladder_list.length, count: 0, isMixed });
       this.addStair(ladder_list);
     }
     //拼团switch切换
@@ -100,7 +73,7 @@ class gType extends Component {
       }
       //关闭拼团，清空规格的阶梯和添加分销、返利
       else {
-        this.switch("clear");
+        this.switch('clear');
       }
     }
     const { count } = this.state;
@@ -119,54 +92,50 @@ class gType extends Component {
 
   columns = [
     {
-      title: "规格名",
-      dataIndex: "content",
-      key: "content"
+      title: '规格名',
+      dataIndex: 'content',
+      key: 'content',
     },
     {
-      title: "市场价",
-      dataIndex: "market_price",
-      key: "market_price"
+      title: '市场价',
+      dataIndex: 'market_price',
+      key: 'market_price',
     },
     {
-      title: "售卖价",
-      dataIndex: "price",
-      key: "price"
+      title: '售卖价',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
-      title: "库存",
-      dataIndex: "stock",
-      key: "stock",
-      width: "10%"
+      title: '库存',
+      dataIndex: 'stock',
+      key: 'stock',
+      width: '10%',
     },
     {
-      title: "订阅期数",
-      dataIndex: "cycle_num",
-      key: "cycle_num",
-      width: "10%"
+      title: '订阅期数',
+      dataIndex: 'cycle_num',
+      key: 'cycle_num',
+      width: '10%',
     },
     {
-      title: "是否在售",
-      dataIndex: "is_sell",
-      key: "is_sell",
+      title: '是否在售',
+      dataIndex: 'is_sell',
+      key: 'is_sell',
       render: t => (
         <Fragment>
           {t ? (
-            <Icon
-              type="check-circle"
-              theme="filled"
-              style={{ color: "green" }}
-            />
+            <Icon type="check-circle" theme="filled" style={{ color: 'green' }} />
           ) : (
-            <Icon type="close-circle" theme="filled" style={{ color: "red" }} />
+            <Icon type="close-circle" theme="filled" style={{ color: 'red' }} />
           )}
         </Fragment>
-      )
+      ),
     },
     {
-      title: "操作",
-      dataIndex: "action",
-      key: "action",
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
       // fixed: 'right',
       width: 100,
       render: (text, record) => (
@@ -179,59 +148,55 @@ class gType extends Component {
             <a>编辑</a>
           </span>
         </Fragment>
-      )
-    }
+      ),
+    },
   ];
 
   ordcolumns = [
     {
-      title: "规格名",
-      dataIndex: "content",
-      key: "content"
+      title: '规格名',
+      dataIndex: 'content',
+      key: 'content',
     },
     {
-      title: "市场价",
-      dataIndex: "market_price",
-      key: "market_price"
+      title: '市场价',
+      dataIndex: 'market_price',
+      key: 'market_price',
     },
     {
-      title: "售卖价",
-      dataIndex: "price",
-      key: "price"
+      title: '售卖价',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
-      title: "库存",
-      dataIndex: "stock",
-      key: "stock",
-      width: 70
+      title: '库存',
+      dataIndex: 'stock',
+      key: 'stock',
+      width: 70,
     },
     {
-      title: "是否在售",
-      dataIndex: "is_sell",
-      key: "is_sell",
+      title: '是否在售',
+      dataIndex: 'is_sell',
+      key: 'is_sell',
       render: t => (
         <Fragment>
           {t ? (
-            <Icon
-              type="check-circle"
-              theme="filled"
-              style={{ color: "green" }}
-            />
+            <Icon type="check-circle" theme="filled" style={{ color: 'green' }} />
           ) : (
-            <Icon type="close-circle" theme="filled" style={{ color: "red" }} />
+            <Icon type="close-circle" theme="filled" style={{ color: 'red' }} />
           )}
         </Fragment>
-      )
+      ),
     },
     {
-      title: "限购",
-      dataIndex: "buy_limit",
-      key: "buy_limit"
+      title: '限购',
+      dataIndex: 'buy_limit',
+      key: 'buy_limit',
     },
     {
-      title: "操作",
-      dataIndex: "action",
-      key: "action",
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
       // fixed: 'right',
       width: 100,
       render: (text, record) => (
@@ -244,59 +209,55 @@ class gType extends Component {
             <a>编辑</a>
           </span>
         </Fragment>
-      )
-    }
+      ),
+    },
   ];
 
   replcolumns = [
     {
-      title: "规格名",
-      dataIndex: "content",
-      key: "content"
+      title: '规格名',
+      dataIndex: 'content',
+      key: 'content',
     },
     {
-      title: "积分数量",
-      dataIndex: "credit",
-      key: "credit"
+      title: '积分数量',
+      dataIndex: 'credit',
+      key: 'credit',
     },
     {
-      title: "售卖价格",
-      dataIndex: "price",
-      key: "price"
+      title: '售卖价格',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
-      title: "库存",
-      dataIndex: "stock",
-      key: "stock",
-      width: 70
+      title: '库存',
+      dataIndex: 'stock',
+      key: 'stock',
+      width: 70,
     },
     {
-      title: "是否在售",
-      dataIndex: "is_sell",
-      key: "is_sell",
+      title: '是否在售',
+      dataIndex: 'is_sell',
+      key: 'is_sell',
       render: t => (
         <Fragment>
           {t ? (
-            <Icon
-              type="check-circle"
-              theme="filled"
-              style={{ color: "green" }}
-            />
+            <Icon type="check-circle" theme="filled" style={{ color: 'green' }} />
           ) : (
-            <Icon type="close-circle" theme="filled" style={{ color: "red" }} />
+            <Icon type="close-circle" theme="filled" style={{ color: 'red' }} />
           )}
         </Fragment>
-      )
+      ),
     },
     {
-      title: "限购",
-      dataIndex: "buy_limit",
-      key: "buy_limit"
+      title: '限购',
+      dataIndex: 'buy_limit',
+      key: 'buy_limit',
     },
     {
-      title: "操作",
-      dataIndex: "action",
-      key: "action",
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
       // fixed: 'right',
       width: 130,
       render: (text, record) => (
@@ -309,32 +270,32 @@ class gType extends Component {
             <a>编辑</a>
           </span>
         </Fragment>
-      )
-    }
+      ),
+    },
   ];
 
   switch = stair => {
     const { bonus_switch, rebate_switch, type, gtypes, onChange } = this.props;
     const { _switch } = this.state;
-    _switch["bonus_switch"] = bonus_switch;
-    _switch["rebate_switch"] = rebate_switch;
+    _switch['bonus_switch'] = bonus_switch;
+    _switch['rebate_switch'] = rebate_switch;
     this.setState({ _switch });
     const rebate = {
-      title: "返利/积分",
-      dataIndex: "rebate",
-      key: "rebate"
+      title: '返利/积分',
+      dataIndex: 'rebate',
+      key: 'rebate',
     };
     const bonus = {
-      title: "分销/￥",
-      dataIndex: "bonus",
-      key: "bonus"
+      title: '分销/￥',
+      dataIndex: 'bonus',
+      key: 'bonus',
     };
     const columnGroup = {
       ord_goods: [...this.ordcolumns],
       sub_goods: [...this.columns],
-      repl_goods: [...this.replcolumns]
+      repl_goods: [...this.replcolumns],
     };
-    if (type === "ord_goods") {
+    if (type === 'ord_goods') {
       if (bonus_switch) {
         columnGroup[type].splice(6, 0, bonus);
       }
@@ -358,7 +319,7 @@ class gType extends Component {
     const columnGroup = {
       ord_goods: [...this.ordcolumns],
       sub_goods: [...this.columns],
-      repl_goods: [...this.replcolumns]
+      repl_goods: [...this.replcolumns],
     };
     let columns = columnGroup[type];
     stairs.map(item => {
@@ -371,11 +332,11 @@ class gType extends Component {
           (r.ladder_list[item.index - 1] &&
             r.ladder_list[item.index - 1].price &&
             Number(r.ladder_list[item.index - 1].price).toFixed(2)) ||
-          ""
+          '',
       };
       columns.splice(Number(3 + item.index), 0, stairsItem);
     });
-    if (type === "ord_goods") {
+    if (type === 'ord_goods') {
       this.setState({ _ordcolumns: columns });
     } else {
       this.setState({ _columns: columns });
@@ -402,13 +363,13 @@ class gType extends Component {
     if (!gtypesform) {
       isMixed &&
         ladder_list.map(item => {
-          _gtypesform.ladder_list.push({ index: item.index, price: "" });
+          _gtypesform.ladder_list.push({ index: item.index, price: '' });
         });
-      this.setState({ gtypesform: _gtypesform, gtypesform_key: "" });
+      this.setState({ gtypesform: _gtypesform, gtypesform_key: '' });
     } else {
       this.setState({
         gtypesform: { ...gtypesform },
-        gtypesform_key: gtypesform.index ? gtypesform.index - 1 : ""
+        gtypesform_key: gtypesform.index ? gtypesform.index - 1 : '',
       });
     }
     this.setState({ modalVisible });
@@ -416,11 +377,11 @@ class gType extends Component {
   //规格弹窗表格数据监测
   chnageModaldata = (e, key, index) => {
     const { gtypesform } = this.state;
-    if (key === "ladder_list" && gtypesform.ladder_list) {
+    if (key === 'ladder_list' && gtypesform.ladder_list) {
       !gtypesform.ladder_list[index]
         ? gtypesform.ladder_list.push({ index: index + 1, price: e })
         : (gtypesform.ladder_list[index].price = e);
-    } else if (key === "rebate" || key === "bonus") {
+    } else if (key === 'rebate' || key === 'bonus') {
       gtypesform[key] = e;
     } else {
       e === undefined ? (gtypesform[key] = null) : (gtypesform[key] = e);
@@ -434,7 +395,7 @@ class gType extends Component {
     if (gtypesform.stock === 0) gtypesform.is_sell = false;
     if (validtypeForm(gtypesform, ladder_list, model_type)) {
       this.setState({ modalVisible });
-      if (gtypesform_key === "") {
+      if (gtypesform_key === '') {
         gtypesform.key = gtypesmax + 1;
         gtypes.unshift(gtypesform);
         this.setState({ gtypesmax: gtypesmax + 1 });
@@ -447,23 +408,23 @@ class gType extends Component {
   //删除规格
   delModal = (content, index) => {
     const { gtypes, onChange, disabled } = this.props;
-    const createTem = this.getAuth("createTemplate");
+    const createTem = this.getAuth('createTemplate');
     Modal.confirm({
-      title: "确认操作",
+      title: '确认操作',
       content: `确认删除规格 ${content}`,
-      okText: "删除",
-      okType: "danger",
+      okText: '删除',
+      okType: 'danger',
       centered: true,
       onOk() {
         if (createTem && !disabled) {
           gtypes.splice(index - 1, 1);
           onChange(gtypes);
         } else if (!createTem) {
-          message.error("你没有进行该操作的权限");
+          message.error('你没有进行该操作的权限');
         } else if (disabled) {
-          message.error("该商品仍然有人在拼团，不可删除");
+          message.error('该商品仍然有人在拼团，不可删除');
         }
-      }
+      },
     });
   };
 
@@ -471,9 +432,7 @@ class gType extends Component {
   handleDrag = e => {
     const { dragIndex, hoverIndex, dragRow } = e;
     let { onChange, gtypes } = this.props;
-    const _gtypes = update(gtypes, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]]
-    });
+    const _gtypes = update(gtypes, { $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]] });
     onChange(_gtypes);
   };
   conversionObject() {
@@ -484,7 +443,7 @@ class gType extends Component {
         item.index = index + 1;
       });
     return {
-      gtypes
+      gtypes,
     };
   }
 
@@ -497,14 +456,12 @@ class gType extends Component {
       modalVisible,
       _columns,
       _ordcolumns,
-      ladder_list
+      ladder_list,
     } = this.state;
     const { gtypes } = this.conversionObject();
     const { type, isMixed, disabled } = this.props;
-    const createTem = this.getAuth("createTemplate");
-    const is_disabled = gtypesform.id
-      ? Boolean(!createTem || disabled)
-      : Boolean(!createTem);
+    const createTem = this.getAuth('createTemplate');
+    const is_disabled = gtypesform.id ? Boolean(!createTem || disabled) : Boolean(!createTem);
     //弹窗里，添加相应的阶梯编辑框
     const stairItem = (label, maxNum) => (
       <FormItem_S label={`阶梯${label + 1}价格`}>
@@ -514,12 +471,8 @@ class gType extends Component {
           style={{ width: 200 }}
           placeholder="请输入"
           disabled={is_disabled}
-          value={
-            (gtypesform.ladder_list[label] &&
-              gtypesform.ladder_list[label].price) ||
-            ""
-          }
-          onChange={e => this.chnageModaldata(e, "ladder_list", label)}
+          value={(gtypesform.ladder_list[label] && gtypesform.ladder_list[label].price) || ''}
+          onChange={e => this.chnageModaldata(e, 'ladder_list', label)}
         />
       </FormItem_S>
     );
@@ -527,7 +480,7 @@ class gType extends Component {
     const columnGroup = {
       ord_goods: _ordcolumns,
       sub_goods: _columns,
-      repl_goods: _columns
+      repl_goods: _columns,
     };
 
     return (
@@ -537,19 +490,13 @@ class gType extends Component {
           dataSource={gtypes || []}
           onChange={e => this.handleDrag(e)}
           restProps={{
-            scroll: {
-              x: `${(columnGroup[type].length + ladder_list.length) * 90}`
-            },
-            pagination: true
+            scroll: { x: `${(columnGroup[type].length + ladder_list.length) * 90}` },
+            pagination: true,
           }}
         />
         {createTem ? (
-          <Button
-            type="dashed"
-            block
-            onClick={() => this.handleModal(true, null)}
-          >
-            {" "}
+          <Button type="dashed" block onClick={() => this.handleModal(true, null)}>
+            {' '}
             + 添加
           </Button>
         ) : null}
@@ -559,7 +506,7 @@ class gType extends Component {
           visible={modalVisible}
           onOk={() => this.addModal(false)}
           onCancel={() => this.handleModal(false, null)}
-          bodyStyle={{ maxHeight: `${wh - 380}px`, overflowY: "auto" }}
+          bodyStyle={{ maxHeight: `${wh - 380}px`, overflowY: 'auto' }}
         >
           <Form>
             <FormItem_S label="规格名称">
@@ -568,23 +515,23 @@ class gType extends Component {
                 disabled={!createTem}
                 value={gtypesform.content}
                 onChange={e => {
-                  this.chnageModaldata(e.target.value, "content");
+                  this.chnageModaldata(e.target.value, 'content');
                 }}
               />
             </FormItem_S>
-            {type === "repl_goods" ? (
+            {type === 'repl_goods' ? (
               <Fragment>
                 <FormItem_S label="积分数量">
                   <InputNumber
                     min={1}
                     precision={0}
-                    parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     step={1}
                     value={gtypesform.credit}
                     style={{ width: 200 }}
                     disabled={!createTem}
                     onChange={e => {
-                      this.chnageModaldata(e, "credit");
+                      this.chnageModaldata(e, 'credit');
                     }}
                   />
                 </FormItem_S>
@@ -596,7 +543,7 @@ class gType extends Component {
                     style={{ width: 200 }}
                     disabled={!createTem}
                     onChange={e => {
-                      this.chnageModaldata(e, "price");
+                      this.chnageModaldata(e, 'price');
                     }}
                   />
                 </FormItem_S>
@@ -611,7 +558,7 @@ class gType extends Component {
                     style={{ width: 200 }}
                     disabled={!createTem}
                     onChange={e => {
-                      this.chnageModaldata(e, "market_price");
+                      this.chnageModaldata(e, 'market_price');
                     }}
                   />
                 </FormItem_S>
@@ -623,7 +570,7 @@ class gType extends Component {
                     style={{ width: 200 }}
                     disabled={!createTem}
                     onChange={e => {
-                      this.chnageModaldata(e, "price");
+                      this.chnageModaldata(e, 'price');
                     }}
                   />
                 </FormItem_S>
@@ -649,17 +596,17 @@ class gType extends Component {
                 value={gtypesform.stock}
                 style={{ width: 200 }}
                 onChange={e => {
-                  this.chnageModaldata(e, "stock");
+                  this.chnageModaldata(e, 'stock');
                 }}
               />
               {gtypesform.is_sell ? null : (
                 <Fragment>
                   <br />
-                  <span style={{ color: "#ccc" }}>在售状态库存不能为0</span>
+                  <span style={{ color: '#ccc' }}>在售状态库存不能为0</span>
                 </Fragment>
               )}
             </FormItem_S>
-            {type !== "sub_goods" && (
+            {type !== 'sub_goods' && (
               <FormItem_S label="限购" required={false}>
                 <InputNumber
                   min={0}
@@ -667,11 +614,11 @@ class gType extends Component {
                   placeholder="请输入限购数量"
                   disabled={!createTem}
                   value={gtypesform.buy_limit}
-                  onChange={e => this.chnageModaldata(e, "buy_limit")}
+                  onChange={e => this.chnageModaldata(e, 'buy_limit')}
                 />
               </FormItem_S>
             )}
-            {type === "ord_goods" &&
+            {type === 'ord_goods' &&
               !isMixed && (
                 <Fragment>
                   {(_switch.rebate_switch && (
@@ -679,13 +626,13 @@ class gType extends Component {
                       <InputNumber
                         min={0}
                         precision={0}
-                        parser={value => value.replace(/\$\s?|(,*)/g, "")}
+                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
                         step={1}
                         style={{ width: 200 }}
                         placeholder="请输入返利积分"
                         disabled={!createTem}
                         value={gtypesform.rebate}
-                        onChange={e => this.chnageModaldata(e, "rebate")}
+                        onChange={e => this.chnageModaldata(e, 'rebate')}
                       />
                     </FormItem_S>
                   )) ||
@@ -698,14 +645,14 @@ class gType extends Component {
                         placeholder="请输入分销"
                         disabled={!createTem}
                         value={gtypesform.bonus}
-                        onChange={e => this.chnageModaldata(e, "bonus")}
+                        onChange={e => this.chnageModaldata(e, 'bonus')}
                       />
                     </FormItem_S>
                   )) ||
                     null}
                 </Fragment>
               )}
-            {type === "sub_goods" && (
+            {type === 'sub_goods' && (
               <FormItem_S label="订阅期数">
                 <InputNumber
                   min={0}
@@ -713,7 +660,7 @@ class gType extends Component {
                   placeholder="请输入配送的次数"
                   disabled={!createTem}
                   value={gtypesform.cycle_num}
-                  onChange={e => this.chnageModaldata(e, "cycle_num")}
+                  onChange={e => this.chnageModaldata(e, 'cycle_num')}
                 />
               </FormItem_S>
             )}
@@ -721,7 +668,7 @@ class gType extends Component {
               <Switch
                 checked={gtypesform.is_sell}
                 onChange={e => {
-                  this.chnageModaldata(e, "is_sell");
+                  this.chnageModaldata(e, 'is_sell');
                 }}
               />
             </FormItem_S>
@@ -735,13 +682,13 @@ class gType extends Component {
                     this.setState({
                       visible: true,
                       selectList: [],
-                      _selectList: []
+                      _selectList: [],
                     });
                 }}
                 onChange={(e, list) => {
                   const del = !!list;
                   let arrlist = del ? null : { ...e };
-                  this.chnageModaldata(arrlist, "icon");
+                  this.chnageModaldata(arrlist, 'icon');
                 }}
                 restprops={{ openFileDialogOnClick: false }}
               />
@@ -757,20 +704,17 @@ class gType extends Component {
           onOk={() => {
             // const { _selectList } = this.state
             _selectList[0] &&
-              this.chnageModaldata(
-                { ..._selectList[0], index: undefined, key: undefined },
-                "icon"
-              );
+              this.chnageModaldata({ ..._selectList[0], index: undefined, key: undefined }, 'icon');
             this.setState({ visible: false, _selectList: [] });
           }}
-          bodyStyle={{ maxHeight: `${wh - 300}px`, overflowY: "auto" }}
+          bodyStyle={{ maxHeight: `${wh - 300}px`, overflowY: 'auto' }}
         >
           <SourceImageTab
             limit={1}
             visible={visible}
             onSelectItem={list => this.setState({ _selectList: list })}
             {...this.props}
-            type={"picture"}
+            type={'picture'}
           />
         </Modal>
       </Fragment>

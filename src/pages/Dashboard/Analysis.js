@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "dva";
-import { formatMessage, FormattedMessage } from "umi/locale";
+import React, { Component } from 'react';
+import { connect } from 'dva';
+import { formatMessage, FormattedMessage } from 'umi/locale';
 import {
   Row,
   Col,
@@ -12,8 +12,8 @@ import {
   DatePicker,
   Tooltip,
   Menu,
-  Dropdown
-} from "antd";
+  Dropdown,
+} from 'antd';
 import {
   ChartCard,
   MiniArea,
@@ -22,16 +22,16 @@ import {
   Field,
   Bar,
   Pie,
-  TimelineChart
-} from "@/components/Charts";
-import Trend from "@/components/Trend";
-import NumberInfo from "@/components/NumberInfo";
-import numeral from "numeral";
-import GridContent from "@/components/PageHeaderWrapper/GridContent";
-import Yuan from "@/utils/Yuan";
-import { getTimeDistance } from "@/utils/utils";
+  TimelineChart,
+} from '@/components/Charts';
+import Trend from '@/components/Trend';
+import NumberInfo from '@/components/NumberInfo';
+import numeral from 'numeral';
+import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import Yuan from '@/utils/Yuan';
+import { getTimeDistance } from '@/utils/utils';
 
-import styles from "./Analysis.less";
+import styles from './Analysis.less';
 
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
@@ -40,13 +40,13 @@ const rankingListData = [];
 for (let i = 0; i < 7; i += 1) {
   rankingListData.push({
     title: `工专路 ${i} 号店`,
-    total: 323234
+    total: 323234,
   });
 }
 
 @connect(({ chart, loading }) => ({
   chart,
-  loading: loading.effects["chart/fetch"]
+  loading: loading.effects['chart/fetch'],
 }))
 class Analysis extends Component {
   constructor(props) {
@@ -54,28 +54,28 @@ class Analysis extends Component {
     this.rankingListData = [];
     for (let i = 0; i < 7; i += 1) {
       this.rankingListData.push({
-        title: formatMessage({ id: "app.analysis.test" }, { no: i }),
-        total: 323234
+        title: formatMessage({ id: 'app.analysis.test' }, { no: i }),
+        total: 323234,
       });
     }
   }
 
   state = {
-    salesType: "all",
-    currentTabKey: "",
-    rangePickerValue: getTimeDistance("year"),
-    loading: true
+    salesType: 'all',
+    currentTabKey: '',
+    rangePickerValue: getTimeDistance('year'),
+    loading: true,
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     this.reqRef = requestAnimationFrame(() => {
       dispatch({
-        type: "chart/fetch"
+        type: 'chart/fetch',
       });
       this.timeoutId = setTimeout(() => {
         this.setState({
-          loading: false
+          loading: false,
         });
       }, 600);
     });
@@ -84,7 +84,7 @@ class Analysis extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "chart/clear"
+      type: 'chart/clear',
     });
     cancelAnimationFrame(this.reqRef);
     clearTimeout(this.timeoutId);
@@ -92,35 +92,35 @@ class Analysis extends Component {
 
   handleChangeSalesType = e => {
     this.setState({
-      salesType: e.target.value
+      salesType: e.target.value,
     });
   };
 
   handleTabChange = key => {
     this.setState({
-      currentTabKey: key
+      currentTabKey: key,
     });
   };
 
   handleRangePickerChange = rangePickerValue => {
     const { dispatch } = this.props;
     this.setState({
-      rangePickerValue
+      rangePickerValue,
     });
 
     dispatch({
-      type: "chart/fetchSalesData"
+      type: 'chart/fetchSalesData',
     });
   };
 
   selectDate = type => {
     const { dispatch } = this.props;
     this.setState({
-      rangePickerValue: getTimeDistance(type)
+      rangePickerValue: getTimeDistance(type),
     });
 
     dispatch({
-      type: "chart/fetchSalesData"
+      type: 'chart/fetchSalesData',
     });
   };
 
@@ -128,24 +128,19 @@ class Analysis extends Component {
     const { rangePickerValue } = this.state;
     const value = getTimeDistance(type);
     if (!rangePickerValue[0] || !rangePickerValue[1]) {
-      return "";
+      return '';
     }
     if (
-      rangePickerValue[0].isSame(value[0], "day") &&
-      rangePickerValue[1].isSame(value[1], "day")
+      rangePickerValue[0].isSame(value[0], 'day') &&
+      rangePickerValue[1].isSame(value[1], 'day')
     ) {
       return styles.currentDate;
     }
-    return "";
+    return '';
   }
 
   render() {
-    const {
-      rangePickerValue,
-      salesType,
-      loading: propsLoding,
-      currentTabKey
-    } = this.state;
+    const { rangePickerValue, salesType, loading: propsLoding, currentTabKey } = this.state;
     const { chart, loading: stateLoading } = this.props;
     const {
       visitData,
@@ -156,15 +151,14 @@ class Analysis extends Component {
       offlineChartData,
       salesTypeData,
       salesTypeDataOnline,
-      salesTypeDataOffline
+      salesTypeDataOffline,
     } = chart;
     const loading = propsLoding || stateLoading;
     let salesPieData;
-    if (salesType === "all") {
+    if (salesType === 'all') {
       salesPieData = salesTypeData;
     } else {
-      salesPieData =
-        salesType === "online" ? salesTypeDataOnline : salesTypeDataOffline;
+      salesPieData = salesType === 'online' ? salesTypeDataOnline : salesTypeDataOffline;
     }
     const menu = (
       <Menu>
@@ -184,41 +178,17 @@ class Analysis extends Component {
     const salesExtra = (
       <div className={styles.salesExtraWrap}>
         <div className={styles.salesExtra}>
-          <a
-            className={this.isActive("today")}
-            onClick={() => this.selectDate("today")}
-          >
-            <FormattedMessage
-              id="app.analysis.all-day"
-              defaultMessage="All Day"
-            />
+          <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
+            <FormattedMessage id="app.analysis.all-day" defaultMessage="All Day" />
           </a>
-          <a
-            className={this.isActive("week")}
-            onClick={() => this.selectDate("week")}
-          >
-            <FormattedMessage
-              id="app.analysis.all-week"
-              defaultMessage="All Week"
-            />
+          <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
+            <FormattedMessage id="app.analysis.all-week" defaultMessage="All Week" />
           </a>
-          <a
-            className={this.isActive("month")}
-            onClick={() => this.selectDate("month")}
-          >
-            <FormattedMessage
-              id="app.analysis.all-month"
-              defaultMessage="All Month"
-            />
+          <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
+            <FormattedMessage id="app.analysis.all-month" defaultMessage="All Month" />
           </a>
-          <a
-            className={this.isActive("year")}
-            onClick={() => this.selectDate("year")}
-          >
-            <FormattedMessage
-              id="app.analysis.all-year"
-              defaultMessage="All Year"
-            />
+          <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
+            <FormattedMessage id="app.analysis.all-year" defaultMessage="All Year" />
           </a>
         </div>
         <RangePicker
@@ -231,14 +201,9 @@ class Analysis extends Component {
 
     const columns = [
       {
-        title: (
-          <FormattedMessage
-            id="app.analysis.table.rank"
-            defaultMessage="Rank"
-          />
-        ),
-        dataIndex: "index",
-        key: "index"
+        title: <FormattedMessage id="app.analysis.table.rank" defaultMessage="Rank" />,
+        dataIndex: 'index',
+        key: 'index',
       },
       {
         title: (
@@ -247,45 +212,37 @@ class Analysis extends Component {
             defaultMessage="Search keyword"
           />
         ),
-        dataIndex: "keyword",
-        key: "keyword",
-        render: text => <a href="/">{text}</a>
+        dataIndex: 'keyword',
+        key: 'keyword',
+        render: text => <a href="/">{text}</a>,
       },
       {
-        title: (
-          <FormattedMessage
-            id="app.analysis.table.users"
-            defaultMessage="Users"
-          />
-        ),
-        dataIndex: "count",
-        key: "count",
+        title: <FormattedMessage id="app.analysis.table.users" defaultMessage="Users" />,
+        dataIndex: 'count',
+        key: 'count',
         sorter: (a, b) => a.count - b.count,
-        className: styles.alignRight
+        className: styles.alignRight,
       },
       {
         title: (
-          <FormattedMessage
-            id="app.analysis.table.weekly-range"
-            defaultMessage="Weekly Range"
-          />
+          <FormattedMessage id="app.analysis.table.weekly-range" defaultMessage="Weekly Range" />
         ),
-        dataIndex: "range",
-        key: "range",
+        dataIndex: 'range',
+        key: 'range',
         sorter: (a, b) => a.range - b.range,
         render: (text, record) => (
-          <Trend flag={record.status === 1 ? "down" : "up"}>
+          <Trend flag={record.status === 1 ? 'down' : 'up'}>
             <span style={{ marginRight: 4 }}>{text}%</span>
           </Trend>
         ),
-        align: "right"
-      }
+        align: 'right',
+      },
     ];
 
     const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
 
     const CustomTab = ({ data, currentTabKey: currentKey }) => (
-      <Row gutter={8} style={{ width: 138, margin: "8px 0" }}>
+      <Row gutter={8} style={{ width: 138, margin: '8px 0' }}>
         <Col span={12}>
           <NumberInfo
             title={data.name}
@@ -297,13 +254,13 @@ class Analysis extends Component {
             }
             gap={2}
             total={`${data.cvr * 100}%`}
-            theme={currentKey !== data.name && "light"}
+            theme={currentKey !== data.name && 'light'}
           />
         </Col>
         <Col span={12} style={{ paddingTop: 36 }}>
           <Pie
             animate={false}
-            color={currentKey !== data.name && "#BDE4FF"}
+            color={currentKey !== data.name && '#BDE4FF'}
             inner={0.55}
             tooltip={false}
             margin={[0, 0, 0, 0]}
@@ -320,7 +277,7 @@ class Analysis extends Component {
       md: 12,
       lg: 12,
       xl: 6,
-      style: { marginBottom: 24 }
+      style: { marginBottom: 24 },
     };
 
     return (
@@ -330,18 +287,12 @@ class Analysis extends Component {
             <ChartCard
               bordered={false}
               title={
-                <FormattedMessage
-                  id="app.analysis.total-sales"
-                  defaultMessage="Total Sales"
-                />
+                <FormattedMessage id="app.analysis.total-sales" defaultMessage="Total Sales" />
               }
               action={
                 <Tooltip
                   title={
-                    <FormattedMessage
-                      id="app.analysis.introduce"
-                      defaultMessage="introduce"
-                    />
+                    <FormattedMessage id="app.analysis.introduce" defaultMessage="introduce" />
                   }
                 >
                   <Icon type="info-circle-o" />
@@ -352,28 +303,19 @@ class Analysis extends Component {
               footer={
                 <Field
                   label={
-                    <FormattedMessage
-                      id="app.analysis.day-sales"
-                      defaultMessage="Day Sales"
-                    />
+                    <FormattedMessage id="app.analysis.day-sales" defaultMessage="Day Sales" />
                   }
-                  value={`￥${numeral(12423).format("0,0")}`}
+                  value={`￥${numeral(12423).format('0,0')}`}
                 />
               }
               contentHeight={46}
             >
               <Trend flag="up" style={{ marginRight: 16 }}>
-                <FormattedMessage
-                  id="app.analysis.week"
-                  defaultMessage="Weekly Changes"
-                />
+                <FormattedMessage id="app.analysis.week" defaultMessage="Weekly Changes" />
                 <span className={styles.trendText}>12%</span>
               </Trend>
               <Trend flag="down">
-                <FormattedMessage
-                  id="app.analysis.day"
-                  defaultMessage="Daily Changes"
-                />
+                <FormattedMessage id="app.analysis.day" defaultMessage="Daily Changes" />
                 <span className={styles.trendText}>11%</span>
               </Trend>
             </ChartCard>
@@ -382,34 +324,23 @@ class Analysis extends Component {
             <ChartCard
               bordered={false}
               loading={loading}
-              title={
-                <FormattedMessage
-                  id="app.analysis.visits"
-                  defaultMessage="visits"
-                />
-              }
+              title={<FormattedMessage id="app.analysis.visits" defaultMessage="visits" />}
               action={
                 <Tooltip
                   title={
-                    <FormattedMessage
-                      id="app.analysis.introduce"
-                      defaultMessage="introduce"
-                    />
+                    <FormattedMessage id="app.analysis.introduce" defaultMessage="introduce" />
                   }
                 >
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(8846).format("0,0")}
+              total={numeral(8846).format('0,0')}
               footer={
                 <Field
                   label={
-                    <FormattedMessage
-                      id="app.analysis.day-visits"
-                      defaultMessage="Day Visits"
-                    />
+                    <FormattedMessage id="app.analysis.day-visits" defaultMessage="Day Visits" />
                   }
-                  value={numeral(1234).format("0,0")}
+                  value={numeral(1234).format('0,0')}
                 />
               }
               contentHeight={46}
@@ -421,25 +352,17 @@ class Analysis extends Component {
             <ChartCard
               bordered={false}
               loading={loading}
-              title={
-                <FormattedMessage
-                  id="app.analysis.payments"
-                  defaultMessage="Payments"
-                />
-              }
+              title={<FormattedMessage id="app.analysis.payments" defaultMessage="Payments" />}
               action={
                 <Tooltip
                   title={
-                    <FormattedMessage
-                      id="app.analysis.introduce"
-                      defaultMessage="Introduce"
-                    />
+                    <FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce" />
                   }
                 >
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={numeral(6560).format("0,0")}
+              total={numeral(6560).format('0,0')}
               footer={
                 <Field
                   label={
@@ -469,10 +392,7 @@ class Analysis extends Component {
               action={
                 <Tooltip
                   title={
-                    <FormattedMessage
-                      id="app.analysis.introduce"
-                      defaultMessage="introduce"
-                    />
+                    <FormattedMessage id="app.analysis.introduce" defaultMessage="introduce" />
                   }
                 >
                   <Icon type="info-circle-o" />
@@ -480,49 +400,29 @@ class Analysis extends Component {
               }
               total="78%"
               footer={
-                <div style={{ whiteSpace: "nowrap", overflow: "hidden" }}>
+                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
                   <Trend flag="up" style={{ marginRight: 16 }}>
-                    <FormattedMessage
-                      id="app.analysis.week"
-                      defaultMessage="Weekly changes"
-                    />
+                    <FormattedMessage id="app.analysis.week" defaultMessage="Weekly changes" />
                     <span className={styles.trendText}>12%</span>
                   </Trend>
                   <Trend flag="down">
-                    <FormattedMessage
-                      id="app.analysis.day"
-                      defaultMessage="Weekly changes"
-                    />
+                    <FormattedMessage id="app.analysis.day" defaultMessage="Weekly changes" />
                     <span className={styles.trendText}>11%</span>
                   </Trend>
                 </div>
               }
               contentHeight={46}
             >
-              <MiniProgress
-                percent={78}
-                strokeWidth={8}
-                target={80}
-                color="#13C2C2"
-              />
+              <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" />
             </ChartCard>
           </Col>
         </Row>
 
         <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
           <div className={styles.salesCard}>
-            <Tabs
-              tabBarExtraContent={salesExtra}
-              size="large"
-              tabBarStyle={{ marginBottom: 24 }}
-            >
+            <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
               <TabPane
-                tab={
-                  <FormattedMessage
-                    id="app.analysis.sales"
-                    defaultMessage="Sales"
-                  />
-                }
+                tab={<FormattedMessage id="app.analysis.sales" defaultMessage="Sales" />}
                 key="sales"
               >
                 <Row>
@@ -553,19 +453,16 @@ class Analysis extends Component {
                           <li key={item.title}>
                             <span
                               className={`${styles.rankingItemNumber} ${
-                                i < 3 ? styles.active : ""
+                                i < 3 ? styles.active : ''
                               }`}
                             >
                               {i + 1}
                             </span>
-                            <span
-                              className={styles.rankingItemTitle}
-                              title={item.title}
-                            >
+                            <span className={styles.rankingItemTitle} title={item.title}>
                               {item.title}
                             </span>
                             <span className={styles.rankingItemValue}>
-                              {numeral(item.total).format("0,0")}
+                              {numeral(item.total).format('0,0')}
                             </span>
                           </li>
                         ))}
@@ -575,12 +472,7 @@ class Analysis extends Component {
                 </Row>
               </TabPane>
               <TabPane
-                tab={
-                  <FormattedMessage
-                    id="app.analysis.visits"
-                    defaultMessage="Visits"
-                  />
-                }
+                tab={<FormattedMessage id="app.analysis.visits" defaultMessage="Visits" />}
                 key="views"
               >
                 <Row>
@@ -609,11 +501,9 @@ class Analysis extends Component {
                       <ul className={styles.rankingList}>
                         {this.rankingListData.map((item, i) => (
                           <li key={item.title}>
-                            <span className={i < 3 ? styles.active : ""}>
-                              {i + 1}
-                            </span>
+                            <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
                             <span>{item.title}</span>
-                            <span>{numeral(item.total).format("0,0")}</span>
+                            <span>{numeral(item.total).format('0,0')}</span>
                           </li>
                         ))}
                       </ul>
@@ -656,15 +546,12 @@ class Analysis extends Component {
                             />
                           }
                         >
-                          <Icon
-                            style={{ marginLeft: 8 }}
-                            type="info-circle-o"
-                          />
+                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
                         </Tooltip>
                       </span>
                     }
                     gap={8}
-                    total={numeral(12321).format("0,0")}
+                    total={numeral(12321).format('0,0')}
                     status="up"
                     subTotal={17.1}
                   />
@@ -686,10 +573,7 @@ class Analysis extends Component {
                             />
                           }
                         >
-                          <Icon
-                            style={{ marginLeft: 8 }}
-                            type="info-circle-o"
-                          />
+                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
                         </Tooltip>
                       </span>
                     }
@@ -708,7 +592,7 @@ class Analysis extends Component {
                 dataSource={searchData}
                 pagination={{
                   style: { marginBottom: 0 },
-                  pageSize: 5
+                  pageSize: 5,
                 }}
               />
             </Card>
@@ -729,15 +613,9 @@ class Analysis extends Component {
                 <div className={styles.salesCardExtra}>
                   {iconGroup}
                   <div className={styles.salesTypeRadio}>
-                    <Radio.Group
-                      value={salesType}
-                      onChange={this.handleChangeSalesType}
-                    >
+                    <Radio.Group value={salesType} onChange={this.handleChangeSalesType}>
                       <Radio.Button value="all">
-                        <FormattedMessage
-                          id="app.analysis.channel.all"
-                          defaultMessage="ALL"
-                        />
+                        <FormattedMessage id="app.analysis.channel.all" defaultMessage="ALL" />
                       </Radio.Button>
                       <Radio.Button value="online">
                         <FormattedMessage
@@ -758,24 +636,12 @@ class Analysis extends Component {
               style={{ marginTop: 24, minHeight: 509 }}
             >
               <h4 style={{ marginTop: 8, marginBottom: 32 }}>
-                <FormattedMessage
-                  id="app.analysis.sales"
-                  defaultMessage="Sales"
-                />
+                <FormattedMessage id="app.analysis.sales" defaultMessage="Sales" />
               </h4>
               <Pie
                 hasLegend
-                subTitle={
-                  <FormattedMessage
-                    id="app.analysis.sales"
-                    defaultMessage="Sales"
-                  />
-                }
-                total={() => (
-                  <Yuan>
-                    {salesPieData.reduce((pre, now) => now.y + pre, 0)}
-                  </Yuan>
-                )}
+                subTitle={<FormattedMessage id="app.analysis.sales" defaultMessage="Sales" />}
+                total={() => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>}
                 data={salesPieData}
                 valueFormat={value => <Yuan>{value}</Yuan>}
                 height={248}
@@ -789,22 +655,19 @@ class Analysis extends Component {
           loading={loading}
           className={styles.offlineCard}
           bordered={false}
-          bodyStyle={{ padding: "0 0 32px 0" }}
+          bodyStyle={{ padding: '0 0 32px 0' }}
           style={{ marginTop: 32 }}
         >
           <Tabs activeKey={activeKey} onChange={this.handleTabChange}>
             {offlineData.map(shop => (
-              <TabPane
-                tab={<CustomTab data={shop} currentTabKey={activeKey} />}
-                key={shop.name}
-              >
-                <div style={{ padding: "0 24px" }}>
+              <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.name}>
+                <div style={{ padding: '0 24px' }}>
                   <TimelineChart
                     height={400}
                     data={offlineChartData}
                     titleMap={{
-                      y1: formatMessage({ id: "app.analysis.traffic" }),
-                      y2: formatMessage({ id: "app.analysis.payments" })
+                      y1: formatMessage({ id: 'app.analysis.traffic' }),
+                      y2: formatMessage({ id: 'app.analysis.payments' }),
                     }}
                   />
                 </div>

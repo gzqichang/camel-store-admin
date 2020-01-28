@@ -1,9 +1,9 @@
-@import "~antd/lib/style/themes/default.less";
+@import '~antd/lib/style/themes/default.less';
 @baseBlue: #1890ff;
-.dragTable {
-  :global {
-    .ant-table-tbody {
-      tr {
+.dragTable{
+  :global{
+    .ant-table-tbody{
+      tr{
         transition: unset;
       }
       tr.drop-over-downward td {
@@ -17,25 +17,25 @@
   }
 }
 .dragImage {
-  display: inline-table;
+  display:inline-table;
 
-  :global {
+  :global{
     .ant-upload-list-picture-card.drop-over-downward {
-      border-right: 1px dashed @baseBlue;
+        border-right: 1px dashed @baseBlue;
     }
     .ant-upload-list-picture-card.drop-over-upward {
       border-left: 1px dashed @baseBlue;
     }
-    .ant-upload-list-item-thumbnail img {
+    .ant-upload-list-item-thumbnail img{
       position: absolute;
-      clip: rect(0, 86px, 86px, 0);
+      clip: rect(0,86px,86px,0);
     }
     .ant-upload-list-picture-card .ant-upload-list-item {
       margin: 0 4px 8px 4px;
     }
   }
 }
-.dragImageUpload {
+.dragImageUpload{
   display: inline-block;
   margin-left: 4px;
 }

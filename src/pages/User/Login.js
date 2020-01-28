@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { connect } from "dva";
-import { formatMessage, FormattedMessage } from "umi/locale";
-import { Alert } from "antd";
-import Login from "@/components/Login";
-import styles from "./Login.less";
+import React, { Component } from 'react';
+import { connect } from 'dva';
+import { formatMessage, FormattedMessage } from 'umi/locale';
+import { Alert } from 'antd';
+import Login from '@/components/Login';
+import styles from './Login.less';
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
-  submitting: loading.effects["login/login"],
-  codeLoading: loading.effects["login/getcode"]
+  submitting: loading.effects['login/login'],
+  codeLoading: loading.effects['login/getcode'],
 }))
 class LoginPage extends Component {
   state = {
-    type: "account",
+    type: 'account',
     autoLogin: true,
-    codeimg: null,
-    challengekey: "key"
+    codeimg:null,
+    challengekey:'key',
   };
-  componentDidMount() {
-    this.onGetchallenge();
+  componentDidMount(){
+    this.onGetchallenge()
   }
 
   onTabChange = type => {
@@ -27,22 +27,20 @@ class LoginPage extends Component {
   };
 
   onGetchallenge = () => {
-    this.onGetCaptcha()
-      .then(res => {
-        this.setState({
-          codeimg: res && res.image_url,
-          challengekey: res && res.key
-        });
+    this.onGetCaptcha().then((res) => {
+      this.setState({
+        codeimg:res && res.image_url,
+        challengekey:res && res.key
       })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
   onGetCaptcha = () =>
     new Promise((resolve, reject) => {
-      const { dispatch } = this.props;
-      dispatch({ type: "login/getcode" })
+      const { dispatch } = this.props
+      dispatch({ type:'login/getcode'})
         .then(resolve)
         .catch(reject);
     });
@@ -52,32 +50,27 @@ class LoginPage extends Component {
     if (!err) {
       const { dispatch } = this.props;
       dispatch({
-        type: "login/login",
+        type: 'login/login',
         payload: {
           ...values,
-          key: challengekey
+          key:challengekey
+        },
+      }).then((res) => {
+        if(!res){
+          this.onGetchallenge()
         }
-      }).then(res => {
-        if (!res) {
-          this.onGetchallenge();
-        }
-      });
+      })
     }
   };
 
   changeAutoLogin = e => {
     this.setState({
-      autoLogin: e.target.checked
+      autoLogin: e.target.checked,
     });
   };
 
   renderMessage = content => (
-    <Alert
-      style={{ marginBottom: 24 }}
-      message={content}
-      type="error"
-      showIcon
-    />
+    <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
   );
 
   render() {
@@ -93,40 +86,29 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab
-            key="account"
-            tab={formatMessage({ id: "app.login.tab-login-credentials" })}
-          >
-            {login.status === "error" &&
-              login.type === "account" &&
+          <Tab key="account" tab={formatMessage({ id: 'app.login.tab-login-credentials' })}>
+            {login.status === 'error' &&
+              login.type === 'account' &&
               !submitting &&
-              this.renderMessage("账户或密码错误")}
-            <UserName
-              name="username"
-              placeholder="用户名"
-              style={{ width: 360 }}
-            />
-            <Password
-              name="password"
-              placeholder="密码"
-              style={{ width: 360 }}
-            />
-            <Captcha
-              name="challenge"
-              placeholder="验证码"
+              this.renderMessage('账户或密码错误')}
+            <UserName name="username" placeholder="用户名" style={{width:360}}/>
+            <Password name="password" placeholder="密码" style={{width:360}} />
+            <Captcha name="challenge" placeholder="验证码"
               onGetchallenge={this.onGetchallenge}
-              codeimg={codeimg}
-              codeLoading={codeLoading}
-              onPressEnter={() =>
-                this.loginForm.validateFields(this.handleSubmit)
-              }
+              codeimg = {codeimg}
+              codeLoading = {codeLoading}
+              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
+
           </Tab>
 
-          <div />
-          <Submit loading={submitting} style={{ width: 360 }}>
+          <div>
+
+          </div>
+          <Submit loading={submitting} style={{width:360}}>
             <FormattedMessage id="app.login.login" />
           </Submit>
+
         </Login>
       </div>
     );

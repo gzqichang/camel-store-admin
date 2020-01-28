@@ -1,51 +1,51 @@
-import React, { Component } from "react";
-import router from "umi/router";
-import { connect } from "dva";
-import { Input } from "antd";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
+import React, { Component } from 'react';
+import router from 'umi/router';
+import { connect } from 'dva';
+import { Input } from 'antd';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 @connect()
 class SearchList extends Component {
   handleTabChange = key => {
     const { match } = this.props;
     switch (key) {
-      case "articles":
+      case 'articles':
         router.push(`${match.url}/articles`);
         break;
-      case "applications":
+      case 'applications':
         router.push(`${match.url}/applications`);
         break;
-      case "projects":
+      case 'projects':
         router.push(`${match.url}/projects`);
         break;
       default:
         break;
     }
-  };
+  }
 
-  handleFormSubmit = value => {
+  handleFormSubmit = (value) => {
     // eslint-disable-next-line
     console.log(value);
-  };
+  }
 
   render() {
     const tabList = [
       {
-        key: "articles",
-        tab: "文章"
+        key: 'articles',
+        tab: '文章',
       },
       {
-        key: "projects",
-        tab: "项目"
+        key: 'projects',
+        tab: '项目',
       },
       {
-        key: "applications",
-        tab: "应用"
-      }
+        key: 'applications',
+        tab: '应用',
+      },
     ];
 
     const mainSearch = (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: 'center' }}>
         <Input.Search
           placeholder="请输入"
           enterButton="搜索"
@@ -63,7 +63,7 @@ class SearchList extends Component {
         title="搜索列表"
         content={mainSearch}
         tabList={tabList}
-        tabActiveKey={location.pathname.replace(`${match.path}/`, "")}
+        tabActiveKey={location.pathname.replace(`${match.path}/`, '')}
         onTabChange={this.handleTabChange}
       >
         {children}

@@ -1,40 +1,40 @@
-import React, { PureComponent } from "react";
-import moment from "moment";
-import { connect } from "dva";
-import Link from "umi/link";
-import { Row, Col, Card, List, Avatar } from "antd";
+import React, { PureComponent } from 'react';
+import moment from 'moment';
+import { connect } from 'dva';
+import Link from 'umi/link';
+import { Row, Col, Card, List, Avatar } from 'antd';
 
-import { Radar } from "@/components/Charts";
-import EditableLinkGroup from "@/components/EditableLinkGroup";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
+import { Radar } from '@/components/Charts';
+import EditableLinkGroup from '@/components/EditableLinkGroup';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import styles from "./Workplace.less";
+import styles from './Workplace.less';
 
 const links = [
   {
-    title: "操作一",
-    href: ""
+    title: '操作一',
+    href: '',
   },
   {
-    title: "操作二",
-    href: ""
+    title: '操作二',
+    href: '',
   },
   {
-    title: "操作三",
-    href: ""
+    title: '操作三',
+    href: '',
   },
   {
-    title: "操作四",
-    href: ""
+    title: '操作四',
+    href: '',
   },
   {
-    title: "操作五",
-    href: ""
+    title: '操作五',
+    href: '',
   },
   {
-    title: "操作六",
-    href: ""
-  }
+    title: '操作六',
+    href: '',
+  },
 ];
 
 @connect(({ user, project, activities, chart, loading }) => ({
@@ -42,37 +42,37 @@ const links = [
   project,
   activities,
   chart,
-  currentUserLoading: loading.effects["user/fetchCurrent"],
-  projectLoading: loading.effects["project/fetchNotice"],
-  activitiesLoading: loading.effects["activities/fetchList"]
+  currentUserLoading: loading.effects['user/fetchCurrent'],
+  projectLoading: loading.effects['project/fetchNotice'],
+  activitiesLoading: loading.effects['activities/fetchList'],
 }))
 class Workplace extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "user/fetchCurrent"
+      type: 'user/fetchCurrent',
     });
     dispatch({
-      type: "project/fetchNotice"
+      type: 'project/fetchNotice',
     });
     dispatch({
-      type: "activities/fetchList"
+      type: 'activities/fetchList',
     });
     dispatch({
-      type: "chart/fetch"
+      type: 'chart/fetch',
     });
   }
 
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "chart/clear"
+      type: 'chart/clear',
     });
   }
 
   renderActivities() {
     const {
-      activities: { list }
+      activities: { list },
     } = this.props;
     return list.map(item => {
       const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
@@ -114,7 +114,7 @@ class Workplace extends PureComponent {
       project: { notice },
       projectLoading,
       activitiesLoading,
-      chart: { radarData }
+      chart: { radarData },
     } = this.props;
 
     const pageHeaderContent =
@@ -185,12 +185,9 @@ class Workplace extends PureComponent {
                       description={item.description}
                     />
                     <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{item.member || ""}</Link>
+                      <Link to={item.memberLink}>{item.member || ''}</Link>
                       {item.updatedAt && (
-                        <span
-                          className={styles.datetime}
-                          title={item.updatedAt}
-                        >
+                        <span className={styles.datetime} title={item.updatedAt}>
                           {moment(item.updatedAt).fromNow()}
                         </span>
                       )}
@@ -207,9 +204,7 @@ class Workplace extends PureComponent {
               loading={activitiesLoading}
             >
               <List loading={activitiesLoading} size="large">
-                <div className={styles.activitiesList}>
-                  {this.renderActivities()}
-                </div>
+                <div className={styles.activitiesList}>{this.renderActivities()}</div>
               </List>
             </Card>
           </Col>
@@ -220,11 +215,7 @@ class Workplace extends PureComponent {
               bordered={false}
               bodyStyle={{ padding: 0 }}
             >
-              <EditableLinkGroup
-                onAdd={() => {}}
-                links={links}
-                linkElement={Link}
-              />
+              <EditableLinkGroup onAdd={() => {}} links={links} linkElement={Link} />
             </Card>
             <Card
               style={{ marginBottom: 24 }}

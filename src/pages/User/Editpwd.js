@@ -1,28 +1,28 @@
-import React, { Component, Fragment } from "react";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
-import router from "umi/router";
-import { connect } from "dva";
-import { Form, Button, Card, Input, Row, message, Spin, Col } from "antd";
-import { getLocalStorage } from "../../utils/authority";
-import styles from "./userlist.less";
+import React, { Component, Fragment } from 'react';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import router from 'umi/router';
+import { connect } from 'dva';
+import { Form, Button, Card, Input, Row, message, Spin, Col } from 'antd';
+import { getLocalStorage } from '../../utils/authority';
+import styles from './userlist.less';
 
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 18 }
+  wrapperCol: { span: 18 },
 };
 const FormItem = props => (
   <Form.Item className={styles.items} required {...formItemLayout} {...props} />
 );
 
 @connect(({ global, loading }) => ({
-  userLoading: loading.effects["user/fetchUser"],
-  user: global.whomi
+  userLoading: loading.effects['user/fetchUser'],
+  user: global.whomi,
 }))
 class Editpwd extends Component {
   state = {
     userform: {},
     errorTips: {},
-    loading: false
+    loading: false,
   };
 
   //数据更改
@@ -37,14 +37,14 @@ class Editpwd extends Component {
   handlesubmit = () => {
     const { userform } = this.state;
     const {
-      user: { url }
+      user: { url },
     } = this.props;
     let flag = true;
     let errorTips = {};
     Object.entries({
-      pwd: "原密码",
-      newpwd: "新密码",
-      renewpwd: "确认密码"
+      pwd: '原密码',
+      newpwd: '新密码',
+      renewpwd: '确认密码',
     }).map(item => {
       if (!userform[item[0]] || userform[item[0]].trim().length < 1) {
         flag = false;
@@ -58,7 +58,7 @@ class Editpwd extends Component {
         userform.renewpwd !== userform.newpwd
       ) {
         flag = false;
-        errorTips.renewpwd = "两次密码输入不一致";
+        errorTips.renewpwd = '两次密码输入不一致';
       }
     });
 
@@ -70,23 +70,23 @@ class Editpwd extends Component {
 
     this.props
       .dispatch({
-        type: "global/changePassword",
+        type: 'global/changePassword',
         payload: {
           url,
           params: {
             old_password: userform.pwd,
             new_password: userform.newpwd,
-            re_password: userform.renewpwd
-          }
-        }
+            re_password: userform.renewpwd,
+          },
+        },
       })
       .then(res => {
         this.setState({ loading: false });
         if (res && res.detail) {
-          message.success(res.detail + "，请重新登录");
+          message.success(res.detail+'，请重新登录');
           this.props.dispatch({
-            type: "global/logout"
-          });
+            type: 'global/logout',
+          })
         }
       });
   };
@@ -102,50 +102,44 @@ class Editpwd extends Component {
             <Form className={styles.editform}>
               <FormItem
                 label="原密码"
-                validateStatus={errorTips.pwd && errorTips.pwd && "error"}
+                validateStatus={errorTips.pwd && errorTips.pwd && 'error'}
                 help={errorTips.pwd && errorTips.pwd}
               >
                 <Input
                   type="password"
                   value={userform.pwd}
                   placeholder="请输入原密码"
-                  onChange={e => this.handleuser("pwd", e.target.value)}
+                  onChange={e => this.handleuser('pwd', e.target.value)}
                 />
               </FormItem>
               <FormItem
                 label="新密码"
-                validateStatus={errorTips.newpwd && errorTips.newpwd && "error"}
+                validateStatus={errorTips.newpwd && errorTips.newpwd && 'error'}
                 help={errorTips.newpwd && errorTips.newpwd}
               >
                 <Input
                   type="password"
                   value={userform.newpwd}
                   placeholder="请输入新密码"
-                  onChange={e => this.handleuser("newpwd", e.target.value)}
+                  onChange={e => this.handleuser('newpwd', e.target.value)}
                 />
               </FormItem>
               <FormItem
                 label="请再次输入新密码"
-                validateStatus={
-                  errorTips.renewpwd && errorTips.renewpwd && "error"
-                }
+                validateStatus={errorTips.renewpwd && errorTips.renewpwd && 'error'}
                 help={errorTips.renewpwd && errorTips.renewpwd}
               >
                 <Input
                   type="password"
                   value={userform.renewpwd}
                   placeholder="请再次输入新密码"
-                  onChange={e => this.handleuser("renewpwd", e.target.value)}
+                  onChange={e => this.handleuser('renewpwd', e.target.value)}
                 />
               </FormItem>
               <Row>
-                <Col span={24} style={{ textAlign: "right" }}>
+                <Col span={24} style={{ textAlign: 'right' }}>
                   <Button onClick={this.handlecancal}>取消</Button>
-                  <Button
-                    type="primary"
-                    style={{ marginLeft: 8 }}
-                    onClick={this.handlesubmit}
-                  >
+                  <Button type="primary" style={{ marginLeft: 8 }} onClick={this.handlesubmit}>
                     保存
                   </Button>
                 </Col>

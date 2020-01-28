@@ -51,32 +51,32 @@ export default {
   //   phone: '0752-268888888',
   // },
   // GET POST 可省略
-  "POST /api/users/login": (req, res) => {
+  'POST /api/users/login': (req, res) => {
     const { password, user } = req.body;
-    if (password === "123456" && user === "admin") {
+    if (password === '123456' && user === 'admin') {
       res.send({
-        status: "ok",
-        currentAuthority: "admin"
+        status: 'ok',
+        currentAuthority: 'admin',
       });
       return;
     }
     res.send({
-      status: "error",
-      currentAuthority: "guest"
+      status: 'error',
+      currentAuthority: 'guest',
     });
   },
-  "POST /api/users/delete": (req, res) => {
+  'POST /api/users/delete':(req, res) => {
     const { key } = req.body;
-    if (key) {
+    if(key){
       res.send({
-        status: "ok"
+        status: 'ok'
       });
       return;
     }
     res.send({
-      status: "error"
+      status: 'error'
     });
-  }
+  },
   // 'POST /api/login/account': (req, res) => {
   //   const { password, userName, type } = req.body;
   //   if (password === '888888' && userName === 'admin') {

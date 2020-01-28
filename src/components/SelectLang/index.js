@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
-import { FormattedMessage, setLocale, getLocale } from "umi/locale";
-import { Menu, Icon, Dropdown } from "antd";
-import classNames from "classnames";
-import styles from "./index.less";
+import React, { PureComponent } from 'react';
+import { FormattedMessage, setLocale, getLocale } from 'umi/locale';
+import { Menu, Icon, Dropdown } from 'antd';
+import classNames from 'classnames';
+import styles from './index.less';
 
 export default class SelectLang extends PureComponent {
   changLang = ({ key }) => {
@@ -13,11 +13,7 @@ export default class SelectLang extends PureComponent {
     const { className } = this.props;
     const selectedLang = getLocale();
     const langMenu = (
-      <Menu
-        className={styles.menu}
-        selectedKeys={[selectedLang]}
-        onClick={this.changLang}
-      >
+      <Menu className={styles.menu} selectedKeys={[selectedLang]} onClick={this.changLang}>
         <Menu.Item key="zh-CN">
           <FormattedMessage id="lang.simplified-chinese" />
         </Menu.Item>

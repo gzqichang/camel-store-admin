@@ -1,33 +1,20 @@
-import React, { Component, Fragment } from "react";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
-import { connect } from "dva";
-import { setLocalStorage, getLocalStorage } from "@/utils/authority";
-import {
-  InputNumber,
-  Form,
-  Button,
-  Card,
-  Spin,
-  message,
-  Modal,
-  Input,
-  Upload,
-  Icon,
-  Row,
-  Col
-} from "antd";
-import styles from "../shopsetting.less";
+import React, {Component, Fragment} from 'react';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {connect} from 'dva';
+import {setLocalStorage, getLocalStorage} from '@/utils/authority';
+import {InputNumber, Form, Button, Card, Spin, message, Modal, Input, Upload, Icon, Row, Col} from 'antd';
+import styles from '../shopsetting.less';
 
 const FormItem = Form.Item;
 
-@connect(({ wechat, loading }) => ({
+@connect(({wechat, loading}) => ({
   loading: loading.models.wechat,
   wechatConfig: wechat.value,
-  valueConcat: wechat.valueConcat
+  valueConcat: wechat.valueConcat,
 }))
 class Wechat extends Component {
   state = {
-    isEdit: false
+    isEdit: false,
   };
 
   componentDidMount() {
@@ -35,53 +22,53 @@ class Wechat extends Component {
   }
 
   init = () => {
-    this.props.dispatch({ type: "wechat/fetchConfig" });
+    this.props.dispatch({type: 'wechat/fetchConfig'});
   };
 
   handleSubmit = () => {
-    const { dispatch, wechatConfig } = this.props;
+    const {dispatch, wechatConfig} = this.props;
     const payload = {
-      wx_lite_secret: wechatConfig.wx_lite_secret
+      wx_lite_secret: wechatConfig.wx_lite_secret,
     };
     const _ = {
-      wx_lite_secret: "小程序密钥"
+      wx_lite_secret: '小程序密钥',
     };
     for (let [k, v] of Object.entries(payload))
       if (!v || v === true) return message.error(`${_[k]} 不能为空`);
     dispatch({
-      type: "wechat/updateConfig",
-      payload
+      type: 'wechat/updateConfig',
+      payload,
     })
       .then(() => {
-        message.success("修改成功");
+        message.success('修改成功');
       })
       .catch(() => {
-        message.error("修改失败");
+        message.error('修改失败');
       })
       .finally(() => {
-        this.setState({ isEdit: false });
+        this.setState({isEdit: false});
       });
   };
 
   toggleIsEdit = () => {
-    this.setState(({ isEdit }) => ({
-      isEdit: !isEdit
+    this.setState(({isEdit}) => ({
+      isEdit: !isEdit,
     }));
   };
 
   handleValues = payload => {
     this.props.dispatch({
-      type: "wechat/save",
-      payload
+      type: 'wechat/save',
+      payload,
     });
   };
 
   render() {
-    const { isEdit } = this.state;
-    const { loading, wechatConfig, valueConcat } = this.props;
+    const {isEdit} = this.state;
+    const {loading, wechatConfig, valueConcat} = this.props;
     const formItemLayout = {
-      labelCol: { sm: { span: 8 }, lg: { span: 5 } },
-      wrapperCol: { sm: { span: 16 }, lg: { span: 19 } }
+      labelCol: {sm: {span: 8}, lg: {span: 5}},
+      wrapperCol: {sm: {span: 16}, lg: {span: 19}},
     };
 
     return (
@@ -89,25 +76,21 @@ class Wechat extends Component {
         <Spin spinning={loading || false}>
           <Card
             title="小程序基础设置"
-            style={{ marginBottom: 20 }}
+            style={{marginBottom: 20}}
             extra={
               <Fragment>
                 {isEdit ? (
                   <Fragment>
-                    <Button
-                      type="primary"
-                      style={{ marginLeft: 8 }}
-                      onClick={this.handleSubmit}
-                    >
+                    <Button type="primary" style={{marginLeft: 8}} onClick={this.handleSubmit}>
                       保存
                     </Button>
                     <Button
-                      style={{ marginLeft: 8 }}
+                      style={{marginLeft: 8}}
                       onClick={() => {
                         this.toggleIsEdit();
                         this.props.dispatch({
-                          type: "wechat/save",
-                          payload: { value: valueConcat }
+                          type: 'wechat/save',
+                          payload: {value: valueConcat},
                         });
                       }}
                     >
@@ -115,11 +98,7 @@ class Wechat extends Component {
                     </Button>
                   </Fragment>
                 ) : (
-                  <Button
-                    type="primary"
-                    style={{ marginLeft: 8 }}
-                    onClick={this.toggleIsEdit}
-                  >
+                  <Button type="primary" style={{marginLeft: 8}} onClick={this.toggleIsEdit}>
                     编辑
                   </Button>
                 )}
@@ -129,22 +108,22 @@ class Wechat extends Component {
             <Form>
               <FormItem label="小程序 APPID" required {...formItemLayout}>
                 <Input
-                  value={wechatConfig.wx_lite_app || ""}
-                  style={{ width: 200 }}
+                  value={wechatConfig.wx_lite_app || ''}
+                  style={{width: 200}}
                   disabled
                 />
               </FormItem>
               <FormItem label="小程序密钥" required {...formItemLayout}>
                 <Input
-                  value={wechatConfig.wx_lite_secret || ""}
-                  style={{ width: 200 }}
+                  value={wechatConfig.wx_lite_secret || ''}
+                  style={{width: 200}}
                   disabled={!isEdit}
-                  onChange={({ currentTarget: { value } }) =>
+                  onChange={({currentTarget: {value}}) =>
                     this.handleValues({
                       value: {
                         ...wechatConfig,
-                        wx_lite_secret: value
-                      }
+                        wx_lite_secret: value,
+                      },
                     })
                   }
                 />
@@ -154,22 +133,15 @@ class Wechat extends Component {
             <Card
               bordered={false}
               bodyStyle={{
-                borderTop: "1px solid #eee",
-                marginTop: 24
+                borderTop: '1px solid #eee',
+                marginTop: 24,
               }}
             >
-              <div style={{ fontSize: 16, fontWeight: 500 }}>
+              <div style={{fontSize: 16, fontWeight: 500}}>
                 <p>说明</p>
               </div>
-              <p>
-                <b>小程序 APPID：</b>
-                每个小程序的唯一标识，不可变更；
-              </p>
-              <p>
-                <b>小程序密钥：</b>
-                查看流程：打开微信小程序后台，点击右侧 “开发选项 - 开发设置”
-                进行查看；
-              </p>
+              <p><b>小程序 APPID：</b>每个小程序的唯一标识，不可变更；</p>
+              <p><b>小程序密钥：</b>查看流程：打开微信小程序后台，点击右侧 “开发选项 - 开发设置” 进行查看；</p>
             </Card>
           </Card>
         </Spin>

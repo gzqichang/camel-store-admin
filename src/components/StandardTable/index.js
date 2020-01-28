@@ -1,6 +1,6 @@
-import React, { PureComponent, Fragment } from "react";
-import { Table, Alert } from "antd";
-import styles from "./index.less";
+import React, { PureComponent, Fragment } from 'react';
+import { Table, Alert } from 'antd';
+import styles from './index.less';
 
 function initTotalList(columns) {
   const totalList = [];
@@ -20,7 +20,7 @@ class StandardTable extends PureComponent {
 
     this.state = {
       selectedRowKeys: [],
-      needTotalList
+      needTotalList,
     };
   }
 
@@ -30,7 +30,7 @@ class StandardTable extends PureComponent {
       const needTotalList = initTotalList(nextProps.columns);
       return {
         selectedRowKeys: [],
-        needTotalList
+        needTotalList,
       };
     }
     return null;
@@ -40,10 +40,7 @@ class StandardTable extends PureComponent {
     let { needTotalList } = this.state;
     needTotalList = needTotalList.map(item => ({
       ...item,
-      total: selectedRows.reduce(
-        (sum, val) => sum + parseFloat(val[item.dataIndex], 10),
-        0
-      )
+      total: selectedRows.reduce((sum, val) => sum + parseFloat(val[item.dataIndex], 10), 0),
     }));
     const { onSelectRow } = this.props;
     if (onSelectRow) {
@@ -70,21 +67,21 @@ class StandardTable extends PureComponent {
       data: { list, pagination },
       loading,
       columns,
-      rowKey
+      rowKey,
     } = this.props;
 
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
-      ...pagination
+      ...pagination,
     };
 
     const rowSelection = {
       selectedRowKeys,
       onChange: this.handleRowSelectChange,
       getCheckboxProps: record => ({
-        disabled: record.disabled
-      })
+        disabled: record.disabled,
+      }),
     };
 
     return (
@@ -93,9 +90,7 @@ class StandardTable extends PureComponent {
           <Alert
             message={
               <Fragment>
-                已选择{" "}
-                <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a>{" "}
-                项&nbsp;&nbsp;
+                已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
                 {needTotalList.map(item => (
                   <span style={{ marginLeft: 8 }} key={item.dataIndex}>
                     {item.title}
@@ -116,7 +111,7 @@ class StandardTable extends PureComponent {
         </div>
         <Table
           loading={loading}
-          rowKey={rowKey || "key"}
+          rowKey={rowKey || 'key'}
           rowSelection={rowSelection}
           dataSource={list}
           columns={columns}

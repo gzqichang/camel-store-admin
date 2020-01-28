@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { Form, Input, Row, Col, Spin } from "antd";
-import omit from "omit.js";
-import styles from "./index.less";
-import ItemMap from "./map";
-import LoginContext from "./loginContext";
+import React, { Component } from 'react';
+import { Form, Input, Row, Col, Spin } from 'antd';
+import omit from 'omit.js';
+import styles from './index.less';
+import ItemMap from './map';
+import LoginContext from './loginContext';
 
 const FormItem = Form.Item;
 
 class WrapFormItem extends Component {
   static defaultProps = {
-    buttonText: "获取验证码"
+    buttonText: '获取验证码',
   };
 
   constructor(props) {
     super(props);
     this.state = {
       count: 0,
-      codeimg: ""
+      codeimg:''
     };
   }
 
@@ -33,8 +33,8 @@ class WrapFormItem extends Component {
 
   onGetCaptcha = () => {
     const { onGetchallenge } = this.props;
-    if (onGetchallenge) {
-      onGetchallenge();
+    if(onGetchallenge){
+      onGetchallenge()
     }
     // const result = onGetchallenge ? onGetchallenge() : null;
     // if (result === false) {
@@ -49,7 +49,7 @@ class WrapFormItem extends Component {
 
   getFormItemOptions = ({ onChange, defaultValue, customprops, rules }) => {
     const options = {
-      rules: rules || customprops.rules
+      rules: rules || customprops.rules,
     };
     if (onChange) {
       options.onChange = onChange;
@@ -78,22 +78,22 @@ class WrapFormItem extends Component {
     const { input } = this.inputRef;
     this.timer = setTimeout(() => {
       try {
-        input.scrollIntoViewIfNeeded();
+        input.scrollIntoViewIfNeeded()
       } catch (e) {
-        console.log("浏览器不支持scrollIntoViewIfNeeded");
+        console.log('浏览器不支持scrollIntoViewIfNeeded')
       }
-    }, 400);
-  };
+    },400);
+  }
   //失去焦点
   inputOnBlur = () => {
-    clearTimeout(this.timer);
-  };
+    clearTimeout(this.timer)
+  }
 
   render() {
     const { count } = this.state;
 
     const {
-      form: { getFieldDecorator }
+      form: { getFieldDecorator },
     } = this.props;
 
     // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props
@@ -115,37 +115,24 @@ class WrapFormItem extends Component {
     const options = this.getFormItemOptions(this.props);
 
     const otherProps = restProps || {};
-    if (type === "Captcha") {
-      const inputProps = omit(otherProps, ["onGetCaptcha", "countDown"]);
+    if (type === 'Captcha') {
+      const inputProps = omit(otherProps, ['onGetCaptcha', 'countDown']);
       return (
         <FormItem className={styles.getCaptcha}>
           <Row>
             <Col span={17}>
               {getFieldDecorator(name, options)(
-                <Input
-                  {...customprops}
-                  {...inputProps}
-                  ref={input => {
-                    this.inputRef = input;
-                  }}
-                  onClick={this.inputOnClick}
-                  onBlur={this.inputOnBlur}
-                />
-              )}
+                <Input {...customprops} {...inputProps}
+                       ref={(input) => { this.inputRef = input; }}
+                       onClick={this.inputOnClick}
+                       onBlur={this.inputOnBlur}/>)}
             </Col>
             <Col span={6}>
               <Spin spinning={codeLoading}>
-                <img
-                  alt="Captcha"
-                  style={{
-                    width: "100%",
-                    height: 35,
-                    marginTop: -4,
-                    marginLeft: 10
-                  }}
-                  onClick={this.onGetCaptcha}
-                  src={codeimg}
-                />
+              <img alt="Captcha"
+                   style={{width:'100%',height: 35, marginTop:-4,marginLeft:10}}
+                   onClick={this.onGetCaptcha}
+                   src={codeimg} />
               </Spin>
             </Col>
           </Row>
@@ -155,16 +142,11 @@ class WrapFormItem extends Component {
     return (
       <FormItem>
         {getFieldDecorator(name, options)(
-          <Input
-            {...customprops}
-            {...otherProps}
-            ref={input => {
-              this.inputRef = input;
-            }}
-            onClick={this.inputOnClick}
-            onBlur={this.inputOnBlur}
-          />
-        )}
+          <Input {...customprops} {...otherProps}
+                 ref={(input) => { this.inputRef = input; }}
+                 onClick={this.inputOnClick}
+                 onBlur={this.inputOnBlur}/>
+          )}
       </FormItem>
     );
   }

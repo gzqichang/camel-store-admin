@@ -1,14 +1,14 @@
-import React, { PureComponent } from "react";
-import moment from "moment";
-import { connect } from "dva";
-import { Row, Col, Form, Card, Select, List } from "antd";
+import React, { PureComponent } from 'react';
+import moment from 'moment';
+import { connect } from 'dva';
+import { Row, Col, Form, Card, Select, List } from 'antd';
 
-import TagSelect from "@/components/TagSelect";
-import AvatarList from "@/components/AvatarList";
-import Ellipsis from "@/components/Ellipsis";
-import StandardFormRow from "@/components/StandardFormRow";
+import TagSelect from '@/components/TagSelect';
+import AvatarList from '@/components/AvatarList';
+import Ellipsis from '@/components/Ellipsis';
+import StandardFormRow from '@/components/StandardFormRow';
 
-import styles from "./Projects.less";
+import styles from './Projects.less';
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -17,7 +17,7 @@ const FormItem = Form.Item;
 
 @connect(({ list, loading }) => ({
   list,
-  loading: loading.models.list
+  loading: loading.models.list,
 }))
 @Form.create({
   onValuesChange({ dispatch }, changedValues, allValues) {
@@ -26,21 +26,21 @@ const FormItem = Form.Item;
     console.log(changedValues, allValues);
     // 模拟查询表单生效
     dispatch({
-      type: "list/fetch",
+      type: 'list/fetch',
       payload: {
-        count: 8
-      }
+        count: 8,
+      },
     });
-  }
+  },
 })
 class CoverCardList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "list/fetch",
+      type: 'list/fetch',
       payload: {
-        count: 8
-      }
+        count: 8,
+      },
     });
   }
 
@@ -48,7 +48,7 @@ class CoverCardList extends PureComponent {
     const {
       list: { list = [] },
       loading,
-      form
+      form,
     } = this.props;
     const { getFieldDecorator } = form;
 
@@ -67,9 +67,7 @@ class CoverCardList extends PureComponent {
             >
               <Card.Meta
                 title={<a>{item.title}</a>}
-                description={
-                  <Ellipsis lines={2}>{item.subDescription}</Ellipsis>
-                }
+                description={<Ellipsis lines={2}>{item.subDescription}</Ellipsis>}
               />
               <div className={styles.cardItemContent}>
                 <span>{moment(item.updatedAt).fromNow()}</span>
@@ -94,21 +92,17 @@ class CoverCardList extends PureComponent {
     const formItemLayout = {
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
-      }
+        sm: { span: 16 },
+      },
     };
 
     return (
       <div className={styles.coverCardList}>
         <Card bordered={false}>
           <Form layout="inline">
-            <StandardFormRow
-              title="所属类目"
-              block
-              style={{ paddingBottom: 11 }}
-            >
+            <StandardFormRow title="所属类目" block style={{ paddingBottom: 11 }}>
               <FormItem>
-                {getFieldDecorator("category")(
+                {getFieldDecorator('category')(
                   <TagSelect expandable>
                     <TagSelect.Option value="cat1">类目一</TagSelect.Option>
                     <TagSelect.Option value="cat2">类目二</TagSelect.Option>
@@ -130,10 +124,10 @@ class CoverCardList extends PureComponent {
               <Row gutter={16}>
                 <Col lg={8} md={10} sm={10} xs={24}>
                   <FormItem {...formItemLayout} label="作者">
-                    {getFieldDecorator("author", {})(
+                    {getFieldDecorator('author', {})(
                       <Select
                         placeholder="不限"
-                        style={{ maxWidth: 200, width: "100%" }}
+                        style={{ maxWidth: 200, width: '100%' }}
                       >
                         <Option value="lisa">王昭君</Option>
                       </Select>
@@ -142,10 +136,10 @@ class CoverCardList extends PureComponent {
                 </Col>
                 <Col lg={8} md={10} sm={10} xs={24}>
                   <FormItem {...formItemLayout} label="好评度">
-                    {getFieldDecorator("rate", {})(
+                    {getFieldDecorator('rate', {})(
                       <Select
                         placeholder="不限"
-                        style={{ maxWidth: 200, width: "100%" }}
+                        style={{ maxWidth: 200, width: '100%' }}
                       >
                         <Option value="good">优秀</Option>
                         <Option value="normal">普通</Option>

@@ -1,22 +1,28 @@
-import React, { Component, Fragment } from "react";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
-import { connect } from "dva";
-import { getLocalStorage } from "@/utils/authority";
-import { Button, Card, Spin, InputNumber, Form } from "antd";
-import styles from "../orderlist.less";
-import GoodInfoTable from "../component/goodInfoTable";
-import OrderInfo from "../component/orderInfo";
+import React, { Component, Fragment } from 'react';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { connect } from 'dva';
+import { getLocalStorage } from '@/utils/authority';
+import {
+  Button,
+  Card,
+  Spin,
+  InputNumber,
+  Form
+} from 'antd';
+import styles from '../orderlist.less';
+import GoodInfoTable from '../component/goodInfoTable';
+import OrderInfo from '../component/orderInfo';
 
 const formItemLayout = {
-  labelCol: { md: { span: 6 }, lg: { span: 4 }, xxl: { span: 2 } },
-  wrapperCol: { md: { span: 18 }, lg: { span: 18 }, xxl: { span: 20 } }
+  labelCol: { md: { span: 6 }, lg:{ span: 4 }, xxl:{ span: 2 } },
+  wrapperCol: { md: { span: 18 }, lg:{ span: 18 }, xxl:{ span: 20 } },
 };
 const FormItem = props => <Form.Item {...formItemLayout} {...props} />;
 
 @connect(({ order, costom, global, loading }) => ({
   shopid: global.shopid,
-  expressLoading: loading.effects["order/getExpresslist"],
-  orderLoading: loading.effects["order/fetchOrderdata"]
+  expressLoading: loading.effects['order/getExpresslist'],
+  orderLoading: loading.effects['order/fetchOrderdata'],
 }))
 class Editorder extends Component {
   state = {
@@ -30,9 +36,7 @@ class Editorder extends Component {
     edit_real_mount: false,
     real_mount: 0,
     order_sn: null,
-    express: [],
-    own: [],
-    buyer: []
+    express: [],own: [], buyer: []
   };
 
   componentDidMount() {
@@ -42,45 +46,45 @@ class Editorder extends Component {
   componentWillUpdate(prepros, nextState) {
     const { location } = this.props;
     let id = location.query.id;
-    const { shopid } = this.props;
-    if (nextState.orderid !== id) {
-      this.initData();
+    const { shopid } = this.props
+    if(nextState.orderid !== id){
+      this.initData()
     }
-    if (prepros.shopid !== shopid && shopid !== "" && id) {
-      this.props.history.push("/order/orderlist");
+    if(prepros.shopid !== shopid && shopid !== '' && id){
+      this.props.history.push('/order/orderlist')
     }
   }
 
   initData = () => {
     const { dispatch, location } = this.props;
     let id = location.query.id;
-    let data = location.query.is_pt ? { is_pt: true } : {};
+    let data = location.query.is_pt ? { is_pt: true} : {}
     if (id) {
       this.setState({ onLoading: true });
       dispatch({
-        type: "order/fetchOrderdata",
-        payload: { id, data }
+        type: 'order/fetchOrderdata',
+        payload: { id, data },
       }).then(res => {
-        let express = [],
-          own = [],
-          buyer = [];
+        let express = [], own = [], buyer = []
         res.items.map(item => {
           item.edit = false;
           item.key = item.id;
-          if (item.goods_backup.delivery_method === "express") {
-            express.push(item);
-          } else if (item.goods_backup.delivery_method === "own") {
-            own.push(item);
-          } else if (item.goods_backup.delivery_method === "buyer") {
-            buyer.push(item);
+          if(item.goods_backup.delivery_method === 'express'){
+            express.push(item)
+          }
+          else if(item.goods_backup.delivery_method === 'own'){
+            own.push(item)
+          }
+          else if(item.goods_backup.delivery_method === 'buyer'){
+            buyer.push(item)
           }
         });
         this.setState({
-          orderdata: { ...res },
+          orderdata: {...res},
           orderdata_item: res.items,
           onLoading: false,
-          real_amount: Number(res.real_amount * 1) + Number(res.wallet_pay * 1),
-          singerform: { ...res.delivery_address },
+          real_amount: Number(res.real_amount*1) + Number(res.wallet_pay*1),
+          singerform: {...res.delivery_address },
           express,
           own,
           buyer
@@ -88,7 +92,7 @@ class Editorder extends Component {
       });
     }
     this.setState({
-      orderid: id
+      orderid: id,
     });
   };
 
@@ -97,28 +101,24 @@ class Editorder extends Component {
   changeRealmount = type => {
     const { dispatch } = this.props;
     const { real_amount, orderdata } = this.state;
-    if (type === "save") {
+    if (type === 'save') {
       this.setState({ onLoading: true });
       dispatch({
-        type: "costom/_postUrlData",
+        type: 'costom/_postUrlData',
         payload: {
-          url: orderdata.adjust,
-          data: { real_amount }
-        }
+          url:orderdata.adjust,
+          data:{real_amount},
+        },
       }).then(res => {
         res
-          ? this.setState({
-              real_amount: res.real_amount,
-              orderdata: { ...orderdata, order_sn: res.order_sn }
-            })
-          : this.setState({ real_amount: orderdata.real_amount });
-        this.setState({ edit_real_mount: false, onLoading: false });
+          ? this.setState({ real_amount: res.real_amount,orderdata:{...orderdata, order_sn: res.order_sn} })
+          : this.setState({ real_amount: orderdata.real_amount, });
+        this.setState({ edit_real_mount: false, onLoading: false, })
       });
     } else {
       this.setState({
-        real_amount:
-          Number(orderdata.real_amount) + Number(orderdata.wallet_pay),
-        edit_real_mount: false
+        real_amount: Number(orderdata.real_amount) + Number(orderdata.wallet_pay),
+        edit_real_mount: false,
       });
     }
   };
@@ -135,7 +135,7 @@ class Editorder extends Component {
       own,
       buyer
     } = this.state;
-    const { location } = this.props;
+    const { location } = this.props
     let id = location.query.id;
 
     let goodprice = 0;
@@ -145,76 +145,42 @@ class Editorder extends Component {
       <PageHeaderWrapper>
         <Spin spinning={onLoading} tip="正在加载数据中">
           <Card className={styles.main} title="商品信息">
-            {express.length > 0 ? (
+            {express.length > 0 ?
               <Fragment>
-                {!orderdata.fictitious && (
-                  <h3>
-                    <b>快递公司配送</b>
-                  </h3>
-                )}
-                <GoodInfoTable
-                  goodtype="ord"
-                  location={location}
-                  fictitious={orderdata.fictitious}
-                  value={{
-                    rowdataid: id,
-                    orderdata_item: express,
-                    isdetail: true,
-                    delivery_method: "express"
-                  }}
-                />
+                {!orderdata.fictitious && <h3><b>快递公司配送</b></h3>}
+                <GoodInfoTable goodtype="ord" location={location}
+                               fictitious={orderdata.fictitious}
+                               value={{ rowdataid: id, orderdata_item:express, isdetail: true, delivery_method:'express' }}/>
               </Fragment>
-            ) : null}
-            {own.length > 0 ? (
+              : null
+            }
+            {own.length > 0 ?
               <Fragment>
-                {!orderdata.fictitious && (
-                  <h3>
-                    <b>商家自配送</b>
-                  </h3>
-                )}
-                <GoodInfoTable
-                  goodtype="ord"
-                  location={location}
-                  fictitious={orderdata.fictitious}
-                  value={{
-                    rowdataid: id,
-                    orderdata_item: own,
-                    isdetail: true,
-                    delivery_method: "own",
-                    pay_time: orderdata.pay_time
-                  }}
-                />
+                {!orderdata.fictitious && <h3><b>商家自配送</b></h3>}
+                <GoodInfoTable goodtype="ord" location={location}
+                               fictitious={orderdata.fictitious}
+                               value={{ rowdataid: id, orderdata_item:own, isdetail: true, delivery_method:'own', pay_time:orderdata.pay_time }}/>
               </Fragment>
-            ) : null}
-            {buyer.length > 0 ? (
+              : null
+            }
+            {buyer.length > 0 ?
               <Fragment>
-                {!orderdata.fictitious && (
-                  <h3>
-                    <b>用户自提</b>
-                  </h3>
-                )}
-                <GoodInfoTable
-                  goodtype="ord"
-                  location={location}
-                  fictitious={orderdata.fictitious}
-                  value={{
-                    rowdataid: id,
-                    orderdata_item: buyer,
-                    isdetail: true,
-                    delivery_method: "buyer"
-                  }}
-                />
+                {!orderdata.fictitious && <h3><b>用户自提</b></h3>}
+                <GoodInfoTable goodtype="ord" location={location}
+                               fictitious={orderdata.fictitious}
+                               value={{ rowdataid: id, orderdata_item:buyer, isdetail: true, delivery_method:'buyer' }}/>
               </Fragment>
-            ) : null}
+              : null
+            }
             <Form className={styles.bottomplane}>
               <FormItem label="商品总金额">
-                <span>￥ {orderdata.order_amount}</span>
+                <span>￥{' '}{orderdata.order_amount}</span>
               </FormItem>
               <FormItem label="邮费">
-                <span>￥ {orderdata.postage_total}</span>
+                <span>￥{' '}{orderdata.postage_total}</span>
               </FormItem>
               <FormItem label="订单金额">
-                {orderdata.status === "paying" ? (
+                {orderdata.status === 'paying' ? (
                   edit_real_mount ? (
                     <Fragment>
                       <InputNumber
@@ -229,14 +195,11 @@ class Editorder extends Component {
                         type="primary"
                         size="small"
                         style={{ marginLeft: 20, marginRight: 20 }}
-                        onClick={() => this.changeRealmount("save")}
+                        onClick={() => this.changeRealmount('save')}
                       >
                         保存
                       </Button>
-                      <Button
-                        size="small"
-                        onClick={() => this.changeRealmount("cancel")}
-                      >
+                      <Button size="small" onClick={() => this.changeRealmount('cancel')}>
                         取消
                       </Button>
                     </Fragment>
@@ -253,17 +216,11 @@ class Editorder extends Component {
                       </Button>
                     </Fragment>
                   )
-                ) : (
-                  <Fragment>￥ {Number(real_amount).toFixed(2)}</Fragment>
-                )}
+                ) : <Fragment>￥ {Number(real_amount).toFixed(2)}</Fragment> }
               </FormItem>
             </Form>
           </Card>
-          <OrderInfo
-            formdata={orderdata}
-            singerform={singerform}
-            ordertype="ord"
-          />
+          <OrderInfo formdata={orderdata} singerform={singerform} ordertype="ord"/>
         </Spin>
       </PageHeaderWrapper>
     );

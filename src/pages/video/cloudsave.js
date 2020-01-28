@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
-import Link from "umi/link";
-import { connect } from "dva";
-import moment from "moment";
+import React, { Component, Fragment } from 'react';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Link from 'umi/link';
+import { connect } from 'dva';
+import moment from 'moment';
 import {
   Input,
   Button,
@@ -13,13 +13,11 @@ import {
   Icon,
   InputNumber,
   Col,
-  DatePicker,
-  Spin,
-  Modal
-} from "antd";
-import { setLocalStorage } from "@/utils/authority";
-import { permissionAuth } from "@/utils/permission";
-import styles from "./editpage.less";
+  DatePicker, Spin,
+  Modal } from 'antd';
+import { setLocalStorage } from '@/utils/authority';
+import { permissionAuth } from '@/utils/permission';
+import styles from './editpage.less';
 
 const { RangePicker } = DatePicker;
 const Option = Select.Option;
@@ -33,8 +31,8 @@ const itemsPerPage = 10;
   searchform: global.searchform,
   userlist: user.userlist,
   userlistCount: user.userlistCount,
-  UserlistLoading: loading.effects["user/fetch"],
-  levelList: trade.levelList
+  UserlistLoading: loading.effects['user/fetch'],
+  levelList: trade.levelList,
 }))
 class CloudSave extends Component {
   state = {
@@ -42,88 +40,57 @@ class CloudSave extends Component {
     page: 1,
     _columns: [],
     _switch: {},
-    fixed: 0
+    fixed: 0,
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+  }
+
 
   handleChange = (e, key) => {
     this.setState({ [key]: e });
   };
 
   handleSubmit = () => {
-    message.info("现阶段免费使用");
-  };
+    message.info('现阶段免费使用');
+  }
 
   render() {
-    const gbList = [20, 30, 40, 50, 60, 70, 80, 90, 100];
-    const yearList = [1, 2, 3];
+
+    const gbList = [20,30,40,50,60,70,80,90,100];
+    const yearList = [1,2,3];
 
     return (
       <PageHeaderWrapper>
-        <Card title={"当前云存储容量"}>
+        <Card title={'当前云存储容量'}>
           <Meta
-            avatar={
-              <div className={styles.bigSize}>
-                10
-                <span>GB</span>
-              </div>
-            }
+            avatar={<div className={styles.bigSize}>10<span>GB</span></div>}
             title="约可存储300个视频文件。"
             description={
-              <div style={{ marginTop: 65 }}>
+              <div style={{marginTop: 65}}>
                 扩容至：
-                <Select
-                  style={{ width: 100, marginRight: 40 }}
-                  onChange={e => this.handleChange(e, "size")}
-                >
-                  {gbList.map(item => (
-                    <Option key={item} value={item}>
-                      {item}
-                    </Option>
-                  ))}
+                <Select style={{width: 100, marginRight: 40}} onChange={(e) => this.handleChange(e, 'size')}>
+                  {gbList.map(item => <Option key={item} value={item}>{item}</Option>)}
                 </Select>
                 费用：￥--.--
-                <Button
-                  style={{ marginLeft: 20 }}
-                  type="primary"
-                  onClick={this.handleSubmit}
-                >
-                  马上扩容
-                </Button>
+                <Button style={{marginLeft: 20}} type='primary' onClick={this.handleSubmit}>马上扩容</Button>
               </div>
             }
           />
         </Card>
-        <Card style={{ marginTop: 30 }} title={"有限期至"}>
+        <Card style={{marginTop: 30}} title={'有限期至'}>
           <Meta
-            avatar={
-              <div className={styles.timeSize}>
-                6月28号
-                <span>2018</span>
-              </div>
-            }
+            avatar={<div className={styles.timeSize}>6月28号<span>2018</span></div>}
             description={
-              <div style={{ marginTop: 84 }}>
+              <div style={{marginTop: 84}}>
                 续费：
                 <Select
-                  style={{ width: 100, marginRight: 40 }}
-                  onChange={e => this.handleChange(e, "year")}
-                >
-                  {yearList.map(item => (
-                    <Option key={item} value={item}>
-                      {item}年
-                    </Option>
-                  ))}
+                  style={{width: 100, marginRight: 40}}
+                  onChange={(e) => this.handleChange(e, 'year')}>
+                  {yearList.map(item => <Option key={item} value={item}>{item}年</Option>)}
                 </Select>
                 费用：￥--.--
-                <Button
-                  style={{ marginLeft: 20 }}
-                  type="primary"
-                  onClick={this.handleSubmit}
-                >
-                  马上续费
-                </Button>
+                <Button style={{marginLeft: 20}} type='primary' onClick={this.handleSubmit}>马上续费</Button>
               </div>
             }
           />

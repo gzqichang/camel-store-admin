@@ -1,32 +1,20 @@
-import React, { PureComponent } from "react";
-import numeral from "numeral";
-import { connect } from "dva";
-import {
-  Row,
-  Col,
-  Form,
-  Card,
-  Select,
-  Icon,
-  Avatar,
-  List,
-  Tooltip,
-  Dropdown,
-  Menu
-} from "antd";
-import TagSelect from "@/components/TagSelect";
-import StandardFormRow from "@/components/StandardFormRow";
+import React, { PureComponent } from 'react';
+import numeral from 'numeral';
+import { connect } from 'dva';
+import { Row, Col, Form, Card, Select, Icon, Avatar, List, Tooltip, Dropdown, Menu } from 'antd';
+import TagSelect from '@/components/TagSelect';
+import StandardFormRow from '@/components/StandardFormRow';
 
-import { formatWan } from "@/utils/utils";
+import { formatWan } from '@/utils/utils';
 
-import styles from "./Applications.less";
+import styles from './Applications.less';
 
 const { Option } = Select;
 const FormItem = Form.Item;
 
 @connect(({ list, loading }) => ({
   list,
-  loading: loading.models.list
+  loading: loading.models.list,
 }))
 @Form.create({
   onValuesChange({ dispatch }, changedValues, allValues) {
@@ -35,21 +23,21 @@ const FormItem = Form.Item;
     console.log(changedValues, allValues);
     // 模拟查询表单生效
     dispatch({
-      type: "list/fetch",
+      type: 'list/fetch',
       payload: {
-        count: 8
-      }
+        count: 8,
+      },
     });
-  }
+  },
 })
 class FilterCardList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "list/fetch",
+      type: 'list/fetch',
       payload: {
-        count: 8
-      }
+        count: 8,
+      },
     });
   }
 
@@ -57,7 +45,7 @@ class FilterCardList extends PureComponent {
     const {
       list: { list },
       loading,
-      form
+      form,
     } = this.props;
     const { getFieldDecorator } = form;
 
@@ -77,36 +65,24 @@ class FilterCardList extends PureComponent {
     const formItemLayout = {
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
-      }
+        sm: { span: 16 },
+      },
     };
 
     const itemMenu = (
       <Menu>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.alipay.com/"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
             1st menu item
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.taobao.com/"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
             2nd menu item
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.tmall.com/"
-          >
+          <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
             3d menu item
           </a>
         </Menu.Item>
@@ -117,13 +93,9 @@ class FilterCardList extends PureComponent {
       <div className={styles.filterCardList}>
         <Card bordered={false}>
           <Form layout="inline">
-            <StandardFormRow
-              title="所属类目"
-              block
-              style={{ paddingBottom: 11 }}
-            >
+            <StandardFormRow title="所属类目" block style={{ paddingBottom: 11 }}>
               <FormItem>
-                {getFieldDecorator("category")(
+                {getFieldDecorator('category')(
                   <TagSelect expandable>
                     <TagSelect.Option value="cat1">类目一</TagSelect.Option>
                     <TagSelect.Option value="cat2">类目二</TagSelect.Option>
@@ -145,11 +117,8 @@ class FilterCardList extends PureComponent {
               <Row gutter={16}>
                 <Col lg={8} md={10} sm={10} xs={24}>
                   <FormItem {...formItemLayout} label="作者">
-                    {getFieldDecorator("author", {})(
-                      <Select
-                        placeholder="不限"
-                        style={{ maxWidth: 200, width: "100%" }}
-                      >
+                    {getFieldDecorator('author', {})(
+                      <Select placeholder="不限" style={{ maxWidth: 200, width: '100%' }}>
                         <Option value="lisa">王昭君</Option>
                       </Select>
                     )}
@@ -157,11 +126,8 @@ class FilterCardList extends PureComponent {
                 </Col>
                 <Col lg={8} md={10} sm={10} xs={24}>
                   <FormItem {...formItemLayout} label="好评度">
-                    {getFieldDecorator("rate", {})(
-                      <Select
-                        placeholder="不限"
-                        style={{ maxWidth: 200, width: "100%" }}
-                      >
+                    {getFieldDecorator('rate', {})(
+                      <Select placeholder="不限" style={{ maxWidth: 200, width: '100%' }}>
                         <Option value="good">优秀</Option>
                         <Option value="normal">普通</Option>
                       </Select>
@@ -195,17 +161,14 @@ class FilterCardList extends PureComponent {
                   </Tooltip>,
                   <Dropdown overlay={itemMenu}>
                     <Icon type="ellipsis" />
-                  </Dropdown>
+                  </Dropdown>,
                 ]}
               >
-                <Card.Meta
-                  avatar={<Avatar size="small" src={item.avatar} />}
-                  title={item.title}
-                />
+                <Card.Meta avatar={<Avatar size="small" src={item.avatar} />} title={item.title} />
                 <div className={styles.cardItemContent}>
                   <CardInfo
                     activeUser={formatWan(item.activeUser)}
-                    newUser={numeral(item.newUser).format("0,0")}
+                    newUser={numeral(item.newUser).format('0,0')}
                   />
                 </div>
               </Card>

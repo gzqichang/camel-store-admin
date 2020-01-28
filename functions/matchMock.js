@@ -1,42 +1,38 @@
-const mockFile = require("./mock/index");
-const pathToRegexp = require("path-to-regexp");
+const mockFile = require('./mock/index');
+const pathToRegexp = require('path-to-regexp');
 const debug = console.log;
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
-const BODY_PARSED_METHODS = ["post", "put", "patch"];
+const BODY_PARSED_METHODS = ['post', 'put', 'patch'];
 
 function parseKey(key) {
-  let method = "get";
+  let method = 'get';
   let path = key;
-  if (key.indexOf(" ") > -1) {
-    const splited = key.split(" ");
+  if (key.indexOf(' ') > -1) {
+    const splited = key.split(' ');
     method = splited[0].toLowerCase();
     path = splited[1]; // eslint-disable-line
   }
   return {
     method,
-    path
+    path,
   };
 }
 
 function createHandler(method, path, handler) {
   return function(req, res, next) {
     if (BODY_PARSED_METHODS.includes(method)) {
-      bodyParser.json({ limit: "5mb", strict: false })(req, res, () => {
-        bodyParser.urlencoded({ limit: "5mb", extended: true })(
-          req,
-          res,
-          () => {
-            sendData();
-          }
-        );
+      bodyParser.json({ limit: '5mb', strict: false })(req, res, () => {
+        bodyParser.urlencoded({ limit: '5mb', extended: true })(req, res, () => {
+          sendData();
+        });
       });
     } else {
       sendData();
     }
 
     function sendData() {
-      if (typeof handler === "function") {
+      if (typeof handler === 'function') {
         handler(req, res, next);
       } else {
         res.json(handler);
@@ -56,7 +52,7 @@ function normalizeConfig(config) {
       path,
       re,
       keys,
-      handler: createHandler(method, path, handler)
+      handler: createHandler(method, path, handler),
     });
     return memo;
   }, []);
@@ -90,7 +86,7 @@ function matchMock(req) {
   }
 
   function decodeParam(val) {
-    if (typeof val !== "string" || val.length === 0) {
+    if (typeof val !== 'string' || val.length === 0) {
       return val;
     }
 

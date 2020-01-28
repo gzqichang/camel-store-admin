@@ -1,13 +1,13 @@
-import React, { Fragment, PureComponent } from "react";
-import { Input } from "antd";
-import styles from "./PhoneView.less";
+import React, { Fragment, PureComponent } from 'react';
+import { Input } from 'antd';
+import styles from './PhoneView.less';
 
 class PhoneView extends PureComponent {
   render() {
     const { value, onChange } = this.props;
-    let values = ["", ""];
+    let values = ['', ''];
     if (value) {
-      values = value.split("-");
+      values = value.split('-');
     }
     return (
       <Fragment>

@@ -1,70 +1,67 @@
-import {
-  getCount,
-  getTotalCount,
-  getOrderFoodCount,
-  getStatistic
-} from "@/services/dashboard";
+import { getCount, getTotalCount, getOrderFoodCount, getStatistic } from '@/services/dashboard';
 
 export default {
-  namespace: "dashboard",
+  namespace: 'dashboard',
 
   state: {
-    chartslist: [],
-    countform: {},
+    chartslist:[],
+    countform:{},
     allform: {}
   },
 
   effects: {
-    *fetchCount({ payload }, { call, put }) {
+
+    *fetchCount({payload}, { call, put }) {
       const response = yield call(getCount, payload);
-      if (response) {
+      if(response){
         yield put({
-          type: "save",
+          type: 'save',
           payload: {
-            chartslist: [...response.count]
+            chartslist:[...response.count]
           }
         });
       }
+
     },
 
-    *fetchTotalCount({ payload }, { call, put }) {
+    *fetchTotalCount({payload}, { call, put }) {
       const response = yield call(getTotalCount, payload);
-      if (response) {
+      if(response){
         yield put({
-          type: "save",
+          type: 'save',
           payload: {
-            countform: { ...response }
+            countform: { ...response },
           }
         });
       }
     },
 
-    *fetchOrderGoodCount({ payload }, { call, put }) {
+    *fetchOrderGoodCount({payload}, { call, put }) {
       const response = yield call(getOrderFoodCount, payload);
-      if (response) {
+      if(response){
         yield put({
-          type: "save",
+          type: 'save',
           payload: {
-            allform: { ...response }
+            allform: { ...response },
           }
         });
       }
     },
 
-    *fetchStatistic({ payload }, { call, put }) {
+    *fetchStatistic({payload}, { call, put }) {
       const response = yield call(getStatistic, payload);
-      if (response) {
-        return response;
+      if(response){
+        return response
       }
-    }
+    },
   },
 
   reducers: {
-    save(state, action) {
+    save(state, action){
       return {
         ...state,
         ...action.payload
-      };
-    }
-  }
+      }
+    },
+  },
 };

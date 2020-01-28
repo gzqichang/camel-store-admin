@@ -1,47 +1,49 @@
-import React, { Component, Fragment } from "react";
-import { permissionAuth } from "@/utils/permission";
-import { Select } from "antd";
-import { connect } from "dva";
-import { getLocalStorage } from "../../utils/authority";
+import React, { Component, Fragment } from 'react';
+import { permissionAuth } from '@/utils/permission';
+import { Select } from 'antd';
+import { connect } from 'dva';
+import { getLocalStorage } from '../../utils/authority';
 
-const Option = Select.Option;
+const Option = Select.Option
 
 @connect(({ goods }) => ({
-  categorylist: goods.list
+  categorylist:goods.list,
 }))
+
 class categorySelect extends Component {
-  state = {};
+  state = {}
 
   componentDidMount = () => {
-    const { dispatch } = this.props;
-    let shopid = getLocalStorage("shopid");
+    const { dispatch } = this.props
+    let shopid = getLocalStorage('shopid')
     let data = {
       page: 1,
-      page_size: 1000
-    };
-    shopid !== "all" ? (data.shop = shopid.split("#")[0]) : null;
-    dispatch({ type: "goods/fetchCategory", payload: { ...data } });
-  };
-
-  handleChange = e => {
-    const { onChange, type, categorylist } = this.props;
-    if (type) {
-      onChange(e);
-    } else {
-      categorylist.map(item => {
-        if (item.url === e) {
-          onChange(item);
-        }
-      });
+      page_size: 1000,
     }
-  };
+    shopid !== 'all' ? data.shop = shopid.split("#")[0] : null
+    dispatch({ type: 'goods/fetchCategory', payload: { ...data } })
+  }
+
+  handleChange = (e) => {
+    const { onChange, type, categorylist } = this.props
+    if(type){
+      onChange(e)
+    }
+    else{
+      categorylist.map(item => {
+        if(item.url === e){
+          onChange(item)
+        }
+      })
+    }
+  }
 
   //处理传值
   conversionObject() {
     const { value } = this.props;
     if (!value) {
       return {
-        value: ""
+        value:''
       };
     }
     return {
@@ -49,34 +51,24 @@ class categorySelect extends Component {
     };
   }
 
-  render() {
-    const { categorylist, newprops, type } = this.props;
+  render(){
+    const { categorylist, newprops, type } = this.props
     const { value } = this.conversionObject();
-    const groups = categorylist.map(item => (
-      <Option key={item.id} value={item.id}>
-        {item.name}
-      </Option>
-    ));
-    const urlgroups = categorylist.map(item => (
-      <Option key={item.url} value={item.url}>
-        {item.name}
-      </Option>
-    ));
+    const groups = categorylist.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)
+    const urlgroups = categorylist.map(item => <Option key={item.url} value={item.url}>{item.name}</Option>)
 
-    return (
+    return(
       <Fragment>
         <Select
           style={{ width: 250 }}
           value={value}
-          onChange={e => {
-            this.handleChange(e);
-          }}
+          onChange={(e) => { this.handleChange(e)}}
           {...newprops}
         >
-          {type === "search" ? groups : urlgroups}
+          {type === 'search' ? groups : urlgroups}
         </Select>
       </Fragment>
-    );
+    )
   }
 }
 

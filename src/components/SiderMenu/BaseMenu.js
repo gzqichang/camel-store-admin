@@ -1,12 +1,12 @@
-import React, { PureComponent } from "react";
-import { Menu, Icon } from "antd";
-import Link from "umi/link";
-import isEqual from "lodash/isEqual";
-import memoizeOne from "memoize-one";
-import { formatMessage } from "umi/locale";
-import pathToRegexp from "path-to-regexp";
-import { urlToList } from "../_utils/pathTools";
-import styles from "./index.less";
+import React, { PureComponent } from 'react';
+import { Menu, Icon } from 'antd';
+import Link from 'umi/link';
+import isEqual from 'lodash/isEqual';
+import memoizeOne from 'memoize-one';
+import { formatMessage } from 'umi/locale';
+import pathToRegexp from 'path-to-regexp';
+import { urlToList } from '../_utils/pathTools';
+import styles from './index.less';
 
 const { SubMenu } = Menu;
 
@@ -15,18 +15,17 @@ const { SubMenu } = Menu;
 //   icon: 'http://demo.com/icon.png',
 //   icon: <Icon type="setting" />,
 const getIcon = icon => {
-  if (typeof icon === "string" && icon.indexOf("http") === 0) {
+  if (typeof icon === 'string' && icon.indexOf('http') === 0) {
     return <img src={icon} alt="icon" className={styles.icon} />;
   }
-  if (typeof icon === "string") {
+  if (typeof icon === 'string') {
     return <Icon type={icon} />;
   }
   return icon;
 };
 
 export const getMenuMatches = memoizeOne(
-  (flatMenuKeys, path) =>
-    flatMenuKeys.filter(item => item && pathToRegexp(item).test(path)),
+  (flatMenuKeys, path) => flatMenuKeys.filter(item => item && pathToRegexp(item).test(path)),
   isEqual
 );
 
@@ -37,7 +36,7 @@ export default class BaseMenu extends PureComponent {
     this.flatMenuKeys = this.getFlatMenuKeys(props.menuData);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(){
     this.getSelectedMenuKeys = memoizeOne(this.getSelectedMenuKeys, isEqual);
     this.flatMenuKeys = this.getFlatMenuKeys(this.props.menuData);
   }
@@ -78,21 +77,16 @@ export default class BaseMenu extends PureComponent {
 
   // Get the currently selected menu
   getSelectedMenuKeys = pathname => {
-    return urlToList(pathname).map(itemPath =>
-      getMenuMatches(this.flatMenuKeys, itemPath).pop()
-    );
-  };
+    return urlToList(pathname).map(itemPath => getMenuMatches(this.flatMenuKeys, itemPath).pop());
+  }
+
 
   /**
    * get SubMenu or Item
    */
   getSubMenuOrItem = item => {
     // doc: add hideChildrenInMenu
-    if (
-      item.children &&
-      !item.hideChildrenInMenu &&
-      item.children.some(child => child.name)
-    ) {
+    if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
       const name = item.locale ? formatMessage({ id: item.locale }) : item.name;
       return (
         <SubMenu
@@ -108,11 +102,16 @@ export default class BaseMenu extends PureComponent {
           }
           key={item.path}
         >
-          {this.getNavMenuItems(item.children, item.path)}
+          {this.getNavMenuItems(item.children,item.path)}
         </SubMenu>
       );
     }
-    return <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return (
+      <Menu.Item
+        key={item.path}>
+        {this.getMenuItemPath(item)}
+      </Menu.Item>
+    );
   };
 
   /**
@@ -165,10 +164,10 @@ export default class BaseMenu extends PureComponent {
   };
 
   conversionPath = path => {
-    if (path && path.indexOf("http") === 0) {
+    if (path && path.indexOf('http') === 0) {
       return path;
     }
-    return `/${path || ""}`.replace(/\/+/g, "/");
+    return `/${path || ''}`.replace(/\/+/g, '/');
   };
 
   render() {
@@ -176,23 +175,21 @@ export default class BaseMenu extends PureComponent {
       openKeys,
       theme,
       mode,
-      location: { pathname }
+      location: { pathname },
     } = this.props;
     // if pathname can't match, use the nearest parent's key
     let selectedKeys = this.getSelectedMenuKeys(pathname);
     if (!selectedKeys.length && openKeys) {
       selectedKeys = [openKeys[openKeys.length - 1]];
     }
-    if (selectedKeys && !selectedKeys[0]) {
-      let allarr = this.getFlatMenuKeys(this.props.menuData);
-      selectedKeys = urlToList(pathname).map(itemPath =>
-        getMenuMatches(allarr, itemPath).pop()
-      );
+    if(selectedKeys && !selectedKeys[0]){
+      let allarr = this.getFlatMenuKeys(this.props.menuData)
+      selectedKeys = urlToList(pathname).map(itemPath => getMenuMatches(allarr, itemPath).pop())
     }
     let props = {};
     if (openKeys) {
       props = {
-        openKeys
+        openKeys,
       };
     }
     const { handleOpenChange, style, menuData } = this.props;
@@ -204,7 +201,7 @@ export default class BaseMenu extends PureComponent {
         onOpenChange={handleOpenChange}
         selectedKeys={selectedKeys}
         style={style}
-        className={mode === "horizontal" ? "top-nav-menu" : ""}
+        className={mode === 'horizontal' ? 'top-nav-menu' : ''}
         {...props}
       >
         {this.getNavMenuItems(menuData)}

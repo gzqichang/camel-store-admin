@@ -1,6 +1,6 @@
-import moment from "moment";
-import { message } from "antd";
-import PromiseRender from "../components/Authorized/PromiseRender";
+import moment from 'moment';
+import { message } from 'antd';
+import PromiseRender from '../components/Authorized/PromiseRender';
 
 //图片数组->组件图片组
 export function imageTransform(res = [], max) {
@@ -39,16 +39,16 @@ export function imageRequest(res = []) {
 //校验时间跨度
 export function timeRange(res = []) {
   let flag = true,
-    tip = "";
+    tip = '';
   res.map(item => {
-    if (moment(item[0]).isSame(item[1], "date")) {
-      tip = "下单开始时间不得等于结束时间";
+    if (moment(item[0]).isSame(item[1], 'date')) {
+      tip = '下单开始时间不得等于结束时间';
       flag = false;
     }
   });
   let len = res.length;
-  if (res[len - 1][1] !== "23:59") {
-    tip = "下单时间没有覆盖24小时";
+  if (res[len - 1][1] !== '23:59') {
+    tip = '下单时间没有覆盖24小时';
     flag = false;
   }
   if (flag) {
@@ -67,30 +67,30 @@ export function InitGoodData(res = {}, e) {
         res.postage.map((item, index) => {
           return { ...item, key: index + 1 };
         })) ||
-      []
+      [],
   };
-  res.ord_goods && res.model_type === "ord"
+  res.ord_goods && res.model_type === 'ord'
     ? (gooddata.ord_goods = {
         ...res.ord_goods,
         gtypes: res.ord_goods.gtypes.map((item, index) => {
           return { ...item, key: index };
-        })
+        }),
       })
     : null;
-  res.sub_goods && res.model_type === "sub"
+  res.sub_goods && res.model_type === 'sub'
     ? (gooddata.sub_goods = {
         ...res.sub_goods,
         gtypes: res.sub_goods.gtypes.map((item, index) => {
           return { ...item, key: index };
-        })
+        }),
       })
     : null;
-  res.repl_goods && res.model_type === "replace"
+  res.repl_goods && res.model_type === 'replace'
     ? (gooddata.repl_goods = {
         ...res.repl_goods,
         gtypes: res.repl_goods.gtypes.map((item, index) => {
           return { ...item, key: index };
-        })
+        }),
       })
     : null;
 
@@ -104,23 +104,23 @@ export function InitGoodData(res = {}, e) {
 export function delSign(res = {}) {
   let obj = { ...res };
   Object.keys(obj).map(item => {
-    if (item === "id" || item === "url") {
+    if (item === 'id' || item === 'url') {
       delete res[item];
     }
     if (
-      item === "ord_goods" ||
-      item === "sub_goods" ||
-      item === "repl_goods" ||
-      item === "groupbuy_info"
+      item === 'ord_goods' ||
+      item === 'sub_goods' ||
+      item === 'repl_goods' ||
+      item === 'groupbuy_info'
     ) {
       return delSign(obj[item]);
     }
-    if (item === "gtypes" && obj[item].length > 0) {
+    if (item === 'gtypes' && obj[item].length > 0) {
       obj[item].map(item_in => {
         return delSign(item_in);
       });
     }
-    if (item === "attach" && obj[item].length > 0) {
+    if (item === 'attach' && obj[item].length > 0) {
       obj[item].map(item_in => {
         return delSign(item_in);
       });
@@ -133,25 +133,25 @@ export function validtypeForm(args = {}, ladder_list, model_type) {
   let flag = true,
     flag_list = true;
   let tip = {
-    content: "规格名不能为空",
-    price: "售卖价不能为空",
-    stock: "库存不能为空"
+    content: '规格名不能为空',
+    price: '售卖价不能为空',
+    stock: '库存不能为空',
   };
-  if (model_type !== "replace") {
-    tip.market_price = "市场价不能为空";
+  if (model_type !== 'replace') {
+    tip.market_price = '市场价不能为空';
   }
-  if (model_type !== "repl_goods") {
-    tip.credit = "积分数量不能为空";
+  if (model_type !== 'repl_goods') {
+    tip.credit = '积分数量不能为空';
   }
-  if (model_type === "sub") {
-    tip.cycle_num = "订阅期数不能为空";
+  if (model_type === 'sub') {
+    tip.cycle_num = '订阅期数不能为空';
   }
   Object.keys(tip).map(item => {
-    if (!args[item] && item !== "stock") {
+    if (!args[item] && item !== 'stock') {
       message.error(tip[item]);
       flag = false;
     }
-    if (item === "stock" && !args[item]) {
+    if (item === 'stock' && !args[item]) {
       message.error(tip[item]);
       flag = false;
     }
@@ -163,7 +163,7 @@ export function validtypeForm(args = {}, ladder_list, model_type) {
       }
     });
     if (!flag_list) {
-      message.error("阶梯价格不完整");
+      message.error('阶梯价格不完整');
     }
   }
   return flag && flag_list;
@@ -171,17 +171,17 @@ export function validtypeForm(args = {}, ladder_list, model_type) {
 //商品模块提交前的校验
 export function validatingForm(args = {}) {
   let tips = {
-    name: "商品名不能为空 ",
-    goods_brief: "商品描述不能为空",
+    name: '商品名不能为空 ',
+    goods_brief: '商品描述不能为空',
     // image: '封面图片不能为空',
-    poster: "海报图片不能为空",
-    detail: "详情图不能为空",
-    banner: "轮播图不能为空",
-    postage_setup: "请选择运费方式"
+    poster: '海报图片不能为空',
+    detail: '详情图不能为空',
+    banner: '轮播图不能为空',
+    postage_setup: '请选择运费方式',
   };
   let groupbuytips = {
-    period: "拼团倒计时不能为空或者0",
-    ladder_list: "拼团阶梯不能为空"
+    period: '拼团倒计时不能为空或者0',
+    ladder_list: '拼团阶梯不能为空',
   };
   let flag = true;
   // 虚拟商品
@@ -192,14 +192,14 @@ export function validatingForm(args = {}) {
     if (!args[item] || args[item].length === 0) {
       message.error(tips[item]);
       flag = false;
-    } else if (item === "poster" || item === "image") {
+    } else if (item === 'poster' || item === 'image') {
       if (!(args[item] && args[item].file)) {
         message.error(tips[item]);
         flag = false;
       }
-    } else if (item === "category") {
-      if (args.model_type !== "replace" && !args[item]) {
-        message.error("类别名不能为空");
+    } else if (item === 'category') {
+      if (args.model_type !== 'replace' && !args[item]) {
+        message.error('类别名不能为空');
         flag = false;
       }
     }
@@ -208,10 +208,7 @@ export function validatingForm(args = {}) {
   //拼团
   if (args.groupbuy) {
     Object.keys(groupbuytips).map(item_in => {
-      if (
-        !args.groupbuy_info[item_in] ||
-        args.groupbuy_info[item_in].length === 0
-      ) {
+      if (!args.groupbuy_info[item_in] || args.groupbuy_info[item_in].length === 0) {
         message.error(groupbuytips[item_in]);
         flag = false;
       }
@@ -219,21 +216,17 @@ export function validatingForm(args = {}) {
   }
   //规格
   let gtypes = [];
-  if (args.ord_goods && args.ord_goods.gtypes && args.model_type === "ord") {
+  if (args.ord_goods && args.ord_goods.gtypes && args.model_type === 'ord') {
     gtypes = args.ord_goods.gtypes;
   }
-  if (args.sub_goods && args.sub_goods.gtypes && args.model_type === "sub") {
+  if (args.sub_goods && args.sub_goods.gtypes && args.model_type === 'sub') {
     gtypes = args.sub_goods.gtypes;
   }
-  if (
-    args.repl_goods &&
-    args.repl_goods.gtypes &&
-    args.model_type === "replace"
-  ) {
+  if (args.repl_goods && args.repl_goods.gtypes && args.model_type === 'replace') {
     gtypes = args.repl_goods.gtypes;
   }
   if (!gtypes.length) {
-    message.error("规格不能为空");
+    message.error('规格不能为空');
     flag = false;
   }
   for (let item_in of gtypes) {
@@ -249,11 +242,7 @@ export function validatingForm(args = {}) {
     }
   }
   //配送时间
-  if (
-    args.ord_goods &&
-    args.ord_goods.estimate_time &&
-    args.ord_goods.estimate_time.length > 0
-  ) {
+  if (args.ord_goods && args.ord_goods.estimate_time && args.ord_goods.estimate_time.length > 0) {
     let arr = [];
     args.ord_goods.estimate_time.map(item => {
       arr.push(item.add);
@@ -268,33 +257,31 @@ export function validatingForm(args = {}) {
   if (args.sub_goods) {
     if (!args.sub_goods.send_start || !args.sub_goods.send_end) {
       flag = false;
-      message.error("配送日的配送时间不能为空");
+      message.error('配送日的配送时间不能为空');
     }
     if (!args.sub_goods.duration) {
       flag = false;
-      message.error("订阅持续时间不能为空");
+      message.error('订阅持续时间不能为空');
     }
   }
 
   if (
     !args.delivery_method ||
-    (!args.fictitious &&
-      args.delivery_method &&
-      args.delivery_method.length === 0)
+    (!args.fictitious && args.delivery_method && args.delivery_method.length === 0)
   ) {
     flag = false;
-    message.error("配送方式不能为空");
+    message.error('配送方式不能为空');
   }
   return flag;
 }
 
 export function copy(value) {
-  const oInput = document.createElement("input");
+  const oInput = document.createElement('input');
   oInput.value = value;
   document.body.appendChild(oInput);
   oInput.select(); // 选择对象
-  document.execCommand("Copy"); // 执行浏览器复制命令
-  oInput.className = "oInput";
-  oInput.style.display = "none";
-  message.info("复制成功");
+  document.execCommand('Copy'); // 执行浏览器复制命令
+  oInput.className = 'oInput';
+  oInput.style.display = 'none';
+  message.info('复制成功');
 }

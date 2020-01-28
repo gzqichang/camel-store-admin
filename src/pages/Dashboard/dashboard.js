@@ -1,21 +1,10 @@
-import React, { Component, Fragment } from "react";
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
-import Link from "umi/link";
-import { connect } from "dva";
-import {
-  Card,
-  Row,
-  Col,
-  Icon,
-  DatePicker,
-  Spin,
-  Button,
-  Tabs,
-  Modal,
-  message
-} from "antd";
-import { getLocalStorage } from "@/utils/authority";
-import styles from "./dashboard.less";
+import React, { Component, Fragment } from 'react';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Link from 'umi/link';
+import { connect } from 'dva';
+import { Card, Row, Col, Icon, DatePicker, Spin, Button, Tabs, Modal, message } from 'antd';
+import { getLocalStorage } from '@/utils/authority';
+import styles from './dashboard.less';
 
 const { Meta } = Card;
 const { RangePicker } = DatePicker;
@@ -33,25 +22,24 @@ let myChart;
   chartslist: dashboard.chartslist,
   countform: dashboard.countform,
   allform: dashboard.allform,
-  AppQRCodeLoading:
-    loading.effects["global/fetchAppQRCode"] ||
-    loading.effects["wechat/fetchConfig"],
-  CountLoading: loading.effects["dashboard/fetchCount"],
-  TotalCountLoading: loading.effects["dashboard/fetchTotalCount"]
+  AppQRCodeLoading: loading.effects['global/fetchAppQRCode']
+    || loading.effects['wechat/fetchConfig'],
+  CountLoading: loading.effects['dashboard/fetchCount'],
+  TotalCountLoading: loading.effects['dashboard/fetchTotalCount'],
 }))
 class dashboard extends Component {
   state = {
-    init: "init",
-    shopid: "",
+    init: 'init',
+    shopid: '',
     date: [],
     option: {},
     amount: 0,
-    order_count: 0
+    order_count: 0,
   };
 
   componentDidMount() {
     const { permissions, dispatch } = this.props;
-    dispatch({ type: "global/fetchAppQRCode" });
+    dispatch({ type: 'global/fetchAppQRCode' });
 
     if (permissions.length > 0) {
       this.init();
@@ -59,18 +47,13 @@ class dashboard extends Component {
   }
   init = () => {
     const { dispatch, shopurl } = this.props;
-    let shopid = getLocalStorage("shopid").split("#")[0];
+    let shopid = getLocalStorage('shopid').split('#')[0];
     this.setState({ shopid: shopurl });
-    dispatch({ type: "dashboard/fetchCount", payload: { shop: shopid } }).then(
-      () => {
-        this.initChart();
-      }
-    );
-    dispatch({ type: "dashboard/fetchTotalCount", payload: { shop: shopid } });
-    dispatch({
-      type: "dashboard/fetchOrderGoodCount",
-      payload: { shop: shopid }
+    dispatch({ type: 'dashboard/fetchCount', payload: { shop: shopid } }).then(() => {
+      this.initChart();
     });
+    dispatch({ type: 'dashboard/fetchTotalCount', payload: { shop: shopid } });
+    dispatch({ type: 'dashboard/fetchOrderGoodCount', payload: { shop: shopid } });
   };
 
   initChart = () => {
@@ -84,75 +67,72 @@ class dashboard extends Component {
       _amount += Number(item.amount);
       _order_count += Number(item.order_count);
     });
-    this.setState({
-      amount: _amount.toFixed(2),
-      order_count: _order_count.toFixed(2)
-    });
-    myChart = echarts.init(document.getElementById("main"));
+    this.setState({ amount: _amount.toFixed(2), order_count: _order_count.toFixed(2) });
+    myChart = echarts.init(document.getElementById('main'));
     let option = {
       title: {
-        text: "运营数据"
+        text: '运营数据',
       },
       tooltip: {
-        trigger: "axis"
+        trigger: 'axis',
       },
       legend: {
         show: true,
         selected: {
           支付金额: true,
-          支付订单数: true
+          支付订单数: true,
         },
-        data: ["支付金额", "支付订单数"]
+        data: ['支付金额', '支付订单数'],
       },
-      color: ["#1890ff", "#13c2c2", "#facc14"],
+      color: ['#1890ff', '#13c2c2', '#facc14'],
       series: [
         {
-          name: "支付金额",
-          type: "line",
+          name: '支付金额',
+          type: 'line',
           yAxisIndex: 0,
           smooth: 0.5,
-          data: amount
+          data: amount,
         },
         {
-          name: "支付订单数",
-          type: "line",
+          name: '支付订单数',
+          type: 'line',
           yAxisIndex: 1,
           smooth: 0.5,
           markLine: {
-            data: [{ type: "average", name: "平均值" }]
+            data: [{ type: 'average', name: '平均值' }],
           },
-          data: order_count
-        }
+          data: order_count,
+        },
       ],
       xAxis: {
-        type: "category",
+        type: 'category',
         boundaryGap: false,
-        data: date
+        data: date,
       },
       yAxis: [
         {
-          type: "value",
-          name: "支付金额(元)",
+          type: 'value',
+          name: '支付金额(元)',
           axisLabel: {
-            formatter: "{value}",
-            color: "#000"
+            formatter: '{value}',
+            color: '#000',
           },
           splitLine: {
-            show: true
-          }
+            show: true,
+          },
         },
         {
-          type: "value",
-          name: "支付订单数(笔)",
+          type: 'value',
+          name: '支付订单数(笔)',
           axisLabel: {
-            formatter: "{value}",
-            color: "#000000"
+            formatter: '{value}',
+            color: '#000000',
           },
           splitLine: {
-            show: false
-          }
-        }
-      ]
+            show: false,
+          },
+        },
+      ],
     };
     myChart.setOption(option);
     this.setState({ option });
@@ -167,7 +147,7 @@ class dashboard extends Component {
       if (shopurl !== this.state.shopid && preprops.shopurl !== shopurl) {
         this.init();
       }
-      if (shopurl === "all" && shopurl !== this.state.shopid && superadmin) {
+      if (shopurl === 'all' && shopurl !== this.state.shopid && superadmin) {
         this.init();
       }
     }
@@ -176,12 +156,12 @@ class dashboard extends Component {
   timeChange = value => {
     const { dispatch } = this.props;
     const { date } = this.state;
-    let shopid = getLocalStorage("shopid").split("#")[0];
+    let shopid = getLocalStorage('shopid').split('#')[0];
     if (!date[0] || date[0] !== value[0] || date[1] !== value[1]) {
       this.setState({ date: value });
       dispatch({
-        type: "dashboard/fetchCount",
-        payload: { shop: shopid, start: value[0], end: value[1] }
+        type: 'dashboard/fetchCount',
+        payload: { shop: shopid, start: value[0], end: value[1] },
       }).then(() => {
         this.initChart();
       });
@@ -191,27 +171,27 @@ class dashboard extends Component {
   handleSubmit = () => {
     const { dispatch } = this.props;
     Modal.confirm({
-      title: "提审当前版本",
+      title: '提审当前版本',
       content:
-        "由于微信审核机制所限，请务必先录入所有商品数据之后再提交审核，否则会导致小程序审核不通过无法正常上线。",
+        '由于微信审核机制所限，请务必先录入所有商品数据之后再提交审核，否则会导致小程序审核不通过无法正常上线。',
       centered: true,
-      okText: "确认",
-      cancelText: "取消 ",
+      okText: '确认',
+      cancelText: '取消 ',
       onOk() {
-        dispatch({ type: "wechat/submitWxapp" }).then(res => {
+        dispatch({ type: 'wechat/submitWxapp' }).then(res => {
           if (res.audit_status === 2)
             // 审核中
-            message.success("提审成功");
+            message.success('提审成功');
         });
-      }
+      },
     });
   };
 
   toItempage = (route, key, searchform) => {
     const { dispatch } = this.props;
     dispatch({
-      type: "global/searchFormKey",
-      payload: { [key]: { ...searchform } }
+      type: 'global/searchFormKey',
+      payload: { [key]: { ...searchform } },
     }).then(() => {
       this.props.history.push({ pathname: route });
     });
@@ -251,28 +231,24 @@ class dashboard extends Component {
       AppQRCodeLoading,
       config,
       wechatInfo,
-      wechatConfig
+      wechatConfig,
     } = this.props;
     const { option, amount, order_count } = this.state;
 
     const Carditem = props => (
       <Card
         className={styles.cardtab}
-        style={{ marginLeft: 0, marginRight: "1%" }}
+        style={{ marginLeft: 0, marginRight: '1%' }}
         bordered={false}
         hoverable={true}
-        bodyStyle={{ boxShadow: "0px 0px 1px rgba(238,238,238,1)" }}
+        bodyStyle={{ boxShadow: '0px 0px 1px rgba(238,238,238,1)' }}
         {...props}
       />
     );
 
-    const divStyle = {
-      display: "inline-flex",
-      justifyContent: "space-between",
-      width: "100%"
-    };
-    const labelStyle = { display: "inline-block", width: "70px" };
-    const detailStyle = { color: "orangered", display: "inline-block" };
+    const divStyle = { display: 'inline-flex', justifyContent: 'space-between', width: '100%' };
+    const labelStyle = { display: 'inline-block', width: '70px' };
+    const detailStyle = { color: 'orangered', display: 'inline-block' };
 
     return (
       <PageHeaderWrapper>
@@ -280,101 +256,68 @@ class dashboard extends Component {
           <Card bordered={false}>
             <Row>
               <Col span={6} sm={5} md={4}>
-                <Carditem
-                  style={{ width: "100%" }}
-                  hoverable={false}
-                  loading={AppQRCodeLoading}
-                >
-                  {(config &&
-                    config.store_type === "cloud" &&
-                    wechatConfig &&
-                    wechatConfig.wx_lite_secret) ||
-                  (config && config.store_type === "camel") ? (
-                    <Fragment>
-                      <Tabs tabPosition="bottom" size="small">
-                        <Tabs.TabPane
-                          tab="正式版"
-                          key="1"
-                          forceRender
-                          disabled={!appQRCode.official}
-                        >
-                          <img
-                            style={{
-                              width: "100%",
-                              maxWidth: 130,
-                              display: "block",
-                              margin: "auto"
-                            }}
-                            alt=""
-                            src={
-                              "data:image/png;base64," + appQRCode.official ||
-                              ""
-                            }
-                          />
-                        </Tabs.TabPane>
-                        <Tabs.TabPane
-                          tab="体验版"
-                          key="2"
-                          forceRender
-                          disabled={!appQRCode.preview}
-                        >
-                          <img
-                            style={{
-                              width: "100%",
-                              maxWidth: 130,
-                              display: "block",
-                              margin: "auto"
-                            }}
-                            alt=""
-                            src={
-                              "data:image/png;base64," + appQRCode.preview || ""
-                            }
-                          />
-                        </Tabs.TabPane>
-                      </Tabs>
-                      {// 要是云店版本
-                      config &&
-                        config.store_type === "cloud" &&
-                        // 要能提审
-                        (wechatInfo &&
-                          wechatInfo.audit_status === 5 && (
-                            <Button
-                              style={{ marginTop: 4 }}
-                              block
-                              onClick={this.handleSubmit}
-                            >
-                              提交审核
-                            </Button>
-                          ))}
-                    </Fragment>
-                  ) : (
-                    <div>
-                      <p>小程序尚未正确设置基础信息，无法预览</p>
-                      <Link to="/wechat/base">前往设置</Link>
-                    </div>
-                  )}
+                <Carditem style={{ width: '100%' }} hoverable={false} loading={AppQRCodeLoading}>
+                  {
+                    (
+                      config && config.store_type === 'cloud'
+                      && wechatConfig && wechatConfig.wx_lite_secret
+                    ) || (
+                      config && config.store_type === 'camel'
+                    )
+                      ? (
+                        <Fragment>
+                          <Tabs tabPosition="bottom" size="small">
+                            <Tabs.TabPane tab="正式版" key="1" forceRender disabled={!appQRCode.official}>
+                              <img
+                                style={{ width: '100%', maxWidth: 130, display: 'block', margin: 'auto' }}
+                                alt=""
+                                src={'data:image/png;base64,' + appQRCode.official || ''}
+                              />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab="体验版" key="2" forceRender disabled={!appQRCode.preview}>
+                              <img
+                                style={{ width: '100%', maxWidth: 130, display: 'block', margin: 'auto' }}
+                                alt=""
+                                src={'data:image/png;base64,' + appQRCode.preview || ''}
+                              />
+                            </Tabs.TabPane>
+                          </Tabs>
+                          {
+                            // 要是云店版本
+                            config && config.store_type === 'cloud' &&
+                            // 要能提审
+                            (
+                              wechatInfo && wechatInfo.audit_status === 5 && (
+                                <Button style={{ marginTop: 4 }} block onClick={this.handleSubmit}>
+                                  提交审核
+                                </Button>
+                              )
+                            )
+                          }
+                        </Fragment>
+                      )
+                      : (
+                        <div>
+                          <p>小程序尚未正确设置基础信息，无法预览</p>
+                          <Link to='/wechat/base'>
+                            前往设置
+                          </Link>
+                        </div>
+                      )
+                  }
                 </Carditem>
               </Col>
               <Col span={18} sm={19} md={20}>
                 <Carditem
-                  style={{ marginLeft: "1%", marginRight: "1%" }}
+                  style={{ marginLeft: '1%', marginRight: '1%' }}
                   onClick={() =>
-                    this.toItempage("order/orderlist", "order", {
-                      status: "has paid"
-                    })
+                    this.toItempage('order/orderlist', 'order', { status: 'has paid' })
                   }
                 >
                   <Meta
                     avatar={
-                      <div
-                        className={styles.cardcover}
-                        style={{ background: "#1890ff" }}
-                      >
-                        <Icon
-                          type="file-sync"
-                          theme="outlined"
-                          className={styles.cardicon}
-                        />
+                      <div className={styles.cardcover} style={{ background: '#1890ff' }}>
+                        <Icon type="file-sync" theme="outlined" className={styles.cardicon} />
                       </div>
                     }
                     title="待发货普通订单(个)"
@@ -382,18 +325,11 @@ class dashboard extends Component {
                   />
                 </Carditem>
                 <Carditem
-                  onClick={() =>
-                    this.toItempage("user/feedback", "feedback", {
-                      solve: "false"
-                    })
-                  }
+                  onClick={() => this.toItempage('user/feedback', 'feedback', { solve: 'false' })}
                 >
                   <Meta
                     avatar={
-                      <div
-                        className={styles.cardcover}
-                        style={{ background: "#f04864" }}
-                      >
+                      <div className={styles.cardcover} style={{ background: '#f04864' }}>
                         <Icon type="inbox" className={styles.cardicon} />
                       </div>
                     }
@@ -402,24 +338,13 @@ class dashboard extends Component {
                   />
                 </Carditem>
                 <Carditem
-                  style={{ marginLeft: "1%", marginRight: "1%" }}
-                  onClick={() =>
-                    this.toItempage("good/ordgood/goodlist", "good", {
-                      status: "is_sell"
-                    })
-                  }
+                  style={{ marginLeft: '1%', marginRight: '1%' }}
+                  onClick={() => this.toItempage('good/ordgood/goodlist', 'good', { status: 'is_sell' })}
                 >
                   <Meta
                     avatar={
-                      <div
-                        className={styles.cardcover}
-                        style={{ background: "#1890ff" }}
-                      >
-                        <Icon
-                          type="file-sync"
-                          theme="outlined"
-                          className={styles.cardicon}
-                        />
+                      <div className={styles.cardcover} style={{ background: '#1890ff' }}>
+                        <Icon type="file-sync" theme="outlined" className={styles.cardicon} />
                       </div>
                     }
                     title="在售普通商品(个)"
@@ -429,10 +354,7 @@ class dashboard extends Component {
                 <Carditem>
                   <Meta
                     avatar={
-                      <div
-                        className={styles.cardcover}
-                        style={{ background: "#f04864" }}
-                      >
+                      <div className={styles.cardcover} style={{ background: '#f04864' }}>
                         <Icon type="inbox" className={styles.cardicon} />
                       </div>
                     }
@@ -445,38 +367,31 @@ class dashboard extends Component {
           </Card>
         </Spin>
 
-        <Card bordered={false} style={{ marginTop: "20px" }}>
+        <Card bordered={false} style={{ marginTop: '20px' }}>
           <Carditem
             style={
-              option.legend && option.legend.selected["支付订单数"]
+              option.legend && option.legend.selected['支付订单数']
                 ? {
-                    boxShadow: "0px 0px 5px rgba(24,144,255,1)",
-                    marginLeft: "1%",
-                    marginRight: "1%"
+                    boxShadow: '0px 0px 5px rgba(24,144,255,1)',
+                    marginLeft: '1%',
+                    marginRight: '1%',
                   }
                 : {
-                    boxShadow: "0px 0px 1px rgba(238,238,238,1)",
-                    marginLeft: "1%",
-                    marginRight: "1%"
+                    boxShadow: '0px 0px 1px rgba(238,238,238,1)',
+                    marginLeft: '1%',
+                    marginRight: '1%',
                   }
             }
-            headStyle={{ border: "none" }}
+            headStyle={{ border: 'none' }}
             bodyStyle={{ paddingTop: 0 }}
             title={
-              <div
-                className={styles.cardcover}
-                style={{ background: "#faad14" }}
-              >
-                <Icon
-                  type="database"
-                  theme="outlined"
-                  className={styles.cardicon}
-                />
+              <div className={styles.cardcover} style={{ background: '#faad14' }}>
+                <Icon type="database" theme="outlined" className={styles.cardicon} />
               </div>
             }
-            extra={"支付订单数(个)"}
+            extra={'支付订单数(个)'}
             className={styles.cardtabBig}
-            onClick={() => this.handlecharts("支付订单数")}
+            onClick={() => this.handlecharts('支付订单数')}
           >
             <div style={divStyle}>
               <span style={labelStyle}>昨日：</span>
@@ -497,34 +412,19 @@ class dashboard extends Component {
           </Carditem>
           <Carditem
             className={styles.cardtabBig}
-            extra={"支付金额(元)"}
-            onClick={() => this.handlecharts("支付金额")}
-            headStyle={{ border: "none" }}
+            extra={'支付金额(元)'}
+            onClick={() => this.handlecharts('支付金额')}
+            headStyle={{ border: 'none' }}
             bodyStyle={{ paddingTop: 0 }}
             title={
-              <div
-                className={styles.cardcover}
-                style={{ background: "#faad14" }}
-              >
-                <Icon
-                  type="database"
-                  theme="outlined"
-                  className={styles.cardicon}
-                />
+              <div className={styles.cardcover} style={{ background: '#faad14' }}>
+                <Icon type="database" theme="outlined" className={styles.cardicon} />
               </div>
             }
             style={
-              option.legend && option.legend.selected["支付金额"]
-                ? {
-                    boxShadow: "0px 0px 5px rgba(24,144,255,1)",
-                    marginLeft: 0,
-                    marginRight: "1%"
-                  }
-                : {
-                    boxShadow: "0px 0px 1px rgba(238,238,238,1)",
-                    marginLeft: 0,
-                    marginRight: "1%"
-                  }
+              option.legend && option.legend.selected['支付金额']
+                ? { boxShadow: '0px 0px 5px rgba(24,144,255,1)', marginLeft: 0, marginRight: '1%' }
+                : { boxShadow: '0px 0px 1px rgba(238,238,238,1)', marginLeft: 0, marginRight: '1%' }
             }
           >
             <div style={divStyle}>
@@ -535,9 +435,7 @@ class dashboard extends Component {
             </div>
             <div style={divStyle}>
               <span style={labelStyle}>过去一周：</span>
-              <span style={detailStyle}>
-                {countform.turnovers && countform.turnovers.week_ago}
-              </span>
+              <span style={detailStyle}>{countform.turnovers && countform.turnovers.week_ago}</span>
             </div>
             <div style={divStyle}>
               <span style={labelStyle}>总计：</span>
@@ -546,22 +444,12 @@ class dashboard extends Component {
           </Carditem>
           <Carditem
             className={styles.cardtabBig}
-            extra={"提现支出"}
-            headStyle={{ border: "none" }}
-            bodyStyle={{
-              paddingTop: 0,
-              boxShadow: "0px 0px 1px rgba(238,238,238,1)"
-            }}
+            extra={'提现支出'}
+            headStyle={{ border: 'none' }}
+            bodyStyle={{ paddingTop: 0, boxShadow: '0px 0px 1px rgba(238,238,238,1)' }}
             title={
-              <div
-                className={styles.cardcover}
-                style={{ background: "#faad14" }}
-              >
-                <Icon
-                  type="database"
-                  theme="outlined"
-                  className={styles.cardicon}
-                />
+              <div className={styles.cardcover} style={{ background: '#faad14' }}>
+                <Icon type="database" theme="outlined" className={styles.cardicon} />
               </div>
             }
           >
@@ -583,17 +471,15 @@ class dashboard extends Component {
             </div>
           </Carditem>
           <Row>
-            <Col
-              style={{ textAlign: "right", marginBottom: 10, marginRight: 5 }}
-            >
+            <Col style={{ textAlign: 'right', marginBottom: 10, marginRight: 5 }}>
               <RangePicker
-                style={{ textAlign: "center" }}
+                style={{ textAlign: 'center' }}
                 onChange={(e, str) => this.timeChange(str)}
               />
             </Col>
           </Row>
           <Spin spinning={CountLoading} tip="数据加载中">
-            <div id="main" style={{ width: "100%", height: "400px" }} />
+            <div id="main" style={{ width: '100%', height: '400px' }} />
           </Spin>
         </Card>
       </PageHeaderWrapper>

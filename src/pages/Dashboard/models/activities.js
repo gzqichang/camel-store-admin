@@ -1,28 +1,28 @@
-import { queryActivities } from "@/services/api";
+import { queryActivities } from '@/services/api';
 
 export default {
-  namespace: "activities",
+  namespace: 'activities',
 
   state: {
-    list: []
+    list: [],
   },
 
   effects: {
     *fetchList(_, { call, put }) {
       const response = yield call(queryActivities);
       yield put({
-        type: "saveList",
-        payload: Array.isArray(response) ? response : []
+        type: 'saveList',
+        payload: Array.isArray(response) ? response : [],
       });
-    }
+    },
   },
 
   reducers: {
     saveList(state, action) {
       return {
         ...state,
-        list: action.payload
+        list: action.payload,
       };
-    }
-  }
+    },
+  },
 };

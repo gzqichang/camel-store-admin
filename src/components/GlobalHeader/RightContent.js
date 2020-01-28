@@ -1,33 +1,22 @@
-import React, { PureComponent } from "react";
-import { FormattedMessage, formatMessage } from "umi/locale";
-import {
-  Spin,
-  Tag,
-  Menu,
-  Icon,
-  Dropdown,
-  Avatar,
-  Tooltip,
-  Button,
-  Select,
-  Popover
-} from "antd";
+import React, { PureComponent } from 'react';
+import { FormattedMessage, formatMessage } from 'umi/locale';
+import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip, Button, Select, Popover } from 'antd';
 // import moment from 'moment';
-import Link from "umi/link";
-import Tip from "@/assets/tip.mp3";
+import Link from 'umi/link';
+import Tip from '@/assets/tip.mp3';
 // import groupBy from 'lodash/groupBy';
-import NoticeIcon from "../NoticeIcon";
+import NoticeIcon from '../NoticeIcon';
 // import HeaderSearch from '../HeaderSearch';
 // import SelectLang from '../SelectLang';
-import { getLocalStorage, setLocalStorage } from "@/utils/authority";
-import styles from "./index.less";
-import { routerRedux } from "dva/router";
+import { getLocalStorage, setLocalStorage } from '@/utils/authority';
+import styles from './index.less';
+import { routerRedux } from 'dva/router';
 
 export default class GlobalHeaderRight extends PureComponent {
-  componentDidUpdate() {
-    const { newfeedback, audioControl } = this.props;
-    let myAuto = document.getElementById("myaudio");
-    if (newfeedback) {
+  componentDidUpdate(){
+    const { newfeedback, audioControl } = this.props
+    let myAuto = document.getElementById('myaudio');
+    if(newfeedback){
       myAuto.play();
       audioControl();
     }
@@ -44,19 +33,19 @@ export default class GlobalHeaderRight extends PureComponent {
       sendorderCount,
       sendorderlist,
       feedback,
-      feedbackCount
+      feedbackCount,
     } = this.props;
-    const currentUser = getLocalStorage("username");
+    const currentUser = getLocalStorage('username');
     // const noticeData = this.getNoticeData();
 
     let className = styles.right;
-    if (theme === "dark") {
+    if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;
     }
     return (
       <div className={className}>
         <audio id="myaudio" loop={false} hidden={true}>
-          <source src={Tip} type="audio/mpeg" />
+          <source src={Tip} type="audio/mpeg"/>
         </audio>
         <NoticeIcon
           className={styles.action}
@@ -64,8 +53,8 @@ export default class GlobalHeaderRight extends PureComponent {
           children={sendorderlist}
           onItemClick={(item, tabProps) => toNoticedata(item, tabProps)}
           locale={{
-            emptyText: formatMessage({ id: "component.noticeIcon.empty" }),
-            clear: formatMessage({ id: "component.noticeIcon.clear" })
+            emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),
+            clear: formatMessage({ id: 'component.noticeIcon.clear' }),
           }}
           onClear={onNoticeClear}
           toPage={toOrderpage}
@@ -78,24 +67,18 @@ export default class GlobalHeaderRight extends PureComponent {
           <NoticeIcon.Tab
             list={sendorderlist}
             count={sendorderCount}
-            title={formatMessage({
-              id: "component.globalHeader.sendorderlist"
-            })}
+            title={formatMessage({ id: 'component.globalHeader.sendorderlist' })}
             name="sendorderlist"
-            emptyText={formatMessage({
-              id: "component.globalHeader.notification.empty"
-            })}
+            emptyText={formatMessage({ id: 'component.globalHeader.notification.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
           />
           <NoticeIcon.Tab
             list={feedback}
             count={feedbackCount}
-            title={formatMessage({ id: "component.globalHeader.feedbacklist" })}
+            title={formatMessage({ id: 'component.globalHeader.feedbacklist' })}
             name="feedbacklist"
             showClear={false}
-            emptyText={formatMessage({
-              id: "component.globalHeader.feedback.empty"
-            })}
+            emptyText={formatMessage({ id: 'component.globalHeader.feedback.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
           />
         </NoticeIcon>
@@ -110,7 +93,7 @@ export default class GlobalHeaderRight extends PureComponent {
                   style={{
                     height: 40,
                     width: 1,
-                    background: "#e8e8e8"
+                    background: '#e8e8e8',
                   }}
                 />
                 <a className={styles.btn} onClick={onMenuClick}>
@@ -122,7 +105,7 @@ export default class GlobalHeaderRight extends PureComponent {
             trigger="click"
             placement="bottomRight"
             overlayClassName={styles.me}
-            overlayStyle={{ textAlign: "center" }}
+            overlayStyle={{ textAlign: 'center' }}
           >
             <span className={`${styles.action} ${styles.account}`}>
               <span className={styles.name}>{currentUser}</span>

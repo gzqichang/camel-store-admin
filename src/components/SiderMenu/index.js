@@ -1,13 +1,13 @@
-import React from "react";
-import { Drawer } from "antd";
-import SiderMenu from "./SiderMenu";
+import React from 'react';
+import { Drawer } from 'antd';
+import SiderMenu from './SiderMenu';
 
 /**
  * Recursively flatten the data
  * [{path:string},{path:string}] => {path,path2}
  * @param  menus
  */
-//左侧面板，手机版点击使用drawer，PC端使用SiderMenu
+ //左侧面板，手机版点击使用drawer，PC端使用SiderMenu
 const getFlatMenuKeys = menuData => {
   let keys = [];
   menuData.forEach(item => {
@@ -28,7 +28,7 @@ const SiderMenuWrapper = props => {
       onClose={() => onCollapse(true)}
       style={{
         padding: 0,
-        height: "100vh"
+        height: '100vh',
       }}
     >
       <SiderMenu

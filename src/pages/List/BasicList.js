@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import { findDOMNode } from "react-dom";
-import moment from "moment";
-import { connect } from "dva";
+import React, { PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
+import moment from 'moment';
+import { connect } from 'dva';
 import {
   List,
   Card,
@@ -18,13 +18,13 @@ import {
   Modal,
   Form,
   DatePicker,
-  Select
-} from "antd";
+  Select,
+} from 'antd';
 
-import PageHeaderWrapper from "@/components/PageHeaderWrapper";
-import Result from "@/components/Result";
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Result from '@/components/Result';
 
-import styles from "./BasicList.less";
+import styles from './BasicList.less';
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -34,7 +34,7 @@ const { Search, TextArea } = Input;
 
 @connect(({ list, loading }) => ({
   list,
-  loading: loading.models.list
+  loading: loading.models.list,
 }))
 @Form.create()
 class BasicList extends PureComponent {
@@ -42,30 +42,30 @@ class BasicList extends PureComponent {
 
   formLayout = {
     labelCol: { span: 7 },
-    wrapperCol: { span: 13 }
+    wrapperCol: { span: 13 },
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "list/fetch",
+      type: 'list/fetch',
       payload: {
-        count: 5
-      }
+        count: 5,
+      },
     });
   }
 
   showModal = () => {
     this.setState({
       visible: true,
-      current: undefined
+      current: undefined,
     });
   };
 
   showEditModal = item => {
     this.setState({
       visible: true,
-      current: item
+      current: item,
     });
   };
 
@@ -73,14 +73,14 @@ class BasicList extends PureComponent {
     setTimeout(() => this.addBtn.blur(), 0);
     this.setState({
       done: false,
-      visible: false
+      visible: false,
     });
   };
 
   handleCancel = () => {
     setTimeout(() => this.addBtn.blur(), 0);
     this.setState({
-      visible: false
+      visible: false,
     });
   };
 
@@ -88,17 +88,17 @@ class BasicList extends PureComponent {
     e.preventDefault();
     const { dispatch, form } = this.props;
     const { current } = this.state;
-    const id = current ? current.id : "";
+    const id = current ? current.id : '';
 
     setTimeout(() => this.addBtn.blur(), 0);
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       this.setState({
-        done: true
+        done: true,
       });
       dispatch({
-        type: "list/submit",
-        payload: { id, ...fieldsValue }
+        type: 'list/submit',
+        payload: { id, ...fieldsValue },
       });
     });
   };
@@ -106,41 +106,37 @@ class BasicList extends PureComponent {
   deleteItem = id => {
     const { dispatch } = this.props;
     dispatch({
-      type: "list/submit",
-      payload: { id }
+      type: 'list/submit',
+      payload: { id },
     });
   };
 
   render() {
     const {
       list: { list },
-      loading
+      loading,
     } = this.props;
     const {
-      form: { getFieldDecorator }
+      form: { getFieldDecorator },
     } = this.props;
     const { visible, done, current = {} } = this.state;
 
     const editAndDelete = (key, currentItem) => {
-      if (key === "edit") this.showEditModal(currentItem);
-      else if (key === "delete") {
+      if (key === 'edit') this.showEditModal(currentItem);
+      else if (key === 'delete') {
         Modal.confirm({
-          title: "删除任务",
-          content: "确定删除该任务吗？",
-          okText: "确认",
-          cancelText: "取消",
-          onOk: () => this.deleteItem(currentItem.id)
+          title: '删除任务',
+          content: '确定删除该任务吗？',
+          okText: '确认',
+          cancelText: '取消',
+          onOk: () => this.deleteItem(currentItem.id),
         });
       }
     };
 
     const modalFooter = done
       ? { footer: null, onCancel: this.handleDone }
-      : {
-          okText: "保存",
-          onOk: this.handleSubmit,
-          onCancel: this.handleCancel
-        };
+      : { okText: '保存', onOk: this.handleSubmit, onCancel: this.handleCancel };
 
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
@@ -157,11 +153,7 @@ class BasicList extends PureComponent {
           <RadioButton value="progress">进行中</RadioButton>
           <RadioButton value="waiting">等待中</RadioButton>
         </RadioGroup>
-        <Search
-          className={styles.extraContentSearch}
-          placeholder="请输入"
-          onSearch={() => ({})}
-        />
+        <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={() => ({})} />
       </div>
     );
 
@@ -169,7 +161,7 @@ class BasicList extends PureComponent {
       showSizeChanger: true,
       showQuickJumper: true,
       pageSize: 5,
-      total: 50
+      total: 50,
     };
 
     const ListContent = ({ data: { owner, createdAt, percent, status } }) => (
@@ -180,15 +172,10 @@ class BasicList extends PureComponent {
         </div>
         <div className={styles.listContentItem}>
           <span>开始时间</span>
-          <p>{moment(createdAt).format("YYYY-MM-DD HH:mm")}</p>
+          <p>{moment(createdAt).format('YYYY-MM-DD HH:mm')}</p>
         </div>
         <div className={styles.listContentItem}>
-          <Progress
-            percent={percent}
-            status={status}
-            strokeWidth={6}
-            style={{ width: 180 }}
-          />
+          <Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} />
         </div>
       </div>
     );
@@ -227,28 +214,28 @@ class BasicList extends PureComponent {
       return (
         <Form onSubmit={this.handleSubmit}>
           <FormItem label="任务名称" {...this.formLayout}>
-            {getFieldDecorator("title", {
-              rules: [{ required: true, message: "请输入任务名称" }],
-              initialValue: current.title
+            {getFieldDecorator('title', {
+              rules: [{ required: true, message: '请输入任务名称' }],
+              initialValue: current.title,
             })(<Input placeholder="请输入" />)}
           </FormItem>
           <FormItem label="开始时间" {...this.formLayout}>
-            {getFieldDecorator("createdAt", {
-              rules: [{ required: true, message: "请选择开始时间" }],
-              initialValue: current.createdAt ? moment(current.createdAt) : null
+            {getFieldDecorator('createdAt', {
+              rules: [{ required: true, message: '请选择开始时间' }],
+              initialValue: current.createdAt ? moment(current.createdAt) : null,
             })(
               <DatePicker
                 showTime
                 placeholder="请选择"
                 format="YYYY-MM-DD HH:mm:ss"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
               />
             )}
           </FormItem>
           <FormItem label="任务负责人" {...this.formLayout}>
-            {getFieldDecorator("owner", {
-              rules: [{ required: true, message: "请选择任务负责人" }],
-              initialValue: current.owner
+            {getFieldDecorator('owner', {
+              rules: [{ required: true, message: '请选择任务负责人' }],
+              initialValue: current.owner,
             })(
               <Select placeholder="请选择">
                 <SelectOption value="付晓晓">付晓晓</SelectOption>
@@ -257,9 +244,9 @@ class BasicList extends PureComponent {
             )}
           </FormItem>
           <FormItem {...this.formLayout} label="产品描述">
-            {getFieldDecorator("subDescription", {
-              rules: [{ message: "请输入至少五个字符的产品描述！", min: 5 }],
-              initialValue: current.subDescription
+            {getFieldDecorator('subDescription', {
+              rules: [{ message: '请输入至少五个字符的产品描述！', min: 5 }],
+              initialValue: current.subDescription,
             })(<TextArea rows={4} placeholder="请输入至少五个字符" />)}
           </FormItem>
         </Form>
@@ -287,12 +274,12 @@ class BasicList extends PureComponent {
             bordered={false}
             title="标准列表"
             style={{ marginTop: 24 }}
-            bodyStyle={{ padding: "0 32px 40px 32px" }}
+            bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
             <Button
               type="dashed"
-              style={{ width: "100%", marginBottom: 8 }}
+              style={{ width: '100%', marginBottom: 8 }}
               icon="plus"
               onClick={this.showModal}
               ref={component => {
@@ -320,13 +307,11 @@ class BasicList extends PureComponent {
                     >
                       编辑
                     </a>,
-                    <MoreBtn current={item} />
+                    <MoreBtn current={item} />,
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={
-                      <Avatar src={item.logo} shape="square" size="large" />
-                    }
+                    avatar={<Avatar src={item.logo} shape="square" size="large" />}
                     title={<a href={item.href}>{item.title}</a>}
                     description={item.subDescription}
                   />
@@ -337,10 +322,10 @@ class BasicList extends PureComponent {
           </Card>
         </div>
         <Modal
-          title={done ? null : `任务${current ? "编辑" : "添加"}`}
+          title={done ? null : `任务${current ? '编辑' : '添加'}`}
           className={styles.standardListForm}
           width={640}
-          bodyStyle={done ? { padding: "72px 0" } : { padding: "28px 0 0" }}
+          bodyStyle={done ? { padding: '72px 0' } : { padding: '28px 0 0' }}
           destroyOnClose
           visible={visible}
           {...modalFooter}

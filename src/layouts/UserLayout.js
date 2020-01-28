@@ -1,7 +1,7 @@
-import React from "react";
-import Link from "umi/link";
-import { connect } from "dva";
-import styles from "./UserLayout.less";
+import React from 'react';
+import Link from 'umi/link';
+import { connect } from 'dva';
+import styles from './UserLayout.less';
 
 class UserLayout extends React.PureComponent {
   // @TODO title
@@ -17,7 +17,7 @@ class UserLayout extends React.PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: "global/queryStorename"
+      type: 'global/queryStorename',
     });
   }
 
@@ -49,5 +49,5 @@ class UserLayout extends React.PureComponent {
 // <img alt="logo" className={styles.logo} src={logo} />
 // export default UserLayout;
 export default connect(({ global }) => ({
-  storename: global.storename
+  storename: global.storename,
 }))(UserLayout);
