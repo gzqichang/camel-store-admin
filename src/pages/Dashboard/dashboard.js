@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import { Card, Row, Col, Icon, DatePicker, Spin, Button, Tabs, Modal, message } from 'antd';
 import { getLocalStorage } from '@/utils/authority';
 import styles from './dashboard.less';
+import echarts from 'echarts'
 
 const { Meta } = Card;
 const { RangePicker } = DatePicker;
