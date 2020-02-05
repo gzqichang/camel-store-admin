@@ -116,7 +116,7 @@ class Editadmin extends Component {
     }
     if (args.admingroup && args.admingroup.label === '管理员') {
       if (!args.shopgroup || !args.shopgroup.length) {
-        message.error(tips[item]);
+        message.error(tip1.shopgroup);
         flag = false;
       }
     }

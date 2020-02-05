@@ -160,11 +160,6 @@ export default [
           //   component: './good/ordgood/Editgood',
           //   hideInMenu: true,
           // },
-          {
-            path: '/video/cloudsave',
-            name: 'cloudsave',
-            component: './video/cloudsave',
-          },
         ],
       },
       {
@@ -366,11 +361,6 @@ export default [
             component: './shopsetting/extensions',
             hideInMenu: true,
           },
-          {
-            path: '/setting/shortMessage',
-            name: 'shortMessage',
-            component: './shopsetting/message/shortMessage',
-          },
         ],
       },
       {
@@ -402,12 +392,6 @@ export default [
             component: './User/Editpwd',
           },
         ],
-      },
-      {
-        path: 'http://luotuoxiaodian.com/doc.html',
-        name: 'doc',
-        icon: 'file',
-        target: '_blank',
       },
     ],
   },

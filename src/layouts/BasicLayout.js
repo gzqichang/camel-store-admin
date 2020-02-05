@@ -106,102 +106,7 @@ class BasicLayout extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.dispatch({type: 'global/queryConfig'}).then((c) => {
-      if (c && c.store_type === 'cloud') {
-        this.props.dispatch({type: 'wechat/fetchInfo'}).then(res => {
-          const key = `open${Date.now()}`;
-          if (res) {
-            const {audit_status} = res;
-            if (audit_status === 0) {  // 可以发布
-              notification.success({
-                key,
-                duration: null,
-                message: '云店小程序已就绪',
-                description: '小程序已审核通过，点击发布即可全网上线',
-                btn: (
-                  <Button
-                    type="primary"
-                    onClick={() => {
-                      this.props
-                        .dispatch({type: 'wechat/releaseWxapp'})
-                        .then((res) => {
-                          if (res && res.message === 'success')
-                            message.success('小程序发布成功');
-                          else if (res && res.error_msg)
-                            message.info(res.error_msg);
-                          else
-                            message.info('小程序发布失败');
-                        });
-                      notification.close(key);
-                    }}
-                  >
-                    一键发布
-                  </Button>
-                ),
-              });
-            }
-
-            if (audit_status === 1) {  // 审核失败
-              this.props.dispatch({type: 'wechat/queryWxappStatus'}).then(res => {
-                const hasScreenshot = !!res.screenshot;
-                const description = `原因如下：<br><br>${res.reason}<br>如需重新提审请按下方“重置”按钮重置当前小程序，如有疑问请咨询客服人员。`;
-                const openPicture = () => Modal.info({
-                  icon: null,
-                  okText: '确认',
-                  content: (
-                    <img
-                      src={res.screenshot}
-                      alt=''
-                      style={{
-                        border: '1px solid #ccc',
-                        margin: 'auto',
-                        display: 'block',
-                        borderRadius: 8,
-                      }}
-                    />
-                  ),
-                });
-                notification.error({
-                  key,
-                  duration: null,
-                  message: '小程序审核失败',
-                  description: (<div dangerouslySetInnerHTML={{__html: description}} />),
-                  btn: (
-                    <React.Fragment>
-                      {
-                        hasScreenshot
-                          ? (
-                            <Button size='small' type='primary' style={{marginRight: 10}} onClick={openPicture}>
-                              查看截图
-                            </Button>
-                          )
-                          : null
-                      }
-                      <Popconfirm
-                        title="确认重置当前小程序？"
-                        placement='bottom'
-                        onConfirm={() => {
-                          this.props.dispatch({type: 'wechat/updateWxappCode'});
-                          message.info('小程序体验版代码已更新');
-                          notification.close(key);
-                        }}
-                        okText="确认"
-                        cancelText="取消"
-                      >
-                        <Button size='small' type={!hasScreenshot && 'primary'} style={{marginRight: 10}}>
-                          重置
-                        </Button>
-                      </Popconfirm>
-                      <Button size='small' onClick={() => notification.close(key)}>关闭</Button>
-                    </React.Fragment>
-                  ),
-                });
-              });
-            }
-          }
-        });
-      }
-    });
+    this.props.dispatch({type: 'global/queryConfig'});
 
     const token = getLocalStorage('token');
     if (!token) {
@@ -384,9 +289,9 @@ class BasicLayout extends React.PureComponent {
       config: {subscription_switch, qr_pay_switch, store_type},
     } = this.state;
     const subMenus = ['subscribeOrderlist', 'subscribegoodlist', 'subscribetemplete'];
-    const offlineMenus = ['offline'];
-    const cloudMenus = ['extensions', 'wechat'];
-    const camelMenus = ['doc'];
+    // const offlineMenus = ['offline'];
+    // const cloudMenus = ['extensions', 'wechat'];
+    // const camelMenus = ['doc'];
     let _excludeList = [];
     const excludeSelf = (arr, excludeList) =>
       arr.filter(x => !excludeList.includes(x.name)).map(x => ({
@@ -394,9 +299,9 @@ class BasicLayout extends React.PureComponent {
         routes: x.routes ? excludeSelf(x.routes, excludeList) : undefined,
       }));
     if (!subscription_switch) _excludeList = [..._excludeList, ...subMenus];
-    if (!qr_pay_switch) _excludeList = [..._excludeList, ...offlineMenus];
-    if (store_type !== 'cloud') _excludeList = [..._excludeList, ...cloudMenus];
-    if (store_type !== 'camel') _excludeList = [..._excludeList, ...camelMenus];
+    // if (!qr_pay_switch) _excludeList = [..._excludeList, ...offlineMenus];
+    // if (store_type !== 'cloud') _excludeList = [..._excludeList, ...cloudMenus];
+    // if (store_type !== 'camel') _excludeList = [..._excludeList, ...camelMenus];
     routes = excludeSelf(routes, _excludeList);
     return memoizeOneFormatter(routes);
   }
