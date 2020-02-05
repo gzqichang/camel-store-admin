@@ -140,7 +140,7 @@ export function validtypeForm(args = {}, ladder_list, model_type) {
   if (model_type !== 'replace') {
     tip.market_price = '市场价不能为空';
   }
-  if (model_type !== 'repl_goods') {
+  if (model_type === 'replace') {
     tip.credit = '积分数量不能为空';
   }
   if (model_type === 'sub') {
@@ -242,6 +242,12 @@ export function validatingForm(args = {}) {
     }
   }
   //配送时间
+  if (args.delivery_method.includes('own') && args.ord_goods) {
+    if (!args.ord_goods.estimate_time || !args.ord_goods.estimate_time.length) {
+      flag = false;
+      message.error('请填入自配送预计到达时间');
+    }
+  }
   if (args.ord_goods && args.ord_goods.estimate_time && args.ord_goods.estimate_time.length > 0) {
     let arr = [];
     args.ord_goods.estimate_time.map(item => {
@@ -251,6 +257,14 @@ export function validatingForm(args = {}) {
     if (result !== true) {
       flag = false;
       message.error(result);
+    }
+  }
+
+  // 运费设置-按配送距离
+  if (args.postage_setup === 'distance') {
+    if (!args.postage || !args.postage.length) {
+      flag = false;
+      message.error('请输入"运费设置-按配送距离设置"的运费计算规则');
     }
   }
   //配送日的配送时间

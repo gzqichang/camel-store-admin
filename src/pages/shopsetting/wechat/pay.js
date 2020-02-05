@@ -161,82 +161,82 @@ class Pay extends Component {
                 </Fragment>
                 : <Button type={'primary'} onClick={this.toggleIsEdit}>编辑</Button>}
             </Fragment>}>
-            <Form>
-              <FormItem label={'支付渠道'}>
-                <Select value={payInfo.switch} style={{width: 300}} onChange={(e) => this.setState({payInfo: { ...payInfo, switch: e}})}>
-                  {storeType === 'cloud' && <Option key={'false'}>微信支付（需要公账）</Option> }
-                  <Option key={'true'}>payJs（个人收款）</Option>
-                </Select>
-              </FormItem>
-            </Form>
+            {/*<Form>*/}
+            {/*  <FormItem label={'支付渠道'}>*/}
+            {/*    <Select value={payInfo.switch} style={{width: 300}} onChange={(e) => this.setState({payInfo: { ...payInfo, switch: e}})}>*/}
+            {/*      {storeType === 'cloud' && <Option key={'false'}>微信支付（需要公账）</Option> }*/}
+            {/*      <Option key={'true'}>payJs（个人收款）</Option>*/}
+            {/*    </Select>*/}
+            {/*  </FormItem>*/}
+            {/*</Form>*/}
             <Tabs defaultActiveKey="2">
-              {storeType === 'cloud' &&
               <TabPane tab={'微信支付（需要公账）'} key={'1'}>
-                <Form>
-                  <FormItem label="商户号" required {...formItemLayout}>
-                    <Input
-                      value={wechatConfig.wx_pay_mch_id || ''}
-                      style={{width: 200}}
-                      disabled={!isEdit}
-                      onChange={({currentTarget: {value}}) =>
-                        this.handleValues({
-                          value: {
-                            ...wechatConfig,
-                            wx_pay_mch_id: value,
-                          },
-                        })
-                      }
-                    />
-                  </FormItem>
-                  <FormItem label="商户KEY" required {...formItemLayout}>
-                    <Input
-                      value={wechatConfig.wx_pay_api_key || ''}
-                      style={{width: 300}}
-                      disabled={!isEdit}
-                      onChange={({currentTarget: {value}}) => {
-                        if (value.length > 32) {
-                          message.error('商户密钥应为32位')
-                          return;
-                        }
-                        this.handleValues({
-                          value: {
-                            ...wechatConfig,
-                            wx_pay_api_key: value,
-                          },
-                        })
-                      }}
-                    />
-                  </FormItem>
-                  <FormItem label="商户证书" required {...formItemLayout}>
-                    <Upload
-                      fileList={cert}
-                      onRemove={() => {
-                        this.handleValues({
-                          value: {
-                            ...wechatConfig,
-                            wx_pay_mch_cert: undefined,
-                          },
-                        });
-                        this.setState({cert: []});
-                      }}
-                      beforeUpload={file => {
-                        if (file) {
+                {storeType === 'cloud' ?
+                  <Form>
+                    <FormItem label="商户号" required {...formItemLayout}>
+                      <Input
+                        value={wechatConfig.wx_pay_mch_id || ''}
+                        style={{width: 200}}
+                        disabled={!isEdit}
+                        onChange={({currentTarget: {value}}) =>
                           this.handleValues({
                             value: {
                               ...wechatConfig,
-                              wx_pay_mch_cert: file,
+                              wx_pay_mch_id: value,
+                            },
+                          })
+                        }
+                      />
+                    </FormItem>
+                    <FormItem label="商户KEY" required {...formItemLayout}>
+                      <Input
+                        value={wechatConfig.wx_pay_api_key || ''}
+                        style={{width: 300}}
+                        disabled={!isEdit}
+                        onChange={({currentTarget: {value}}) => {
+                          if (value.length > 32) {
+                            message.error('商户密钥应为32位')
+                            return;
+                          }
+                          this.handleValues({
+                            value: {
+                              ...wechatConfig,
+                              wx_pay_api_key: value,
+                            },
+                          })
+                        }}
+                      />
+                    </FormItem>
+                    <FormItem label="商户证书" required {...formItemLayout}>
+                      <Upload
+                        fileList={cert}
+                        onRemove={() => {
+                          this.handleValues({
+                            value: {
+                              ...wechatConfig,
+                              wx_pay_mch_cert: undefined,
                             },
                           });
-                          this.setState({cert: [file]});
-                        }
-                        return false;
-                      }}
-                    >
-                      <Button disabled={!isEdit}>
-                        <Icon type="upload"/> 上传
-                      </Button>
-                      {wechatConfig.wx_pay_mch_cert === true && !isEdit ? (
-                        <span style={{paddingLeft: 15}}>
+                          this.setState({cert: []});
+                        }}
+                        beforeUpload={file => {
+                          if (file) {
+                            this.handleValues({
+                              value: {
+                                ...wechatConfig,
+                                wx_pay_mch_cert: file,
+                              },
+                            });
+                            this.setState({cert: [file]});
+                          }
+                          return false;
+                        }}
+                      >
+                        <Button disabled={!isEdit}>
+                          <Icon type="upload"/> 上传
+                        </Button>
+                        {wechatConfig.wx_pay_mch_cert === true && !isEdit ? (
+                          <span style={{paddingLeft: 15}}>
                       <Icon
                         type="check-circle"
                         style={{
@@ -246,39 +246,39 @@ class Pay extends Component {
                       />
                       已上传
                     </span>
-                      ) : null}
-                    </Upload>
-                  </FormItem>
-                  <FormItem label="商户私钥" required {...formItemLayout}>
-                    <Upload
-                      fileList={pem}
-                      onRemove={() => {
-                        this.handleValues({
-                          value: {
-                            ...wechatConfig,
-                            wx_pay_mch_key: undefined,
-                          },
-                        });
-                        this.setState({pem: []});
-                      }}
-                      beforeUpload={file => {
-                        if (file) {
+                        ) : null}
+                      </Upload>
+                    </FormItem>
+                    <FormItem label="商户私钥" required {...formItemLayout}>
+                      <Upload
+                        fileList={pem}
+                        onRemove={() => {
                           this.handleValues({
                             value: {
                               ...wechatConfig,
-                              wx_pay_mch_key: file,
+                              wx_pay_mch_key: undefined,
                             },
                           });
-                          this.setState({pem: [file]});
-                        }
-                        return false;
-                      }}
-                    >
-                      <Button disabled={!isEdit}>
-                        <Icon type="upload"/> 上传
-                      </Button>
-                      {wechatConfig.wx_pay_mch_key === true && !isEdit ? (
-                        <span style={{paddingLeft: 15}}>
+                          this.setState({pem: []});
+                        }}
+                        beforeUpload={file => {
+                          if (file) {
+                            this.handleValues({
+                              value: {
+                                ...wechatConfig,
+                                wx_pay_mch_key: file,
+                              },
+                            });
+                            this.setState({pem: [file]});
+                          }
+                          return false;
+                        }}
+                      >
+                        <Button disabled={!isEdit}>
+                          <Icon type="upload"/> 上传
+                        </Button>
+                        {wechatConfig.wx_pay_mch_key === true && !isEdit ? (
+                          <span style={{paddingLeft: 15}}>
                       <Icon
                         type="check-circle"
                         style={{
@@ -288,10 +288,12 @@ class Pay extends Component {
                       />
                       已上传
                     </span>
-                      ) : null}
-                    </Upload>
-                  </FormItem>
-                </Form>
+                        ) : null}
+                      </Upload>
+                    </FormItem>
+                  </Form>
+                  : <Fragment>暂无配置数据</Fragment>
+                }
 
                 <Card
                   bordered={false}
@@ -307,43 +309,6 @@ class Pay extends Component {
                   <p><b>商户KEY：</b>查看流程：打开微信商户平台，点击 “账户中心 - API安全 - 设置密钥” 进行查看</p>
                   <p><b>商户证书：</b>即API证书：apiclient_cert.pem文件</p>
                   <p><b>商户私钥：</b>即API证书：apiclient_key.pem文件</p>
-                </Card>
-              </TabPane>
-              }
-              <TabPane tab={'payJs（个人收款）'} key={'2'}>
-                <Form>
-                  <FormItem label={'payJs商户号'}>
-                    <Input
-                      value={payInfo.mchid}
-                      style={{width: 300}}
-                      disabled={!isEdit}
-                      onChange={(e) => this.setState({payInfo: { ...payInfo, mchid: e.target.value}})}/>
-                  </FormItem>
-                  <FormItem label={'payJs通信密钥'}>
-                    <Input
-                      value={payInfo.key}
-                      style={{width: 300}}
-                      disabled={!isEdit}
-                      onChange={(e) => this.setState({payInfo: { ...payInfo, key: e.target.value}})}/>
-                  </FormItem>
-                </Form>
-                <Card
-                  bordered={false}
-                  bodyStyle={{
-                    borderTop: '1px solid #eee',
-                    marginTop: 24,
-                  }}
-                >
-                  <div style={{fontSize: 16, fontWeight: 500}}>
-                    <p>说明</p>
-                  </div>
-                  <p><b>payJs支付：</b>支持个人支付，需要前往payJs（<a href={'https://payjs.cn'} target={'_blank'}>https://payjs.cn</a>）注册和认证，获取商户号和密钥，填入上表，并切换支付渠道为“payJs（个人收款）”即可。设置后请上架低价商品进行测试，确保成功支付。</p>
-                  <p><b>商户号和密钥：</b>扫码登录payJs管理后台，在“会员中心”找到“商户号”和“通信密钥”</p>
-                  <p><b>费用：</b>payJs需要收取的费用，具体见：<a href={'https://payjs.cn/price'} target={'_blank'}>https://payjs.cn/price。</a></p>
-                  <p style={{color: 'red'}}>*暂不支持IOS端</p>
-                  {/*<p><b>易商户：</b>支持个人收款，需要前往易商户（<a href={'https://1shanghu.com/'} target={'_blank'}>https://1shanghu.com/</a>）注册和认证。通过审核后，获取AppKey、AppSecret填入上表，并切换支付渠道为“易商户（个人收款）”即可。设置后请上架低价商品进行测试，确保成功支付。</p>*/}
-                  {/*<p><b>获取AppKey、AppSecret：</b>登录“易商户”管理后台 -> 开发与对接 -> 配置信息 -> 点击"创建一个" 或者复制已有 AppKey 和 AppSecret</p>*/}
-                  {/*<p><b>费用：</b>易商户需要收取较高的费用，具体见：<a href={'https://1shanghu.com/roles'} target={'_blank'}>https://1shanghu.com/roles</a></p>*/}
                 </Card>
               </TabPane>
             </Tabs>

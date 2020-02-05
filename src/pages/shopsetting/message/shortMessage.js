@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { connect } from 'dva';
-import {List, Card, Icon, Modal, Spin, Button, InputNumber, Form, message, Alert, Table} from 'antd';
+import {List, Card, Icon, Modal, Spin, Button, InputNumber, Form, Alert, Table} from 'antd';
 import moment from 'moment';
 
 @connect(({ shopsetting, loading }) => ({
@@ -11,7 +11,7 @@ import moment from 'moment';
 
 class ShortMessage extends Component {
   state = {
-    amount: 0,
+    amount: 10,
     balance: 0,
     visible: false,
     qrcode: {},
@@ -47,7 +47,7 @@ class ShortMessage extends Component {
     const {page} = this.state;
     dispatch({
       type: 'shopsetting/fetchMessageRecord',
-      paylaod: {
+      payload: {
         page
       }
     }).then(res => {
@@ -87,12 +87,10 @@ class ShortMessage extends Component {
     const {amount} = this.state;
     const {dispatch} = this.props;
     const self = this;
-    if (!amount)
-      return message.error('请输入充值金额');
     dispatch({
       type: 'shopsetting/addMessageBlance',
       payload: {
-        amount
+        amount: amount || 10
       }
     }).then(res => {
       if (res && res.return_code === 'SUCCESS') {

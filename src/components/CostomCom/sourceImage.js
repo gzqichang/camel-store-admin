@@ -47,8 +47,8 @@ class BodyRow extends Component {
     return (
       <span className={isSelect ? `${styles[className]} ${styles.unmultiOpera}` : styles.unmultiOpera}>
       <div className={`ant-upload-list ant-upload-list-picture-card` }>
-        <span className={styles.Itemcheckbox}><Checkbox checked={isSelect} onChange={() => handleItem(item)}/></span>
-        <div className={`ant-upload-list-item ant-upload-list-item-done`} style={{padding:'3px'}}>
+        <div className={`ant-upload-list-item ant-upload-list-item-done`} style={{padding:'3px', position: 'relative'}}>
+          <span className={styles.Itemcheckbox}><Checkbox checked={isSelect} onChange={() => handleItem(item)}/></span>
           <div className="ant-upload-list-item-info">
             <span>
               <a className="ant-upload-list-item-thumbnail" style={{ width: '102px', height: '102px' }}>
