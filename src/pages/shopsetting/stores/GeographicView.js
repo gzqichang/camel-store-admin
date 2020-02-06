@@ -33,11 +33,13 @@ class GeographicView extends PureComponent {
     dispatch({
       type: 'location/fetchALL',
     }).then((res) => {
-      this.setState({
-        province : res.result[0],
-        city : res.result[1],
-        district : res.result[2],
-      })
+      if (res.result && res.result.length) {
+        this.setState({
+          province : res.result[0],
+          city : res.result[1],
+          district : res.result[2],
+        })
+      }
     })
   };
 
