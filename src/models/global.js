@@ -230,7 +230,7 @@ export default {
           },
         });
         if (res.store_type === 'cloud') {
-          yield put({type: 'wechat/fetchInfo'});
+          // yield put({type: 'wechat/fetchInfo'});
           yield put({type: 'wechat/fetchConfig'});
         }
         return res;
