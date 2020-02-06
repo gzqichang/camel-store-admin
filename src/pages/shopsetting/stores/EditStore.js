@@ -107,13 +107,15 @@ class EditStore extends Component {
         type: 'location/convertlocation',
         payload: {addr: address}
       }).then((res) => {
-        storeform.addr = address
-        storeform.lat = res.location.lat
-        storeform.lng = res.location.lng
-        message.success('转换成功,地址正确！');
-        this.setState({
-          storeform
-        })
+        if (res && res.location) {
+          storeform.addr = address
+          storeform.lat = res.location.lat
+          storeform.lng = res.location.lng
+          message.success('转换成功,地址正确！');
+          this.setState({
+            storeform
+          })
+        }
       })
     } else {
       message.warning('请把信息补充完成！')
