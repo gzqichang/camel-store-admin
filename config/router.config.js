@@ -363,23 +363,23 @@ export default [
           },
         ],
       },
-      {
-        path: '/wechat',
-        name: 'wechat',
-        icon: 'wechat',
-        routes: [
-          {
-            path: '/wechat/base',
-            name: 'base',
-            component: './shopsetting/wechat/wechat',
-          },
-          {
-            path: '/wechat/pay',
-            name: 'pay',
-            component: './shopsetting/wechat/pay',
-          },
-        ],
-      },
+      // {
+      //   path: '/wechat',
+      //   name: 'wechat',
+      //   icon: 'wechat',
+      //   routes: [
+      //     {
+      //       path: '/wechat/base',
+      //       name: 'base',
+      //       component: './shopsetting/wechat/wechat',
+      //     },
+      //     {
+      //       path: '/wechat/pay',
+      //       name: 'pay',
+      //       component: './shopsetting/wechat/pay',
+      //     },
+      //   ],
+      // },
       {
         path: '/person',
         name: 'person',
