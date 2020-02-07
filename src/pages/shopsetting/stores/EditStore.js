@@ -68,17 +68,20 @@ class EditStore extends Component {
         type: 'shopsetting/getStoreData',
         payload: {...location.query}
       }).then((res) => {
-        storeform.address = {
-          province: {label: res.province, key: ''},
-          city: {label: res.city, key: ''},
-          district: {label: res.district, key: ''},
-        };
-        res.delivery_range.forEach((item) => {
-          if (item.lat && item.lng) {
-            storeform.delivery_range.push(item)
-          }
-        })
-        this.setState({storeform: {...storeform, ...res,}})
+        if (res) {
+          storeform.address = {
+            province: {label: res.province, key: ''},
+            city: {label: res.city, key: ''},
+            district: {label: res.district, key: ''},
+          };
+          const delivery_range = res.delivery_range || [];
+          delivery_range.forEach((item) => {
+            if (item.lat && item.lng) {
+              storeform.delivery_range.push(item)
+            }
+          })
+          this.setState({storeform: { ...res, ...storeform }})
+        }
       })
     }
   }
@@ -107,13 +110,15 @@ class EditStore extends Component {
         type: 'location/convertlocation',
         payload: {addr: address}
       }).then((res) => {
-        storeform.addr = address
-        storeform.lat = res.location.lat
-        storeform.lng = res.location.lng
-        message.success('转换成功,地址正确！');
-        this.setState({
-          storeform
-        })
+        if (res && res.location) {
+          storeform.addr = address
+          storeform.lat = res.location.lat
+          storeform.lng = res.location.lng
+          message.success('转换成功,地址正确！');
+          this.setState({
+            storeform
+          })
+        }
       })
     } else {
       message.warning('请把信息补充完成！')
@@ -139,9 +144,15 @@ class EditStore extends Component {
         flag = false
       }
     })
-    if (args.delivery_divide === 'geometry' && args.delivery_range && args.delivery_range.length < 3) {
-      message.error('门店配送范围有误');
-      flag = false
+    if (args.delivery_divide === 'geometry') {
+      if (!args.delivery_range) {
+        message.error('请在地图上选择门店的配送范围');
+        flag = false
+      }
+      if (flag && args.delivery_range && args.delivery_range.length < 3) {
+        message.error('门店配送范围有误，请确保地图上有正确的区域');
+        flag = false
+      }
     }
     if (args.delivery_divide === 'radius' && !args.delivery_radius) {
       message.error('门店配送半径不能为空');
@@ -160,7 +171,8 @@ class EditStore extends Component {
       province: storeform.address && storeform.address.province.label || '',
       city: storeform.address && storeform.address.city.label || '',
       district: storeform.address && storeform.address.district.label || '',
-      address: undefined
+      address: undefined,
+      delivery_range: storeform.delivery_range.length ? storeform.delivery_range : null
     }
     let _type = id ? 'shopsetting/updateStore' : 'shopsetting/createStore'
     let flag = this.validatingForm({...submitform})
