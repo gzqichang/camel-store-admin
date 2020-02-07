@@ -16,10 +16,11 @@ import GoodDetail from '../component/goodDetail';
 class subscribeEditTemplate extends Component {
   state = {
     gooddata:{
-      repl_goods:{ postage_setup: 'free' },
+      repl_goods:{},
       index:1,
       status: 'is_sell',
       postage:null,
+      postage_setup: 'free',
       groupbuy: false,
       groupbuy_info: null,
       delivery_method: [],
