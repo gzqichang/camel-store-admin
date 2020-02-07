@@ -13,9 +13,10 @@ import { DragDropContext } from 'react-dnd';
 class replaceEditgood extends Component {
   state = {
     gooddata:{
-      repl_goods:{ postage_setup: 'free' },
+      repl_goods:{},
       index:1,
       postage:null,
+      postage_setup: 'free',
       groupbuy: false,
       groupbuy_info: null,
       delivery_method: [],

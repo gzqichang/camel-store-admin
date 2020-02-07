@@ -151,7 +151,7 @@ class Adminlist extends Component {
     const that = this
     Modal.confirm({
       title:`确定操作`,
-      content: `确定重置用户 ${name} 的密码，重置完成后该用户需使用初始密码登录`,
+      content: `确定重置用户 ${name} 的密码，重置完成后该用户需使用初始密码登录。初始密码为admin123123。`,
       centered: true,
       okText: `确定`,
       okType: 'danger',
