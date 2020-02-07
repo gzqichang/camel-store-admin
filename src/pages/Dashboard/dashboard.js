@@ -40,7 +40,7 @@ class dashboard extends Component {
 
   componentDidMount() {
     const { permissions, dispatch } = this.props;
-    dispatch({ type: 'global/fetchAppQRCode' });
+    // dispatch({ type: 'global/fetchAppQRCode' });
     if (permissions.length > 0) {
       this.init();
     }
@@ -255,60 +255,60 @@ class dashboard extends Component {
         <Spin spinning={TotalCountLoading}>
           <Card bordered={false}>
             <Row>
-              <Col span={6} sm={5} md={4}>
-                <Carditem style={{ width: '100%' }} hoverable={false} loading={AppQRCodeLoading}>
-                  {
-                    (
-                      config && config.store_type === 'cloud'
-                      && wechatConfig && wechatConfig.wx_lite_secret
-                    ) || (
-                      config && config.store_type === 'camel'
-                    )
-                      ? (
-                        <Fragment>
-                          <Tabs tabPosition="bottom" size="small">
-                            <Tabs.TabPane tab="正式版" key="1" forceRender disabled={!appQRCode.official}>
-                              <img
-                                style={{ width: '100%', maxWidth: 130, display: 'block', margin: 'auto' }}
-                                alt=""
-                                src={'data:image/png;base64,' + appQRCode.official || ''}
-                              />
-                            </Tabs.TabPane>
-                            <Tabs.TabPane tab="体验版" key="2" forceRender disabled={!appQRCode.preview}>
-                              <img
-                                style={{ width: '100%', maxWidth: 130, display: 'block', margin: 'auto' }}
-                                alt=""
-                                src={'data:image/png;base64,' + appQRCode.preview || ''}
-                              />
-                            </Tabs.TabPane>
-                          </Tabs>
-                          { //（暂时不能提审）
-                            // 要是云店版本
-                            // config && config.store_type === 'cloud' &&
-                            // 要能提审
-                            // (
-                            //   wechatInfo && wechatInfo.audit_status === 5 && (
-                            //     <Button style={{ marginTop: 4 }} block onClick={this.handleSubmit}>
-                            //       提交审核
-                            //     </Button>
-                            //   )
-                            // )
-                          }
-                        </Fragment>
-                      )
-                      : (
-                        <div>
-                          <p>小程序尚未正确设置基础信息，无法预览</p>
-                          <Link to='/wechat/base'>
-                            前往设置
-                          </Link>
-                        </div>
-                      )
-                  }
-                </Carditem>
-              </Col>
+              {/*<Col span={6} sm={5} md={4}>*/}
+              {/*  <Carditem style={{ width: '100%' }} hoverable={false} loading={AppQRCodeLoading}>*/}
+              {/*    {*/}
+              {/*      (*/}
+              {/*        config && config.store_type === 'cloud'*/}
+              {/*        && wechatConfig && wechatConfig.wx_lite_secret*/}
+              {/*      ) || (*/}
+              {/*        config && config.store_type === 'camel'*/}
+              {/*      )*/}
+              {/*        ? (*/}
+              {/*          <Fragment>*/}
+              {/*            <Tabs tabPosition="bottom" size="small">*/}
+              {/*              <Tabs.TabPane tab="正式版" key="1" forceRender disabled={!appQRCode.official}>*/}
+              {/*                <img*/}
+              {/*                  style={{ width: '100%', maxWidth: 130, display: 'block', margin: 'auto' }}*/}
+              {/*                  alt=""*/}
+              {/*                  src={'data:image/png;base64,' + appQRCode.official || ''}*/}
+              {/*                />*/}
+              {/*              </Tabs.TabPane>*/}
+              {/*              <Tabs.TabPane tab="体验版" key="2" forceRender disabled={!appQRCode.preview}>*/}
+              {/*                <img*/}
+              {/*                  style={{ width: '100%', maxWidth: 130, display: 'block', margin: 'auto' }}*/}
+              {/*                  alt=""*/}
+              {/*                  src={'data:image/png;base64,' + appQRCode.preview || ''}*/}
+              {/*                />*/}
+              {/*              </Tabs.TabPane>*/}
+              {/*            </Tabs>*/}
+              {/*            { //（暂时不能提审）*/}
+              {/*              // 要是云店版本*/}
+              {/*              // config && config.store_type === 'cloud' &&*/}
+              {/*              // 要能提审*/}
+              {/*              // (*/}
+              {/*              //   wechatInfo && wechatInfo.audit_status === 5 && (*/}
+              {/*              //     <Button style={{ marginTop: 4 }} block onClick={this.handleSubmit}>*/}
+              {/*              //       提交审核*/}
+              {/*              //     </Button>*/}
+              {/*              //   )*/}
+              {/*              // )*/}
+              {/*            }*/}
+              {/*          </Fragment>*/}
+              {/*        )*/}
+              {/*        : (*/}
+              {/*          <div>*/}
+              {/*            <p>小程序尚未正确设置基础信息，无法预览</p>*/}
+              {/*            <Link to='/wechat/base'>*/}
+              {/*              前往设置*/}
+              {/*            </Link>*/}
+              {/*          </div>*/}
+              {/*        )*/}
+              {/*    }*/}
+              {/*  </Carditem>*/}
+              {/*</Col>*/}
 
-              <Col span={18} sm={19} md={20}>
+              <Col span={24}>
                 <Carditem
                   style={{ marginLeft: '1%', marginRight: '1%' }}
                   onClick={() =>
