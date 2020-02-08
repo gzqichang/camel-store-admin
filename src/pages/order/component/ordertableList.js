@@ -121,7 +121,8 @@ class ordertableList extends Component {
       dispatch({
         type: 'order/updateOrderPay',
         payload: {
-          order_sn
+          order_sn,
+          pay_type: 'buy_order'
         },
       }).then(res => {
         if (res) {
