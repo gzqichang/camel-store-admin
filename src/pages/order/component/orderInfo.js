@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import Link from 'umi/link';
 import styles from '../orderlist.less';
-import { Button, Card, Form, Input, Spin, Table } from 'antd';
+import {Button, Card, Form, Input, message, Spin, Table} from 'antd';
 import { connect } from 'dva';
 
 const formItemLayout = {
@@ -19,7 +19,7 @@ const orderstatus_group = {
   groupbuy: '拼团中'
 };
 
-@connect(({ costom, finance, loading }) => ({
+@connect(({ costom, order, finance, loading }) => ({
   shopid: global.shopid,
 }))
 class orderInfo extends Component {
@@ -164,6 +164,22 @@ class orderInfo extends Component {
       });
   };
 
+  freshOrder = (order_sn) => {
+    const { dispatch } = this.props
+    if (order_sn) {
+      dispatch({
+        type: 'order/updateOrderPay',
+        payload: {
+          order_sn
+        },
+      }).then(res => {
+        if (res) {
+          message.success('状态刷新完成，请重新获取数据')
+        }
+      })
+    }
+  }
+
   conversionObject() {
     const { formdata, ordertype } = this.props;
     return {
@@ -233,7 +249,7 @@ class orderInfo extends Component {
                 </FormItem>
                 {ordertype === 'ord' ?
                   <FormItem label="订单状态">
-                    <span>{orderstatus_group[formdata.status]}</span>
+                    <span>{orderstatus_group[formdata.status]}{ formdata.status === 'paying' && <a onClick={() => this.freshOrder(formdata.order_sn)}>(刷新)</a> }</span>
                   </FormItem>
                   : null
                 }

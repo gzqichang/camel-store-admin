@@ -2,6 +2,18 @@ import { stringify } from 'qs';
 import request from '@/utils/request';
 import { getLocalStorage } from '@/utils/authority';
 
+export async function updateOrder({order_sn, orderType = 'buy_order'}) {
+  return request(
+    `/api/trade/pull_pay_result/${orderType}/${order_sn}/`,
+    {
+      method: 'GET',
+      headers: {
+        'Authorization': getLocalStorage("token"),
+      }
+    },
+  );
+}
+
 export async function getOrderList(params) {
      return request(
       `/api/trade/order/?${stringify(params)}`,
