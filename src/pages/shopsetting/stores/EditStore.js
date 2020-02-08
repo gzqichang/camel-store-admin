@@ -136,7 +136,7 @@ class EditStore extends Component {
       'district': '门店所在的区不能为空',
       'detail': '门店具体地址不能为空'
     };
-    storeform.lat === '' ? tips.addr = '保存失败，请点击转换坐标完善门店坐标信息' : null
+    !storeform.lat ? tips.addr = '保存失败，请点击转换坐标完善门店坐标信息' : null
     let flag = true
     Object.keys(tips).map(item => {
       if (!args[item]) {

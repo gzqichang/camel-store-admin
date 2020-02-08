@@ -83,7 +83,7 @@ class BodyRow extends Component {
                    <img src={item.url} style={{width:'86px',height:'86px'}}/>
                  </a>
                </span>
-                <span className="ant-upload-list-item-actions">
+                <span className="ant-upload-list-item-actions" style={{ textAlign: 'center', lineHeight: '86px' }}>
                   <a onClick={() => handlePreview(item)} title="预览文件">
                     <i aria-label="图标: eye-o" className="anticon anticon-eye-o">
                       <svg viewBox="64 64 896 896" className="" data-icon="eye" width="1em" height="1em" fill="currentColor" aria-hidden="true">
