@@ -250,7 +250,7 @@ class orderInfo extends Component {
                 </FormItem>
                 {ordertype === 'ord' ?
                   <FormItem label="订单状态">
-                    <span>{orderstatus_group[formdata.status]}{ formdata.status !== 'paying' && <a onClick={() => this.freshOrder(formdata.order_sn)}>(刷新)</a> }</span>
+                    <span>{orderstatus_group[formdata.status]}{ formdata.status === 'paying' && <a onClick={() => this.freshOrder(formdata.order_sn)}>(刷新)</a> }</span>
                   </FormItem>
                   : null
                 }
