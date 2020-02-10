@@ -38,7 +38,7 @@ const FormItem = props => (<Form.Item required {...formItemLayout} {...props}/>)
 class Editpage extends Component {
 
   state = {
-    categorydata:{is_active: true},
+    categorydata:{is_active: true, index: 1},
     onUpload: false,
     selectList: [],
     _selectList: [],
