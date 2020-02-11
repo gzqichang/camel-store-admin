@@ -115,6 +115,23 @@ class ordertableList extends Component {
     this.setState({ detailVisible: true, detailform:{...record} })
   }
 
+  freshOrder = (order_sn) => {
+    const { dispatch } = this.props
+    if (order_sn) {
+      dispatch({
+        type: 'order/updateOrderPay',
+        payload: {
+          order_sn,
+          pay_type: 'buy_order'
+        },
+      }).then(res => {
+        if (res) {
+          message.success('刷新完成，请重新获取数据')
+        }
+      })
+    }
+  }
+
   conversionObject() {
     const { dataSource, pagination, path = '', goodtype, location } = this.props;
     return {
@@ -205,7 +222,7 @@ class ordertableList extends Component {
         dataIndex: 'status',
         key: 'status',
         width:100,
-        render: t => <span>{goodtype === 'sub' ? substatus_group[t] : status_group[t]}</span>,
+        render: (t,r) => <span>{goodtype === 'sub' ? substatus_group[t] : status_group[t]}{ t === 'paying' && <a onClick={() => this.freshOrder(r.order_sn)}>(刷新)</a> }</span>,
       },
     ];
 

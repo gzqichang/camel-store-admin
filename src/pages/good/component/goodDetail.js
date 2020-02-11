@@ -28,6 +28,7 @@ import BookTime from '../component/bookTime';
 import GroupBuy from '../component/groupBuy';
 import AttachField from '../component/attachField';
 import PropTypes from 'prop-types';
+import Link from "react-router-dom/Link";
 
 const formItemLayout = {
   labelCol: { md: { span: 5 }, lg:{ span: 5 }, xxl:{ span: 3 } },
@@ -413,6 +414,7 @@ class goodDetail extends Component {
                         onChange={e => {this.selectTemplete(e) }}>
                         {goodgroups}
                       </Select>
+                      <Link to='/good/template/goodlistTemplate/editgoodTemplate?id' style={{ marginLeft: 10 }}>新增模版</Link>
                     </FormItem>
                   }
                   {model_type !== 'replace' &&
@@ -421,6 +423,7 @@ class goodDetail extends Component {
                         value={(gooddata.category && gooddata.category.name) || gooddata.category}
                         onChange={e => this.chnangegooddata(e, 'category')}
                       />
+                      <Link to='/good/categorylist/editpage?id' style={{ marginLeft: 10 }}>新增分类</Link>
                     </FormItem>
                   }
                   { model_type !== 'replace' &&

@@ -134,11 +134,12 @@ export function validtypeForm(args = {}, ladder_list, model_type) {
     flag_list = true;
   let tip = {
     content: '规格名不能为空',
-    price: '售卖价不能为空',
+    // price: '售卖价不能为空',
     stock: '库存不能为空',
   };
   if (model_type !== 'replace') {
     tip.market_price = '市场价不能为空';
+    tip.price = '售卖价不能为空';
   }
   if (model_type === 'replace') {
     tip.credit = '积分数量不能为空';
@@ -151,7 +152,7 @@ export function validtypeForm(args = {}, ladder_list, model_type) {
       message.error(tip[item]);
       flag = false;
     }
-    if (item === 'stock' && !args[item]) {
+    if (item === 'stock' && args.is_sell && !args[item]) {
       message.error(tip[item]);
       flag = false;
     }

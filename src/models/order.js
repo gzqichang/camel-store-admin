@@ -1,6 +1,7 @@
 import { getOrderList, getOrderitemList, getOrderData,
   getExpresslist, createExpress, delExpress,
-  checkOrder, expressList
+  checkOrder, expressList,
+  updateOrder
  } from '@/services/order';
 import { message } from 'antd'
 import moment from 'moment'
@@ -248,6 +249,10 @@ export default {
         return res
       }
     },
+
+    *updateOrderPay({ payload }, { call }) {
+      return yield call(updateOrder, payload)
+    }
   },
 
   reducers: {

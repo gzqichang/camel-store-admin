@@ -357,7 +357,7 @@ class gType extends Component {
 
   //商品规格编辑和新增弹窗
   handleModal = (modalVisible, gtypesform) => {
-    let _gtypesform = { ladder_list: [] };
+    let _gtypesform = { ladder_list: [], is_sell: false, stock: 0 };
     const { ladder_list, isMixed } = this.props;
     //gtypesform为null即新增
     if (!gtypesform) {
