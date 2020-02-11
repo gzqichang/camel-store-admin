@@ -9,7 +9,7 @@ import {
   Row,
   Col,
   DatePicker,
-  Input, Spin,
+  Input, Spin, message, Select,
 } from 'antd';
 import styles from './finance.less';
 import CollapseItem from '@/components/CostomCom/collapseItem';
@@ -17,8 +17,13 @@ import Link from 'umi/link';
 
 const itemsPerPage = 10;
 const { RangePicker } = DatePicker;
+const Option = Select.Option;
+const statusText = {
+  paid: '已付款',
+  unpaid: '待付款'
+};
 
-@connect(({ finance, global, loading }) => ({
+@connect(({ finance, order, global, loading }) => ({
   rechargelist:finance.rechargelist,
   rechargeCount:finance.rechargeCount,
   searchform: global.searchform,
@@ -62,6 +67,11 @@ class Recharge extends Component {
       dataIndex: 'real_pay',
       key: 'real_pay',
     },{
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (t, r) => <Fragment>{statusText[t]}{ t === 'unpaid' && <a onClick={() => this.freshOrder(r.trade_no) }>(刷新)</a>}</Fragment>
+    },{
       title: '微信支付流水号',
       dataIndex: 'trade_no',
       key: 'trade_no',
@@ -104,6 +114,23 @@ class Recharge extends Component {
         ..._tradeform
       }
     })
+  }
+
+  freshOrder = (order_sn) => {
+    const { dispatch } = this.props
+    if (order_sn) {
+      dispatch({
+        type: 'order/updateOrderPay',
+        payload: {
+          order_sn,
+          pay_type: 'recharge'
+        },
+      }).then(res => {
+        if (res) {
+          message.success('状态刷新完成，请重新获取数据')
+        }
+      })
+    }
   }
 
   componentWillUnmount(){
@@ -183,6 +210,19 @@ class Recharge extends Component {
                     onChange={(e) => {this.handletradeform(e,'trade_no')} }
                     placeholder="请输入微信支付流水号"
                     style={{ width: 200 }}/>
+                </div>
+                <div className={styles.searchitem}>
+                  <span className={styles.searchitem_span}>支付状态: </span>
+                  <Select
+                    value={tradeform.status}
+                    onChange={e => {
+                      this.handletradeform({ target: { value: e } }, 'status');
+                    }}
+                    style={{ width: 200 }}
+                  >
+                    <Option value="unpaid">待付款</Option>
+                    <Option value="paid">已付款</Option>
+                  </Select>
                 </div>
               </Fragment>
             }/>
