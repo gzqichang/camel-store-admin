@@ -68,7 +68,7 @@ class Orderlist extends Component {
       title: '提现发起时间',
       dataIndex: 'add_time',
       key: 'add_time',
-      render: (t) => (moment(t).format('YYYY-MM-DD kk:mm:ss'))
+      render: (t) => (moment(t).format('YYYY-MM-DD HH:mm:ss'))
     },{
       title: '状态',
       dataIndex: 'status',
@@ -113,7 +113,7 @@ class Orderlist extends Component {
       dataIndex: 'add_time',
       key: 'add_time',
       width: 180,
-      render: (t) => (moment(t).format('YYYY-MM-DD kk:mm:ss'))
+      render: (t) => (moment(t).format('YYYY-MM-DD HH:mm:ss'))
     },{
       title: '执行操作',
       dataIndex: 'operation',

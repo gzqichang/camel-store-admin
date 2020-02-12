@@ -198,7 +198,7 @@ class ordertableList extends Component {
         title: '下单时间',
         dataIndex: 'add_time',
         key: 'add_time',
-        render: t => (t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null),
+        render: t => (t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null),
       },
       {
         title: '微信用户',
@@ -254,7 +254,7 @@ class ordertableList extends Component {
         title: '订单支付时间',
         dataIndex: 'pay_time',
         key: 'pay_time',
-        render: t => (t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : '--'),
+        render: t => (t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : '--'),
       },
       {
         title: '微信用户',
@@ -519,7 +519,7 @@ class ordertableList extends Component {
               {detailform.trade_no || '--' }
             </FormItem>
             <FormItem label="支付时间">
-              {detailform.pay_time && moment(detailform.pay_time).format('YYYY-MM-DD kk:mm:ss') || '--'}
+              {detailform.pay_time && moment(detailform.pay_time).format('YYYY-MM-DD HH:mm:ss') || '--'}
             </FormItem>
             <FormItem label="订单状态">
               {status_group[detailform.status]}

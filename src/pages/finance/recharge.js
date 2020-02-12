@@ -79,7 +79,7 @@ class Recharge extends Component {
       title: '充值时间',
       dataIndex: 'create_time',
       key: 'create_time',
-      render: (t) => (moment(t).format('YYYY-MM-DD kk:mm:ss'))
+      render: (t) => (moment(t).format('YYYY-MM-DD HH:mm:ss'))
     }];
 
   componentDidMount() {

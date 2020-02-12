@@ -280,7 +280,7 @@ class statistic extends Component {
         title: '反馈时间',
         dataIndex: 'add_time',
         key: 'add_time',
-        render: (t) => moment(t).format('YYYY-MM-DD kk:mm:ss')
+        render: (t) => moment(t).format('YYYY-MM-DD HH:mm:ss')
       },
       {
         title: '用户',

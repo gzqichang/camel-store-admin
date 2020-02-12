@@ -210,13 +210,13 @@ class Editswiper extends Component {
         <Spin spinning={Boolean(Upload || swiperLoading)} tip='操作中'>
         <Card className={styles.main} title={id ? '编辑首页海报' : '新建首页海报'}>
           <Form className={styles.editform}>
-            <FormItem wrapperCol={{offset: 3}}>
-              <Radio.Group buttonStyle="solid" value={swiperdata.goods.model_type}
-                           onChange={(e) => this.handleswiper(e.target.value, 'goods','model_type')}>
-                <Radio.Button value="ord">商品</Radio.Button>
-                {config.store_type === 'camel' && <Radio.Button value="sub">订阅商品</Radio.Button>}
-              </Radio.Group>
-            </FormItem>
+            {/*<FormItem wrapperCol={{offset: 3}}>*/}
+            {/*  <Radio.Group buttonStyle="solid" value={swiperdata.goods.model_type}*/}
+            {/*               onChange={(e) => this.handleswiper(e.target.value, 'goods','model_type')}>*/}
+            {/*    <Radio.Button value="ord">商品</Radio.Button>*/}
+            {/*    {config.store_type === 'camel' && <Radio.Button value="sub">订阅商品</Radio.Button>}*/}
+            {/*  </Radio.Group>*/}
+            {/*</FormItem>*/}
             <FormItem label="商品名">
               <SelectSearch
                 datalist={goodslist}
@@ -226,19 +226,19 @@ class Editswiper extends Component {
                 modelType="ord"
                 onChange={(e) => this.handleswiper(e, 'goods_name')}/>
             </FormItem>
-            {config.store_type === 'camel' &&
-            <FormItem label="订阅商品名">
-              <SelectSearch
-                datalist={subgoodslist}
-                value={swiperdata.subgood_name || ''}
-                disabled={swiperdata.goods.model_type !== 'sub'}
-                dispatchType="goods/fetchGoods"
-                modelType="sub"
-                onChange={(e) => this.handleswiper(e, 'subgood_name')}/>
-            </FormItem>
-            }
+            {/*{config.store_type === 'camel' &&*/}
+            {/*<FormItem label="订阅商品名">*/}
+            {/*  <SelectSearch*/}
+            {/*    datalist={subgoodslist}*/}
+            {/*    value={swiperdata.subgood_name || ''}*/}
+            {/*    disabled={swiperdata.goods.model_type !== 'sub'}*/}
+            {/*    dispatchType="goods/fetchGoods"*/}
+            {/*    modelType="sub"*/}
+            {/*    onChange={(e) => this.handleswiper(e, 'subgood_name')}/>*/}
+            {/*</FormItem>*/}
+            {/*}*/}
             <FormItem label="轮播图"
-              help='支持PNG, JPG, 建议像素为900 * 500。'>
+              help='支持png, jpg, 建议像素为900 * 500。'>
               <UploadImage
                 limit={1}
                 openSource={swiperdata.image ? [swiperdata.image].length < 1 : [].length < 1}

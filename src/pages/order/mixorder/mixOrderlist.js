@@ -197,7 +197,7 @@ class mixOrderlist extends Component {
         title: '拼团发起时间',
         dataIndex: 'add_time',
         key: 'add_time',
-        render: t => (t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null),
+        render: t => (t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null),
       },
       {
         title: '实际拼团情况',
