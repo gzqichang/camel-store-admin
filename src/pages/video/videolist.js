@@ -318,7 +318,7 @@ class Videolist extends Component {
             <div style={{ marginBottom: 20 }}>
               <Row>
                 <Col span={12}>
-                  是否开启短视频功能：
+                  所有用户均可上传（被屏蔽用户除外）：
                   <Switch checked={video_switch} onChange={(e) => this.changeVideoSwitch(e)}/>
                 </Col>
                 <Col span={12} style={{ textAlign: 'right' }}>
