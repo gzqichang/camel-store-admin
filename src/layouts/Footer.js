@@ -30,8 +30,8 @@ const FooterView = ({show}) => (
         show && (
           <Fragment>
             <a href="http://www.luotuoxiaodian.com" target='_blank' style={{color: 'rgba(0, 0, 0, 0.45)'}}>由骆驼小店提供技术支持</a> <br />
-            Copyright <Icon type="copyright" />
-            <a href="http://gzqichang.com" target='_blank' style={{color: 'rgba(0, 0, 0, 0.45)'}}>广州齐昌网络科技有限公司</a>
+            Copyright <Icon type="copyright" /> 2013-2020
+            <a href="http://gzqichang.com" target='_blank' style={{color: 'rgba(0, 0, 0, 0.45)'}}> 广州齐昌网络科技有限公司</a>
           </Fragment>
         )
       }
