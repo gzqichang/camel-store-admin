@@ -70,7 +70,7 @@ class EditUser extends Component {
       title: '加入时间',
       dataIndex: 'date_joined',
       key: 'date_joined',
-      render: t => (t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null),
+      render: t => (t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null),
     },
     {
       title: '操作',

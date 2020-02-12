@@ -52,7 +52,7 @@ class Msglist extends Component {
       title: '创建时间',
       dataIndex: 'create_time',
       key: 'create_time',
-      render: (t) => moment(t).format('YYYY-MM-DD kk:mm:ss')
+      render: (t) => moment(t).format('YYYY-MM-DD HH:mm:ss')
     },{
       title: '启用',
       dataIndex: 'is_active',

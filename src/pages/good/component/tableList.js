@@ -152,7 +152,7 @@ class tableList extends Component {
         key: 'add_time',
         width: 190,
         render: (t) => (
-          t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null
+          t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null
         )
       },{
         title: '操作',

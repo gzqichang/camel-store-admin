@@ -40,7 +40,7 @@ class Qualist extends Component {
       title: '创建时间',
       dataIndex: 'add_time',
       key: 'add_time',
-      render: (t) => (moment(t).format('YYYY-MM-DD kk:mm:ss'))
+      render: (t) => (moment(t).format('YYYY-MM-DD HH:mm:ss'))
     },{
       title: '操作',
       dataIndex: 'action',

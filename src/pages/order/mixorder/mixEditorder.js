@@ -265,7 +265,7 @@ class mixEditorder extends Component {
               <FormItem label="拼团发起时间">
                 <span>
                   {orderdata.add_time &&
-                    moment(orderdata.add_time).format('YYYY-MM-DD kk:mm:ss')}
+                    moment(orderdata.add_time).format('YYYY-MM-DD HH:mm:ss')}
                 </span>
               </FormItem>
               <FormItem label="拼团用户人数">

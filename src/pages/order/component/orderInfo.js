@@ -103,7 +103,7 @@ class orderInfo extends Component {
         title: '日期时间',
         dataIndex: 'add_time',
         key: 'add_time',
-        render: (t) => moment(t).format('YYYY-MM-DD kk:mm:ss')
+        render: (t) => moment(t).format('YYYY-MM-DD HH:mm:ss')
       },
     ]
   }
@@ -230,12 +230,12 @@ class orderInfo extends Component {
                   </Link>
                 </FormItem>
                 <FormItem label="下单时间">
-                  <span>{formdata.add_time && moment(formdata.add_time).format('YYYY-MM-DD kk:mm:ss')}</span>
+                  <span>{formdata.add_time && moment(formdata.add_time).format('YYYY-MM-DD HH:mm:ss')}</span>
                 </FormItem>
                 <FormItem label="支付时间">
                 <span>
                   {formdata.pay_time &&
-                  moment(formdata.pay_time).format('YYYY-MM-DD kk:mm:ss')}
+                  moment(formdata.pay_time).format('YYYY-MM-DD HH:mm:ss')}
                 </span>
                 </FormItem>
                 <FormItem label="下单门店">

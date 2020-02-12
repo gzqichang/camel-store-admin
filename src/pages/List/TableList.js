@@ -328,7 +328,7 @@ class TableList extends PureComponent {
       title: '上次调度时间',
       dataIndex: 'updatedAt',
       sorter: true,
-      render: val => <span>{moment(val).format('YYYY-MM-DD kk:mm:ss')}</span>,
+      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作',

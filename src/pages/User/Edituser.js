@@ -79,7 +79,7 @@ class EditUser extends Component {
         title: '日期时间',
         dataIndex: 'add_time',
         key: 'add_time',
-        render: (t) => moment(t).format('YYYY-MM-DD kk:mm:ss')
+        render: (t) => moment(t).format('YYYY-MM-DD HH:mm:ss')
       },
       {
         title: '类型',
@@ -426,7 +426,7 @@ class EditUser extends Component {
                       onClick={() => this.handlePrice('subtract','credit')}>扣减</Button>
             </FormItem>
             <FormItem label="加入时间" {...formItemLayout}>
-              <span>{userdata.date_joined && moment(userdata.date_joined).format('YYYY-MM-DD kk:mm:ss')}</span>
+              <span>{userdata.date_joined && moment(userdata.date_joined).format('YYYY-MM-DD HH:mm:ss')}</span>
             </FormItem>
             <FormItem label="普通商品订单" {...formItemLayout}>
               <span>{userdata.order_count && userdata.order_count.ord_order_count} 个</span>

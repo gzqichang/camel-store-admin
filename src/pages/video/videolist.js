@@ -89,7 +89,7 @@ class Videolist extends Component {
       title: '上传时间',
       dataIndex: 'create_time',
       key: 'create_time',
-      render: t => (t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null),
+      render: t => (t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null),
     },
     // {
     //   title: '总观看量',

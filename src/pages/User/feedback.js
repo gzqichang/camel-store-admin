@@ -72,7 +72,7 @@ class Feedback extends Component {
       dataIndex: 'add_time',
       key: 'add_time',
       width: 180,
-      render: (t) => (moment(t).format('YYYY-MM-DD kk:mm:ss'))
+      render: (t) => (moment(t).format('YYYY-MM-DD HH:mm:ss'))
     },{
       title: '是否解决',
       dataIndex: 'solve',
@@ -109,7 +109,7 @@ class Feedback extends Component {
       dataIndex: 'add_time',
       key: 'add_time',
       width: 180,
-      render: (t) => (moment(t).format('YYYY-MM-DD kk:mm:ss'))
+      render: (t) => (moment(t).format('YYYY-MM-DD HH:mm:ss'))
     },{
       title: '执行操作',
       dataIndex: 'operation',
@@ -234,7 +234,7 @@ class Feedback extends Component {
                 </span>}
               </div>
               <div style={{margin:'10px 0'}}>电话号码：<a href={`tel:${record.phone}`}>{record.phone}</a></div>
-              <div style={{margin:'10px 0'}}>反馈时间：{moment(record.add_time).format('YYYY-MM-DD kk:mm:ss')}</div>
+              <div style={{margin:'10px 0'}}>反馈时间：{moment(record.add_time).format('YYYY-MM-DD HH:mm:ss')}</div>
               <div style={{margin:'15px 0'}}>反馈{type && type === 'goods' ? '商品' : '订单'}：{type
                 ? <a onClick={() => this.toGoodpage(record.goods || record.order,
                   (record.goods && record.goods_info) || (record.order && record.order_info), type)}>

@@ -103,7 +103,7 @@ class Userlist extends Component {
       dataIndex: 'date_joined',
       key: 'date_joined',
       width: 170,
-      render: t => (t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null),
+      render: t => (t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null),
     },
     {
       title: '测试人员',

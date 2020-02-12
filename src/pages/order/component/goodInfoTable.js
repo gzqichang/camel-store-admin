@@ -720,7 +720,7 @@ class goodInfoTable extends Component {
         title: '发货时间',
         dataIndex: 'send_time',
         key: 'send_time',
-        render: t => t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null
+        render: t => t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null
       },
     ]
     //发货时间，收货时间
@@ -730,7 +730,7 @@ class goodInfoTable extends Component {
         title: '收货时间',
         dataIndex: 'receive_time',
         key: 'receive_time',
-        render: t => t ? moment(t).format('YYYY-MM-DD kk:mm:ss') : null
+        render: t => t ? moment(t).format('YYYY-MM-DD HH:mm:ss') : null
       }
     ]
 
