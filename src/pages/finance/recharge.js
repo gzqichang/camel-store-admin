@@ -70,7 +70,7 @@ class Recharge extends Component {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      render: (t, r) => <Fragment>{statusText[t]}{ t === 'unpaid' && <a onClick={() => this.freshOrder(r.trade_no) }>(刷新)</a>}</Fragment>
+      render: (t, r) => <Fragment>{statusText[t]}{ t === 'unpaid' && <a onClick={() => this.freshOrder(r.rchg_no) }>(刷新)</a>}</Fragment>
     },{
       title: '微信支付流水号',
       dataIndex: 'trade_no',
