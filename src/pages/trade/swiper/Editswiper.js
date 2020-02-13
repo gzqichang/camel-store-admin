@@ -58,8 +58,8 @@ class Editswiper extends Component {
     shopid !== 'all' ? _data.shop = shopid.split("#")[0] : null
     dispatch({ type:'goods/fetchGoods',payload:{..._data,model_type:'ord'} })
       .then((res) => {this.setState({ goodslist:res })})
-    dispatch({ type:'goods/fetchGoods',payload:{..._data,model_type:'sub'} })
-      .then((res) => {this.setState({ subgoodslist:res })})
+    // dispatch({ type:'goods/fetchGoods',payload:{..._data,model_type:'sub'} })
+    //   .then((res) => {this.setState({ subgoodslist:res })})
     if(id){
       dispatch({
         type:'trade/getSwiperdata',
@@ -199,7 +199,7 @@ class Editswiper extends Component {
   }
 
   render(){
-    const { swiperdata, goodslist, subgoodslist, visible } = this.state
+    const { swiperdata, goodslist, visible } = this.state
     const { location, swiperLoading, Upload, config} = this.props
     let id  = location.query.id
 
