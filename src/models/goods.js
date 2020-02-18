@@ -1,7 +1,8 @@
 import {
   getGoodCategoryList, getCategoryData, updateCategoryData, changeCategorystatus, createCategoryData, deleteCategoryData,
   getGoodsList, createGoodsdata, updateGoodsdata, getGoodsData, delGoodsData, changeGoodsStatus,
-  updateTem
+  updateTem,
+  searchGoods
 } from '@/services/goods';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
@@ -197,6 +198,11 @@ export default {
     *updateTemplete({ payload }, { call, put }) {
       const res = yield call(updateTem, payload );
       message.success("删除成功！")
+    },
+
+    // 检索商品
+    *searchGoodsData({ payload }, { call, put }) {
+      return yield call(searchGoods, payload );
     },
   },
 

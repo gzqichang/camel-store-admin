@@ -4,6 +4,7 @@ import { getLocalStorage } from '@/utils/authority';
 
 const category = '/api/goods/category/';
 const good = '/api/goods/goods/';
+const search_goods = '/api/goods/search_goods/';
 
 export async function getGoodCategoryList(params) {
   return request(`${category}?${stringify(params)}`,{
@@ -131,6 +132,14 @@ export async function delGoodsData(params) {
   const { id, data } = params;
   return request(`${good}${id}/?${stringify(data)}`,{
     method: 'DELETE',
+    headers:{
+      'Authorization': getLocalStorage('token')
+    }
+  });
+}
+
+export async function searchGoods(params) {
+  return request(`${search_goods}/?${stringify(params)}`,{
     headers:{
       'Authorization': getLocalStorage('token')
     }
