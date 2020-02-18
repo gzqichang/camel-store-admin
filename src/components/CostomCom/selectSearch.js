@@ -22,13 +22,13 @@ class selectSearch extends Component {
       timeout = null;
     }
     const fake = () => {
-      const { dispatch, dispatchType, modelType, payload = {} } = this.props;
+      const { dispatch, searchKey = 'name', dispatchType, modelType, payload = {} } = this.props;
       let data = [];
       let shopid = getLocalStorage('shopid');
       let _data = {
         page: 1,
         page_size: 30,
-        name: e,
+        [searchKey]: e,
         model_type: modelType ? modelType : undefined,
         ...payload
       };

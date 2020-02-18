@@ -40,7 +40,7 @@ class Editswiper extends Component {
     swiperdata:{
       goods:{model_type: 'ord'},
       is_active: true,
-      index:0,
+      index:1,
     },
     gooditem:null,
     data:[],
@@ -222,8 +222,9 @@ class Editswiper extends Component {
                 datalist={goodslist}
                 value={swiperdata.goods_name || '' }
                 disabled={swiperdata.goods.model_type !== 'ord'}
-                dispatchType="goods/fetchGoods"
+                dispatchType="goods/searchGoodsData"
                 modelType="ord"
+                searchKey={'k'}
                 onChange={(e) => this.handleswiper(e, 'goods_name')}/>
             </FormItem>
             {/*{config.store_type === 'camel' &&*/}

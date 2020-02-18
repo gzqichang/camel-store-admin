@@ -400,7 +400,7 @@ class indexPage extends Component {
       }
     })
     const selectlist = {
-      'goods':{ name:'商品详情', label:'goods_info', listdata: goodlist, api: "goods/fetchGoods" },
+      'goods':{ name:'商品详情', label:'goods_info', listdata: goodlist, api: "goods/searchGoodsData" },
       'goods_type':{ name:'商品类型', listdata: _moudel },
       'category':{ name:'商品分类', label:'name',
         listdata: categorylist.filter(item => item.is_active),
@@ -535,6 +535,7 @@ class indexPage extends Component {
                         <SelectSearch
                           datalist={selectlist[modalData.jump_type] && selectlist[modalData.jump_type].listdata || goodlist}
                           value={modalData.link}
+                          searchKey={modalData.jump_type === 'goods' ? 'k' : 'name'}
                           dispatchType={selectlist[modalData.jump_type] && selectlist[modalData.jump_type].api}
                           onChange={(e) => this.handlelevel('link', e)}/>
                       </FormItem>
@@ -613,7 +614,7 @@ class indexPage extends Component {
                     )}
                   </Row>
                   { this.verifyModule('grouping') && <img src={groupbuy} width="100%"/> || null }
-                  { this.verifyModule('periodic') && <img src={delivery} width="100%"/> || null}
+                  {/*{ this.verifyModule('periodic') && <img src={delivery} width="100%"/> || null}*/}
                   { this.verifyModule('recommendation') && <img src={recommend} width="100%"/> || null}
                   { this.verifyModule('credit') && <img src={integrate} width="100%"/> || null}
                 </div>
