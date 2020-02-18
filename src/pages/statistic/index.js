@@ -51,8 +51,8 @@ class statistic extends Component {
     this.DispatchData('recharge',['amount_total'])
     this.DispatchData('wxuser',['new_user_num','user_total'])
     this.DispatchData('level',['level'])
-    this.DispatchData('order',['ord_num', 'sub_num', 'repl_num', 'qrpay_num', 'total'])
-    this.DispatchData('turnovers',['ord_turnovers','sub_turnovers','qrpay_turnovers', 'turnovers'])
+    this.DispatchData('order',['ord_num', 'repl_num', 'total'])
+    this.DispatchData('turnovers',['ord_turnovers', 'turnovers'])
   }
   DispatchData = (type,keylist) => {
     const { dispatch, shopurl } = this.props
@@ -91,15 +91,15 @@ class statistic extends Component {
       wxuser: { title: '新增用户数量', label:['新增用户','用户总数'], xAxis: true},
       withdraw: { label:['申请提现','完成提现'], xAxis: true },
       recharge: { label: ['充值'], showtype:['bar'], xAxis: true },
-      order: { title:'订单数',label:['普通订单','订阅商品订单','积分商品订单','线下支付订单','总订单'],
-        showtype:['bar','bar','bar','bar','line'],
-        stack:['order','order','order','order',undefined],
+      order: { title:'订单数',label:['普通订单','积分商品订单','总订单'],
+        showtype:['bar','bar','line'],
+        stack:['order','order',undefined],
         xAxis: true
       },
-      turnovers: { title:'销售额',label: ['普通商品销售额','订阅商品销售额','线下销售额','总销售额'],
-        showtype:['bar','bar','bar','line'],
-        stack:['turnovers','turnovers','turnovers',undefined],
-        color: [colorList[0], colorList[1], colorList[3], colorList[4]],
+      turnovers: { title:'销售额',label: ['普通商品销售额','总销售额'],
+        showtype:['bar','line'],
+        stack:['turnovers',undefined],
+        color: [colorList[0], colorList[1], colorList[3]],
         xAxis: true
       }
     }
