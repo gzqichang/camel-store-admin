@@ -142,7 +142,7 @@ class indexPage extends Component {
     shopid !== 'all' ? data.shop = shopid : null;
     if(goodlist.length === 0){
       dispatch({
-        type: 'goods/fetchGoods',
+        type: 'goods/searchGoodsData',
         payload: {
           ...data
         }
