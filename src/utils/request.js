@@ -108,6 +108,10 @@ export default function request(
       };
     }
   }
+  newOptions.headers = {
+    'QCache-Cache-Control': 'admin-no-cache',
+    ...newOptions.headers,
+  };
 
   const expirys = options.expirys || 60;
   // options.expirys !== false, return the cache,
