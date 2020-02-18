@@ -350,11 +350,11 @@ export default [
             component: './shopsetting/admin/Editadmin',
             hideInMenu: true,
           },
-          {
-            path: '/setting/logo',
-            name: 'logo',
-            component: './shopsetting/logo/logo',
-          },
+          // {
+          //   path: '/setting/logo',
+          //   name: 'logo',
+          //   component: './shopsetting/logo/logo',
+          // },
           {
             path: '/setting/extensions',
             name: 'extensions',

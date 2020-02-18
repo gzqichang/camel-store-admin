@@ -39,11 +39,13 @@ class selectSearch extends Component {
           ..._data,
         },
       }).then(res => {
-        res.forEach(r => {
-          dispatchType === 'goods/fetchCategory'
-            ? r.is_active && data.push({ url: r.url, name: r.name, })
-            : data.push({ url: r.url, name: r.name, })
-        });
+        if (res.length) {
+          res.forEach(r => {
+            dispatchType === 'goods/fetchCategory'
+              ? r.is_active && data.push({ url: r.url, name: r.name, })
+              : data.push({ url: r.url, name: r.name, })
+          });
+        }
         callback(data);
       });
     };
