@@ -27,7 +27,7 @@ class selectSearch extends Component {
       let shopid = getLocalStorage('shopid');
       let _data = {
         page: 1,
-        page_size: 30,
+        page_size: 10,
         [searchKey]: e,
         model_type: modelType ? modelType : undefined,
         ...payload

@@ -139,7 +139,7 @@ export async function delGoodsData(params) {
 }
 
 export async function searchGoods(params) {
-  return request(`${search_goods}/?${stringify(params)}`,{
+  return request(`${search_goods}?${stringify(params)}`,{
     headers:{
       'Authorization': getLocalStorage('token')
     }

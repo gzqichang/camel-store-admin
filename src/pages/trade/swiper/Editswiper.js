@@ -54,7 +54,7 @@ class Editswiper extends Component {
     const { location, dispatch } = this.props
     let id = location.query.id
     let shopid = getLocalStorage("shopid")
-    let _data = {page:1,page_size:100}
+    let _data = {page:1,page_size:10}
     shopid !== 'all' ? _data.shop = shopid.split("#")[0] : null
     dispatch({ type:'goods/searchGoodsData',payload:{..._data} })
       .then((res) => {this.setState({ goodslist:res })})
