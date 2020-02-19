@@ -137,7 +137,7 @@ class indexPage extends Component {
   fetchData = () => {
     const { dispatch } = this.props;
     const { goodlist, categorylist } = this.state;
-    let data = { page:1, page_size:30 };
+    let data = { page:1, page_size:10 };
     let shopid = getLocalStorage('shopid').split('#')[0];
     shopid !== 'all' ? data.shop = shopid : null;
     if(goodlist.length === 0){
